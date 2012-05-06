@@ -1,0 +1,13 @@
+{% extends "core/layout.html" %}
+
+{% block js %}
+js1
+{% endblock %}
+
+{% block body %}
+{% include "core/menu.html" with menus=menus %}
+<form action="test" method="post" enctype="multipart/form-data">
+	<input name="file" type="file"/>
+	<input type="submit" value="upload"/>
+</form>
+{% endblock %}

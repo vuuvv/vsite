@@ -1,0 +1,13 @@
+{% load mptt_tags %}
+<ul>
+	{% recursetree menus %}
+	<li>
+		{{ node.title }}
+		{% if not node.is_leaf_node %}
+		<ul class="children">
+			{{ children }}
+		</ul>
+		{% endif %}
+	</li>
+	{% endrecursetree %}
+</ul>

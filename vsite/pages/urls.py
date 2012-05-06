@@ -4,10 +4,9 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('vsite.pages.views',
     # Examples:
-    url(r'^manage/', include('vsite.manage.urls'), name='manage'),
-    url(r'^', include('vsite.pages.urls'), name='pages'),
+    url(r'^$', 'page'),
     # url(r'^site_demo/', include('site_demo.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
