@@ -1,13 +1,13 @@
 {% extends "core/layout.html" %}
+{% load i18n %}
+{% load static %}
 
-{% block js %}
-js1
+{% block title %} {{ page.title }} {% endblock %}
+
+{% block javascript %}
+<script src="{% static "js/yui/yui/yui.js"%}" type="text/javascript"></script>
 {% endblock %}
 
 {% block body %}
 {% include "core/menu.html" with menus=menus %}
-<form action="test" method="post" enctype="multipart/form-data">
-	<input name="file" type="file"/>
-	<input type="submit" value="upload"/>
-</form>
 {% endblock %}

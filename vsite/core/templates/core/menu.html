@@ -1,13 +1,30 @@
 {% load mptt_tags %}
-<ul>
-	{% recursetree menus %}
-	<li>
-		{{ node.title }}
-		{% if not node.is_leaf_node %}
-		<ul class="children">
-			{{ children }}
+<div id="main-nav" class="yui3-menu yui3-menu-horizontal">
+	<div class="yui3-menu-content">
+		<ul>
+			{% recursetree menus %}
+			{% if node.is_leaf_node %}
+			<li class="yui3-menuitem"><a class="yui3-menuitem-content" href="#{{ node.title }}">{{ node.title }}</a></li>
+			{% else %}
+			<li>
+			<a href="#{{ node.title }}" class="yui3-menu-label">{{ node.title }}</a>
+				<div id="profile" class="yui3-menu yui3-menu-hidden">
+					<div class="yui3-menu-content">
+						<ul>
+							{{ children }}
+						</ul>
+					</div>
+				</div>
+			</li>
+			{% endif %}
+			{% endrecursetree %}
 		</ul>
-		{% endif %}
-	</li>
-	{% endrecursetree %}
-</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	YUI().use("node-menunav", function(Y) {
+		var menu = Y.one("#main-nav");
+		menu.plug(Y.Plugin.NodeMenuNav);
+		menu.get("ownerDocument").get("documentElement").removeClass("yui3-loading");
+	});
+</script>
