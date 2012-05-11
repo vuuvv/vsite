@@ -1,13 +1,21 @@
+{% load i18n %}
+{% load static %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="{% static "js/yui/cssreset/cssreset.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "js/yui/cssfonts/cssfonts.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "js/yui/cssgrids/cssgrids.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
 	{% block css %}{% endblock %}
 	{% block javascript %}{% endblock %}
 </head>
-<body class="yui3-skin-sam">
-	{% block body %}
-	{% endblock %}
+<body class="yui3-skin-vuuvv">
+	<div class="page">
+		{% block body %}
+		{% endblock %}
+	</div>
 </body>
 </html>

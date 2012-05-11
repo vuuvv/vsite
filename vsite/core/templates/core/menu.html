@@ -22,7 +22,16 @@
 	</div>
 </div>
 <script type="text/javascript">
-	YUI().use("node-menunav", function(Y) {
+	YUI({
+		skin: "vuuvv",
+		modules: {
+			"skin-vuuvv-node-menunav": {
+				type: "css",
+				fullpath: "/static/js/yui/node-menunav/assets/skins/vuuvv/node-menunav.css",
+				supersedes: ['skin-sam-node-menunav']
+			}
+		}
+	}).use("node-menunav", function(Y) {
 		var menu = Y.one("#main-nav");
 		menu.plug(Y.Plugin.NodeMenuNav);
 		menu.get("ownerDocument").get("documentElement").removeClass("yui3-loading");
