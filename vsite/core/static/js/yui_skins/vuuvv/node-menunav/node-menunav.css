@@ -220,6 +220,7 @@ http://yuilibrary.com/license/
 	float: none;
 	border: 0;
 	margin: 0;
+	background: none;
 }
 
 /* vertical menu bar and submenu panel */
@@ -244,10 +245,22 @@ http://yuilibrary.com/license/
 }
 
 /* vertical menu bar and submenu item */
-.yui3-skin-vuuvv .yui3-menu-label,
 .yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menu-label,
-.yui3-skin-vuuvv .yui3-menuitem-content,
 .yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menuitem-content {
+	color: #333 !important;
+	font-weight: bold;
+	text-shadow: none;
+}
+
+/* hover vertical menu bar and submenu item */
+.yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menu-label:hover,
+.yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menuitem-content:hover,
+.yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menu-label:active,
+.yui3-skin-vuuvv .yui3-menu .yui3-menu .yui3-menuitem-content:active {
+	background: #447099;
+	color: #fff !important;
+	border-left: none;
+	border-right: none;
 }
 
 .yui3-skin-vuuvv .yui3-menu-label-active,
@@ -267,5 +280,18 @@ http://yuilibrary.com/license/
 	background: -moz-linear-gradient(top, #6a6a6a, #414141);
 	background: -ms-linear-gradient(top, #6a6a6a, #414141);
 	background: -o-linear-gradient(top, #6a6a6a, #414141);
+}
+
+/* press at top bar */
+.yui3-skin-vuuvv .yui3-menu-horizontal .yui3-menu-label:active,
+.yui3-skin-vuuvv .yui3-menu-horizontal .yui3-menuitem-content:active {
+	border-left: 1px solid #303030;
+	background: #303030 none;
+	background: -webkit-gradient(linear, left top, left bottom, from(#2d2d2d), to(#343434));
+	background: -moz-linear-gradient(top, #2d2d2d, #343434);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF2d2d2d, endColorstr=#FF343434);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF2d2d2d, endColorstr=#FF343434)";
+	background: -ms-linear-gradient(top, #2d2d2d, #343434);
+	background: -o-linear-gradient(top, #2d2d2d, #343434);
 }
 
