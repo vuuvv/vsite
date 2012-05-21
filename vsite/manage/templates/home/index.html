@@ -12,6 +12,10 @@
 Dashboard
 {% endblock %} 
 
+{% block tpl %}
+{% include "login.html" %} 
+{% endblock %}
+
 {% block content %}
 <style type="text/css">
 #main-nav {
@@ -85,26 +89,42 @@ Dashboard
 	</div>
 </div>
 <script>
+	YUI().use('app', function(Y) {
+var pie = new Y.PieModel({type: 'apple'}),
 
-    //  Call the "use" method, passing in "node-menunav".  This will load the
-    //  script and CSS for the MenuNav Node Plugin and all of the required
-    //  dependencies.
+    pieView = new Y.View({
+      // Override the default container attribute.
+      container: Y.Node.create('<div class="pie"/>'),
 
-	YUI().use('node-menunav', function(Y) {
+      // Specify an optional model to associate with the view.
+      model: pie,
 
-        //  Retrieve the Node instance representing the root menu
-        //  (<div id="productsandservices">) and call the "plug" method
-        //  passing in a reference to the MenuNav Node Plugin.
-
-        var menu = Y.one("#main-nav");
-
-        menu.plug(Y.Plugin.NodeMenuNav);
-
-        //  Show the menu now that it is ready
-
-        menu.get("ownerDocument").get("documentElement").removeClass("yui3-loading");
-
+      // Provide an optional template that will be used to render the view. The
+      // template can be anything we want, but in this case we'll use a string
+      // that will be processed with Y.Lang.sub().
+      template: '{slices} slice(s) of {type} pie remaining.'
     });
 
+// Override the render() method to define how the view will be rendered.
+pieView.render = function () {
+  var container = this.get('container'),
+      html      = Y.Lang.sub(this.template, this.get('model').toJSON());
+
+  // Render this view's HTML into the container element.
+  container.setHTML(html);
+
+  // Append the container element to the DOM if it's not on the page already.
+  if (!container.inDoc()) {
+    Y.one('body').append(container);
+  }
+
+  return this;
+};
+
+// Render the view.
+pieView.render();
+
+
+    });
 </script>
 {% endblock %}
