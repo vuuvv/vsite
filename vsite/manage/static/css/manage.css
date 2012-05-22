@@ -1,0 +1,37 @@
+body {
+	color: #89b0c0;
+	background: url("images/content_bg.png");
+}
+
+.header {
+	height: 36px;
+	position: relative;
+	background: url(images/header_bg.png) repeat-x;
+}
+
+.manage-wrap {
+	position: relative;
+}
+
+.manage-menu {
+	position: relative;
+	width: 249px;
+	height: 1000px;
+	float: left;
+	background: #f4f8fa;
+	border-right: 1px solid #acb1b7;
+}
+
+.content-outer {
+	position: relative;
+	margin-left: 250px;
+}
+
+.content-wrap {
+	border: 1px solid white;
+	box-shadow: 2px 0 120px 0 rgba(54, 54, 54, 0.15) inset;
+}
+
+.content {
+	height: 1000px;
+}

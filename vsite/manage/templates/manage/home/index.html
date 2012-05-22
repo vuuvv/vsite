@@ -1,11 +1,13 @@
-{% extends "layout.html" %}
+{% extends "manage/layout.html" %}
 {% load i18n %}
 {% load static %}
+{% load core %}
 
 {% block css %}
 {% endblock %}
 
 {% block js %}
+<script src="{% static "js/manage.js" %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block title %}
@@ -13,7 +15,7 @@ Dashboard
 {% endblock %} 
 
 {% block tpl %}
-{% include "login.html" %} 
+{% sri manage/yui/login.html %} 
 {% endblock %}
 
 {% block content %}
@@ -89,42 +91,5 @@ Dashboard
 	</div>
 </div>
 <script>
-	YUI().use('app', function(Y) {
-var pie = new Y.PieModel({type: 'apple'}),
-
-    pieView = new Y.View({
-      // Override the default container attribute.
-      container: Y.Node.create('<div class="pie"/>'),
-
-      // Specify an optional model to associate with the view.
-      model: pie,
-
-      // Provide an optional template that will be used to render the view. The
-      // template can be anything we want, but in this case we'll use a string
-      // that will be processed with Y.Lang.sub().
-      template: '{slices} slice(s) of {type} pie remaining.'
-    });
-
-// Override the render() method to define how the view will be rendered.
-pieView.render = function () {
-  var container = this.get('container'),
-      html      = Y.Lang.sub(this.template, this.get('model').toJSON());
-
-  // Render this view's HTML into the container element.
-  container.setHTML(html);
-
-  // Append the container element to the DOM if it's not on the page already.
-  if (!container.inDoc()) {
-    Y.one('body').append(container);
-  }
-
-  return this;
-};
-
-// Render the view.
-pieView.render();
-
-
-    });
 </script>
 {% endblock %}
