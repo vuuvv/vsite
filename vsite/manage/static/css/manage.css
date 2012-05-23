@@ -13,7 +13,7 @@ body {
 	position: relative;
 }
 
-.manage-accord {
+#manage-accord {
 	position: relative;
 	width: 249px;
 	height: 1000px;
@@ -37,7 +37,7 @@ body {
 }
 
 /** accordion **/
-.accordion-item .accordion-hd {
+.yui3-accordion-item .accordion-hd {
 	background: -moz-linear-gradient(center bottom, #e6e8eb 0%, #eff1f4 100%);
 	border-bottom: 1px solid #b2b2b2;
 	border-top: 1px solid white;
@@ -47,7 +47,7 @@ body {
 	cursor: pointer;
 }
 
-.accordion-item .openclose {
+.yui3-accordion-item .openclose {
 	background: url("images/open_close.png") no-repeat 0 -10px;
 	display: inline-block;
 	height: 10px;

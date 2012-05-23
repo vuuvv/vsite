@@ -7,7 +7,9 @@ var Lang = Y.Lang,
 	WidgetStdMod = Y.WidgetStdMod,
 	AccName = "accordion",
 	AccItemName = "accordion-item",
-	getCN = Y.ClassNameManager.getClassName;
+	getCN = Y.ClassNameManager.getClassName,
+
+	C_ITEM = "yui3-accordion-item";
 
 Y.Accordion = Y.Base.create(AccName, Y.Widget, [], {
 	initializer: function(config) {
@@ -19,7 +21,19 @@ Y.Accordion = Y.Base.create(AccName, Y.Widget, [], {
 	},
 
 	renderUI: function() {
-		console.log("render ui");
+		var srcNode, itemsDom;
+		srcNode = this.get("srcNode");
+
+		itemsDom = srcNode.all("> ." + C_ITEM);
+		itemsDom.each(function(itemNode, index, itemsDom) {
+			var newItem;
+
+			newItem = new Y.AccordionItem({
+				srcNode: itemNode,
+				id: itemNode.get("id")
+			});
+			this.addItem(newItem);
+		}, this);
 	},
 
 	bindUI: function() {
@@ -28,6 +42,21 @@ Y.Accordion = Y.Base.create(AccName, Y.Widget, [], {
 
 	syncUI: function() {
 		console.log("sync ui");
+	},
+
+	addItem: function(item) {
+		var items = this.get("items");
+		items.push(item);
+	}
+}, {
+	NAME: AccName,
+
+	ATTRS: {
+		items: {
+			value: [],
+			readOnly: true,
+			validator: Lang.isArray
+		}
 	}
 });
 
