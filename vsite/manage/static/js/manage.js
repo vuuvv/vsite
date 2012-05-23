@@ -83,7 +83,7 @@ YUI().use('app', 'handlebars', 'jsonp', 'cssbutton', function(Y) {
 			}
 		}
 	});
-	new ManageApp({
-	}).render();
+	//new ManageApp({
+	//}).render();
 });
 }(window));
