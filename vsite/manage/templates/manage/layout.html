@@ -9,13 +9,7 @@
 	<link media="all" rel="stylesheet" href="{% static "js/yui/cssreset/reset-min.css" %}"/>
 	<link media="all" rel="stylesheet" href="{% static "css/manage.css" %}"/>
 	{% block css %}{% endblock %}
-	<script type="text/javascript">
-	YUI_config = {
-	//filter: 'debug',
-	//useConsoleOutput: true
-	};
-	</script>
-	<script src="{% static "js/yui/yui/yui.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/jquery.js" %}" type="text/javascript"></script>
 	{% block js %}{% endblock %}
 	{% block tpl %} {% endblock %}
 </head>
@@ -26,62 +20,62 @@
 		<div class="logo"></div>
 	</div>
 	<div class="manage-wrap">
-		<div id="manage-accord">
-			<div class="yui3-accordion-item accordion-item-active">
-				<div class="accordion-hd">
+		<div id="manage-accord" class="accordion">
+			<div class="accordion-group">
+				<div class="accordion-heading" data-toggle="accordion">
 					<div class="openclose"></div>
 					<div class="label">system</div>
 				</div>
-				<div class="accordion-bd">
-					<div class="accordion-subitem">
+				<div class="accordion-body collapse">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">normal</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">email</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">sms</div>
 					</div>
 				</div>
 			</div>
-			<div class="yui3-accordion-item">
-				<div class="accordion-hd">
+			<div class="accordion-group">
+				<div class="accordion-heading" data-toggle="accordion">
 					<div class="openclose"></div>
 					<div class="label">article</div>
 				</div>
-				<div class="accordion-bd">
-					<div class="accordion-subitem">
+				<div class="accordion-body collapse">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">normal</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">email</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">sms</div>
 					</div>
 				</div>
 			</div>
-			<div class="yui3-accordion-item">
-				<div class="accordion-hd">
+			<div class="accordion-group">
+				<div class="accordion-heading" data-toggle="accordion">
 					<div class="openclose"></div>
 					<div class="label">page</div>
 				</div>
-				<div class="accordion-bd">
-					<div class="accordion-subitem">
+				<div class="accordion-body collapse">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">normal</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">email</div>
 					</div>
-					<div class="accordion-subitem">
+					<div class="accordion-item">
 						<div class="arrow"></div>
 						<div class="label">sms</div>
 					</div>
@@ -95,15 +89,14 @@
 				</div>
 			</div>
 		</div>
+		<div style="clear: both"></div>
 	</div>
 </body>
 </html>
 <script src="{% static "js/accordion.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
-	YUI().use('accordion', function(Y) {
-		var a = new Y.Accordion({
-			srcNode: "#manage-accord"
-		});
-		a.render();
-	});
+$(function() {
+	$('#manage-accord, .content').height($('body').height() - 36 - 2);
+	$(".accordion").accordion();
+});
 </script>
