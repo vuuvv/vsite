@@ -25,6 +25,7 @@ body {
 	float: left;
 	background: #f4f8fa;
 	border-right: 1px solid #acb1b7;
+	border-bottom: 1px solid #acb1b7;
 }
 
 .content-outer {
@@ -37,7 +38,7 @@ body {
 	box-shadow: 2px 0 120px 0 rgba(54, 54, 54, 0.15) inset;
 }
 
-.content {
+#content {
 	min-height: 500px;
 }
 
@@ -71,7 +72,7 @@ body {
 	background-position: 0 0;
 }
 
-.accordion-heading .label {
+.accordion-heading .accordion-label {
 	color: #5d6774;
 	font-family: Arial;
 	font-size: 12px;
@@ -119,7 +120,7 @@ body {
 	background-position: -26px 0;
 }
 
-.accordion-item .label {
+.accordion-item .accordion-label {
 	color: #3d444d;
 	font-family: Arial;
 	font-size: 14px;
@@ -132,6 +133,6 @@ body {
 	display: inline-block;
 }
 
-.accordion-group.static .accordion-item:hover .label {
+.accordion-group.static .accordion-item:hover .accordion-label {
 	color: white;
 }

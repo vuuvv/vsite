@@ -33,6 +33,9 @@ Accordion.prototype = {
 		if (group.hasClass("shown"))
 			return;
 
+		group.addClass("shown");
+		group.removeClass("static");
+
 		if (active) {
 			active.removeClass("shown");
 			active.removeClass("static");
@@ -41,8 +44,6 @@ Accordion.prototype = {
 			});
 		}
 
-		group.addClass("shown");
-		group.removeClass("static");
 		body.animate({
 			height: this._body_height()
 		}, function() {

@@ -7,6 +7,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('vsite.manage.views',
     # Examples:
     url(r'^$', 'index'),
+    url(r'^template/(?P<name>.*)', 'template'),
     # url(r'^site_demo/', include('site_demo.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
