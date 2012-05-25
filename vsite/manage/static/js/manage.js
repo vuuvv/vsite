@@ -1,23 +1,34 @@
 (function(window) {
 
-var User = Backbone.Model.extend();
-var UserList = Backbone.Collection.extend({
+var View = Backbone.View,
+	Model = Backbone.Model,
+	Collection = Backbone.Collection,
+	Router = Backbone.Router;
+
+var User = Model.extend();
+var UserList = Collection.extend({
 	model: User
 });
 
-var AsyncView = Backbone.View.extend({
+var AsyncView = View.extend({
+	template: null,
 	render: function(event) {
 		var self = this;
-		$.ajax({
-			url: 'template/' + self.name,
-			success: function(data) {
-				self._render(data);
-			}
-		});
+		if (this.template) {
+			self._render(template)
+		} else {
+			$.ajax({
+				url: 'template/' + self.name,
+				success: function(template) {
+					self.template = template;
+					self._render();
+				}
+			});
+		}
 	}
 });
 
-var LoginView = Backbone.View.extend({
+var LoginView = View.extend({
 });
 
 var MainView = AsyncView.extend({
@@ -28,39 +39,45 @@ var MainView = AsyncView.extend({
 		this.render();
 	},
 
-	_render: function(data) {
-		this.$el.html(data);
+	_render: function(template) {
+		this.$el.html(template);
 		$('#manage-accord, #content').height($('body').height() - 36 - 2);
+		var accordions = new Accordions();
 		new AccordionView({
-			el: $("#manage-accord")
+			el: $("#manage-accord"),
+			model: accordions
 		});
+		accordions.fetch();
 	}
+});
+
+var Accordions = Collection.extend({
+	url: "accordion"
 });
 
 var AccordionView = AsyncView.extend({
 	name: 'accordion',
 
 	initialize: function() {
-		this.render();
+		this.model.bind("reset", this.render, this);
 	},
 
-	_render: function(data) {
-		this.$el.html(data);
+	_render: function() {
+		this.$el.html(_.template(this.template, {accordions:this.model}));
 		$("#manage-accord").accordion();
 	}
 });
 
-var FormView = Backbone.View.extend({
+var FormView = View.extend({
 });
 
-var AppRouter = Backbone.Router.extend({
+var AppRouter = Router.extend({
 	routes: {
 		"": "welcome",
 		"test": "test"
 	},
 
 	welcome: function() {
-		console.log("welcome");
 		this.main = new MainView();
 	},
 
