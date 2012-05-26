@@ -15,7 +15,7 @@ var AsyncView = View.extend({
 	render: function(event) {
 		var self = this;
 		if (this.template) {
-			self._render(template)
+			self._render()
 		} else {
 			$.ajax({
 				url: 'template/' + self.name,
@@ -39,8 +39,8 @@ var MainView = AsyncView.extend({
 		this.render();
 	},
 
-	_render: function(template) {
-		this.$el.html(template);
+	_render: function() {
+		this.$el.html(this.template);
 		$('#manage-accord, #content').height($('body').height() - 36 - 2);
 		var accordions = new Accordions();
 		new AccordionView({
@@ -63,7 +63,7 @@ var AccordionView = AsyncView.extend({
 	},
 
 	_render: function() {
-		this.$el.html(_.template(this.template, {accordions:this.model}));
+		this.$el.html(_.template(this.template, {accordions:this.model.toJSON()}));
 		$("#manage-accord").accordion();
 	}
 });

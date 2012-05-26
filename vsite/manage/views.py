@@ -16,7 +16,7 @@ def accordion(request):
 	accord = [
 		{
 			"name": "system",
-			"children": ["normal", "email", "sms"],
+			"children": ["app", "normal", "email", "sms"],
 		},
 		{
 			"name": "model",
