@@ -1,138 +1,37 @@
-html {
+
+html, body {
 	height: 100%;
+	overflow: hidden;
 }
 
 body {
-	color: #89b0c0;
-	background: url("images/content_bg.png");
+	margin: 0;
+	padding: 0;
+	font: 12px/1.125 Arial,Helvetica,sans-serif;
+
+	color: #444;
+	background: #b0e0fa;
+}
+
+#wrapper {
+	position: relative;
+	width: 100%;
 	height: 100%;
+	overflow: auto;
 }
 
-.header {
-	height: 36px;
-	position: relative;
-	background: url(images/header_bg.png) repeat-x;
+#global-header {
+	position: fixed;
+	top: 0;
+	height: 35px;
+	width: 100%;
+	background: url(img/global_nav_bg.png) repeat-x scroll 0 0 transparent;
+	_background: none;
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/css/img/global_nav_bg.png')
 }
 
-.manage-wrap {
-	position: relative;
-}
-
-#manage-accord {
-	position: relative;
-	width: 249px;
-	min-height: 500px;
-	float: left;
-	background: #f4f8fa;
-	border-right: 1px solid #acb1b7;
-	border-bottom: 1px solid #acb1b7;
-}
-
-.content-outer {
-	position: relative;
-	margin-left: 250px;
-}
-
-.content-wrap {
-	border: 1px solid white;
-	box-shadow: 2px 0 120px 0 rgba(54, 54, 54, 0.15) inset;
-}
-
-#content {
-	min-height: 500px;
-}
-
-/** accordion **/
-.accordion-group .accordion-heading {
-	background: -moz-linear-gradient(center bottom, #e6e8eb 0%, #eff1f4 100%);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EFF1F4), to(#E6E8EB));
-	border-bottom: 1px solid #b2b2b2;
-	border-top: 1px solid white;
-	height: 23px;
-	padding: 3px 0 0;
-	position: relative;
-	cursor: pointer;
-}
-
-.accordion-group .openclose {
-	background: url("images/open_close.png") no-repeat 0 -10px;
-	display: inline-block;
-	height: 10px;
-	width: 9px;
-	left: 1px;
-	top: 1px;
-	margin: 4px 5px 0;
-	overflow: hidden;
-	position: relative;
-}
-
-.accordion .shown .openclose {
-	left: 0;
-	top: 2px;
-	background-position: 0 0;
-}
-
-.accordion-heading .accordion-label {
-	color: #5d6774;
-	font-family: Arial;
-	font-size: 12px;
-	font-weight: bold;
-	margin-top: 2px;
+* html #global-header {
 	position: absolute;
-	text-shadow: 0 1px 0 #fff;
-	display: inline-block;
 }
 
-.accordion-body {
-	height: 0;
-	overflow: hidden;
-}
 
-.accordion-item {
-	background: -moz-linear-gradient(center bottom, #f5f5f5 0%, #ffffff 100%);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#f5f5f5));
-	height: 40px;
-	line-height: 8px;
-	overflow: hidden;
-	position: relative;
-	padding: 3px 0 0;
-	border-bottom: 1px solid #b2b2b2;
-	border-top: 1px solid white;
-}
-
-.accordion-group.static .accordion-item:hover {
-	background: -moz-linear-gradient(center bottom , #1F79C2 0%, #5B9FDC 100%);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5B9FDC), to(#1F79C2));
-	border-bottom: 1px solid #1e78c2;
-	border-top: 1px solid #0c76d7;
-}
-
-.accordion-item .arrow {
-	background: url(images/arrow.png) no-repeat;
-	height: 16px;
-	position: absolute;
-	right: 6px;
-	top: 15px;
-	width: 10px;
-}
-
-.accordion-group.static .accordion-item:hover .arrow {
-	background-position: -26px 0;
-}
-
-.accordion-item .accordion-label {
-	color: #3d444d;
-	font-family: Arial;
-	font-size: 14px;
-	font-weight: bold;
-	height: 24px;
-	line-height: 24px;
-	margin: 6px 0 0 9px;
-	overflow: hidden;
-	position: relative;
-	display: inline-block;
-}
-
-.accordion-group.static .accordion-item:hover .accordion-label {
-	color: white;
-}
