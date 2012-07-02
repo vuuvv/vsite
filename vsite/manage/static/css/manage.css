@@ -1,3 +1,10 @@
+.clear {
+	clear: both;
+}
+
+.no-outline {
+	outline-style:none;
+}
 
 html, body {
 	height: 100%;
@@ -8,9 +15,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font: 12px/1.125 Arial,Helvetica,sans-serif;
-
 	color: #444;
-	background: #b0e0fa;
 }
 
 #wrapper {
@@ -34,4 +39,139 @@ body {
 	position: absolute;
 }
 
+#main {
+	padding-top: 35px;
+	background: #b0e0fa;
+	height: 1000px;
+}
 
+#global-header .header {
+	width: 960px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#global-header .right {
+	float: right;
+}
+
+#global-header .header a.link {
+	color: #fff;
+	text-decoration: none;
+}
+
+#global-header ul, #global-header li {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#global-header li {
+	float: left;
+}
+
+#global-header .menu a.link {
+	display: block;
+	height: 16px;
+	line-height: 16px;
+	padding: 9px 18px 8px 9px;
+}
+
+#global-header .menu a.link:hover {
+	background: #4388ad;
+}
+
+#global-header .menu li.current a.link {
+	border: 1px solid #000;
+	border-bottom: 0;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-box-shadow: 1px -2px 3px rgba(0,0,0,.3);
+	-webkit-box-shadow: 1px -2px 3px rgba(0,0,0,.3);
+	box-shadow: 1px -2px 3px rgba(0,0,0,.3);
+	cursor: pointer;
+	color: #595959;
+	padding: 6px 9px 9px;
+	margin: 2px 0 0;
+	position: relative;
+	background: url(img/global_current_bg.png) repeat;
+}
+
+#global-header .arrow-down {
+	position: absolute;
+	top: 18px;
+	right: 9px;
+}
+
+.arrow-down {
+	display: block;
+	height: 3px;
+	margin: -2px 0 0 3px;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 5px;
+}
+
+.arrow-down em {
+	background: #c1c1c1;
+	display: block;
+	height: 1px;
+	overflow: hidden;
+}
+
+.arrow-down em.b2 {
+	margin: 0 1px;
+}
+
+.arrow-down em.b3 {
+	margin: 0 2px;
+	width: 1px;
+}
+
+#global-header .drop-menu {
+	background: url(img/global_layer_bg.png) repeat scroll 0 0 transparent;
+	border: 1px solid #797979;
+	padding: 2px 1px 4px;
+	overflow: hidden;
+	color: #fff;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+	position: absolute;
+	width: 130px;
+	top: 33px;
+	right: 0;
+	display: none;
+}
+
+#global-header li.current .drop-menu {
+	display: block;
+}
+
+#global-header .drop-menu ul {
+	margin: 0 4px;
+	overflow: hidden;
+	padding: 3px 0 0;
+}
+
+#global-header .drop-menu li {
+	float: none;
+}
+
+#global-header .drop-menu li a {
+	background: none;
+	color: #595959;
+	display: block;
+	font-size: 12px;
+	padding: 7px 10px;
+	text-decoration: none;
+}
+
+#global-header .drop-menu li a:hover {
+	background: #e8e9ea;
+}
