@@ -7,21 +7,13 @@ define([
 	var AppView = Backbone.View.extend({
 		el: $("body"),
 
-		events: {
-			"mouseover #global-header .menu li.menu-item": "mouse_in_menu",
-			"mouseout #global-header .menu li.menu-item": "mouse_out_menu"
-		},
-
 		initialize: function() {
-			$("#global-header").width($("#main").width());
-		},
-
-		mouse_in_menu: function(e) {
-			$(e.target).parent("li").addClass("current");
-		},
-
-		mouse_out_menu: function(e) {
-			$(e.target).parent("li").removeClass("current");
+			$("#global-header").width($("#main-body").width());
+			$("#global-header .menu li.menu-item").hover(function() {
+				$(this).addClass("current");
+			}, function(){
+				$(this).removeClass("current");
+			});
 		}
 	});
 	return AppView;
