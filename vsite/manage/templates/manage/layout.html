@@ -39,9 +39,9 @@
 									<div id="main-content-search">
 										<div class="mode-wrap">
 											<a class="icon btn-down" href="javascript:void(0)"></a>
-											<a class="icon pic-mode" href="javascript:void(0)">test</a>
-											<a class="icon list-mode list-mode-current" href="javascript:void(0)">test</a>
-											<a class="icon search-btn" href="javascript:void(0)">test</a>
+											<a class="icon pic-mode" href="javascript:void(0)"></a>
+											<a class="icon list-mode list-mode-current" href="javascript:void(0)"></a>
+											<a class="icon search-btn" href="javascript:void(0)"></a>
 											<div class="btn search-box">
 												<input id="search-input" type="text" />
 											</div>
@@ -68,6 +68,61 @@
 											</th>
 										</tr>
 									</table>
+									<div class="fileviewer">
+										<table cellspacing="0" border="0">
+											<tr class="file-row">
+												<td class="checkbox">
+													<input type="checkbox" />
+												</td>
+												<td class="filename">
+													<div class="details">
+														<div class="thumbnail"></div>
+														<div class="intro">
+															<div class="name-text">
+																<a href="#page">text</a>
+															</div>
+															<div class="name-tools"></div>
+														</div>
+													</div>
+												</td>
+												<td class="filesize right">
+													<span>10MB</span>
+												</td>
+												<td class="modified">
+													<span>2002-05-03 10:25:37</span>
+												</td>
+											</tr>
+											<tr class="file-row">
+												<td class="checkbox">
+													<input type="checkbox" />
+												</td>
+												<td class="filename">
+													Test
+												</td>
+												<td class="filesize right">
+													<span>1000MB</span>
+												</td>
+												<td class="modified">
+													<span>2002-05-03 10:25:37</span>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="main-content-footer">
+								<div id="main-footer-operates">
+									<input id="select-all" class="checkbox" type="checkbox" />
+									<a id="move-files" class="operate operate-disable" href="">移动</a>
+									<a id="copy-files" class="operate" href="">复制</a>
+									<a id="delete-files" class="operate" href="">删除</a>
+								</div>
+								<div class="page-count-set">
+									<span>Items Per Page</span>
+									<a href="" class="page-num-btn page-num-current"><span>20</span></a>
+									<a href="" class="page-num-btn"><span>40</span></a>
+									<a href="" class="page-num-btn"><span>60</span></a>
+									<a href="" class="page-num-btn"><span>100</span></a>
 								</div>
 							</div>
 						</div>
@@ -86,9 +141,11 @@
 			<div class="logo"></div>
 			<div class="right">
 				<ul class="menu">
+					{% for menu in menus %}
+						{% if menu.children %}
 					<li class="menu-item">
 						<a href="javascript:void(0)" class="link no-outline">
-							System
+							{{ menu.title }}
 							<span class="arrow-down">
 								<em class="b1"></em>
 								<em class="b2"></em>
@@ -98,43 +155,19 @@
 						<div class="drop-menu">
 							<div>
 								<ul>
-									<!--tip start-->
-									<li><a href="javascript:void(0)">File Manager</a></li>
-									<li><a href="javascript:void(0)">Settings</a></li>
-									<!--tip end-->
+									{% for smenu in menu.children %}
+									<li><a href="#{{ smenu|lower }}">{{ smenu }}</a></li>
+									{% endfor %}
 								</ul>
 							</div>
 						</div>
 					</li>
-					<li class="menu-item">
-						<a href="javascript:void(0)" class="link no-outline">
-							notice
-							<span class="arrow-down">
-								<em class="b1"></em>
-								<em class="b2"></em>
-								<em class="b3"></em>
-							</span>
-						</a>
-						<div class="drop-menu">
-							<div>
-								<ul>
-									<!--tip start-->
-									<li><a href="http://weibo.com/comment/inbox?topnav=1&amp;wvr=4&amp;f=1" bpfilter="main" action-data="hide=true" action-type="bp-link" target="_top">查看评论</a></li>
-									<li><a href="http://weibo.com/2141226973/fans?topnav=1&amp;wvr=4" target="_top">查看粉丝</a></li>
-									<li><a href="http://weibo.com/messages?topnav=1&amp;wvr=4" action-data="hide=true" action-type="bp-link" target="_top">查看私信</a></li>
-									<li><a href="http://weibo.com/at/weibo?topnav=1&amp;wvr=4" bpfilter="main" action-data="hide=true" action-type="bp-link" target="_top">查看@我</a></li>
-									<li><a href="http://q.weibo.com/message/proxJump.php?topnav=1&amp;wvr=4" target="_top">查看群内消息</a></li>
-									<li><a href="http://photo.weibo.com/messages/index?topnav=1&amp;wvr=4" target="_top">查看相册消息</a></li>
-									<li><a href="http://weibo.com/notifications?topnav=1&amp;wvr=4" target="_top">查看通知</a></li>
-									<li><a href="http://weibo.com/invite/recv.php?topnav=1&amp;wvr=4" target="_top">查看邀请</a> </li>
-									<!--tip end-->
-								</ul>
-							</div>
-						</div>
-					</li>
+						{% else %}
 					<li class="menu-item-leaf">
-						<a href="javascript:void(0)" class="link no-outline">logout</a>
+						<a href="#{{ menu.title|lower }}" class="link no-outline">{{ menu.title }}</a>
 					</li>
+						{% endif %}
+					{% endfor %}
 					<div class="clear"></div>
 				</ul>
 			</div>

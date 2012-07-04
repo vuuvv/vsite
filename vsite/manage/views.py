@@ -1,11 +1,33 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.utils import simplejson as json
+from django.utils.translation import ugettext_lazy as _
 
 from vsite.core.utils import get_template_source
 
+menus = [
+	{
+		"title": _("System"),
+		"children": [_("Settings"), _("File Manage"), _("Site")],
+	},
+	{
+		"title": _("Account"),
+		"children": [_("User"), _("Role"), _("Permission")],
+	},
+	{
+		"title": _("Content"),
+		"children": [_("URL"), _("Page")],
+	},
+	{
+		"title": _("Logout"),
+		"children": [],
+	}
+]
+
 def index(request):
-	return render_to_response("manage/home/index.html")
+	return render_to_response("manage/home/index.html", {
+		"menus": menus,
+	})
 
 def template(request, name):
 	return HttpResponse(

@@ -46,7 +46,7 @@ CONTENT_STATUS_CHOICES = (
 	(CONTENT_STATUS_PUBLISHED, _("Published")),
 )
 
-class Publishable(Slugged, MetaData):
+class Publishable(MetaData):
 	status = models.IntegerField(_("Status"),
 		choices=CONTENT_STATUS_CHOICES, default=CONTENT_STATUS_PUBLISHED)
 	publish_date = models.DateTimeField(_("Published from"),

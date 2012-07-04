@@ -1,12 +1,26 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.models import Site
 
 from mptt.models import MPTTModel, TreeForeignKey
 
 from vsite.core.models import Publishable
 
-class Page(MPTTModel, Publishable):
-	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+class URL(MPTTModel):
+	slug = models.CharField(_('URL'), max_length=255, blank=True, null=True)
+
+	class Meta:
+		verbose_name = _("URL")
+		verbose_name_plural = _("URL")
+		ordering = ("slug",)
+
+	def __unicode__(self):
+		return self.slug
+
+class Page(Publishable):
+	title = models.CharField(_("Title"), max_length=100)
+	url = models.ForeignKey(URL, related_name="pages")
+	site = models.ForeignKey(Site, related_name="pages")
 
 	class Meta:
 		verbose_name = _("Pages")

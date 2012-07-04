@@ -441,12 +441,16 @@ li.current .arrow-down em {
 }
 
 .main-content-body {
-	min-height: 500px;
 }
 
 .fileheader {
 	border-collapse: collapse;
 	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+	height: 30px;
+	overflow: hidden;
+	width: 100%;
 }
 
 .fileheader th {
@@ -457,6 +461,8 @@ li.current .arrow-down em {
 	height: 30px;
 	border-left: 1px solid #fff;
 	border-right: 1px solid #dcdcdc;
+	margin: 0;
+	padding: 0;
 }
 
 .fileheader th.first {
@@ -473,7 +479,7 @@ li.current .arrow-down em {
 
 .fileheader th.filename {
 	padding-left: 10px;
-	width: 404px;
+	text-align: left;
 }
 
 .fileheader th.filesize {
@@ -482,5 +488,150 @@ li.current .arrow-down em {
 
 .fileheader th.modified {
 	width: 180px;
+}
+
+.fileviewer {
+	border-top: 1px solid #dcdcdc;
+	height: 500px;
+}
+
+.fileviewer table {
+	width: 100%;
+}
+
+.fileviewer tr {
+	height: 50px;
+}
+
+.fileviewer td {
+	border-bottom: 1px solid #ececec;
+	text-align: center;
+}
+
+.fileviewer td.right {
+	text-align: right;
+}
+
+.fileviewer td.left {
+	text-align: left;
+}
+
+.fileviewer td span {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.fileviewer td.checkbox {
+	width: 30px;
+}
+
+.fileviewer td.filename {
+	padding-left: 10px;
+	text-align: left;
+}
+
+.fileviewer td.filesize {
+	width: 105px;
+}
+
+.fileviewer td.modified {
+	width: 180px;
+}
+
+.fileviewer .name-text a {
+	height: 14px;
+	line-height: 14px;
+	overflow:hidden;
+}
+.fileviewer .name-text a:hover {
+	text-decoration: underline;
+}
+
+.main-content-footer {
+	background: url(img/main_footer_bg.png) repeat-x scroll 0 0 transparent;
+	border-top: 1px solid #f1f1f1;
+	height: 185px;
+	width: 719px;
+	overflow: hidden;
+	position: relative;
+}
+
+#main-footer-operates {
+	color: #ccc;
+	position: absolute;
+	height: 16px;
+	left: 19px;
+	top: 15px;
+}
+
+#main-footer-operates .checkbox {
+	margin-right: 30px;
+}
+
+#main-footer-operates .operate {
+	margin-right: 12px;
+	color: #3185c7;
+}
+
+#main-footer-operates .operate:hover {
+	color: #07436b;
+	text-decoration: underline;
+}
+
+#main-footer-operates .operate-disable, #main-footer-operates .operate-disable:hover {
+	color: #989898;
+	cursor: default;
+	text-decoration: none;
+}
+
+.page-count-set {
+	color: #ccc;
+	position: absolute;
+	top: 10px;
+	right: 20px;
+}
+
+.page-count-set span {
+	padding-right: 6px;
+}
+
+.page-count-set .page-num-btn, .page-count-set .page-num-btn span {
+	background: url(img/num_bg.png) no-repeat scroll 0 0 transparent;
+	color: #63a0cb;
+	height: 20px;
+	line-height: 20px;
+	cursor: pointer;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.page-count-set .page-num-btn {
+	margin-left: 4px;
+	padding: 0 0 0 2px;
+}
+
+.page-count-set .page-num-btn:hover {
+	background: url(img/num_bg_hover.png) no-repeat scroll 0 0 transparent;
+}
+
+.page-count-set .page-num-btn span {
+	background-position: right -20px;
+	padding: 0 7px 0 5px;
+	text-align: center;
+}
+
+.page-count-set .page-num-btn:hover span {
+	background: url(img/num_bg_hover.png) no-repeat scroll right -20px transparent;
+}
+
+.page-count-set .page-num-current, .page-count-set .page-num-current:hover {
+	background: url(img/num_bg_an.png) no-repeat scroll 0 0 transparent;
+}
+
+
+.page-count-set .page-num-current span, .page-count-set .page-num-current:hover span {
+	color: #fff;
+	background: url(img/num_bg_an.png) no-repeat scroll right -20px transparent;
 }
 
