@@ -14,6 +14,7 @@ function($, _, Backbone, ModelView) {
 
 	var ManageApp = Backbone.Router.extend({
 		routes: {
+			"": "index",
 			"add/:model": "add",
 			"update/:model": "update",
 			":model": "list",
@@ -21,6 +22,10 @@ function($, _, Backbone, ModelView) {
 		},
 
 		initialize: function(options) {
+		},
+
+		index: function() {
+			this.list("page");
 		},
 
 		list: function(model, page) {
