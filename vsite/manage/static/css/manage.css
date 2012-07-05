@@ -234,7 +234,6 @@ li.current .arrow-down em {
 .main-content-header {
 	background: #f1f4f7;
 	border-bottom: 1px solid #dcdddd;
-	min-height: 99px;
 	padding: 0;
 }
 
@@ -635,3 +634,100 @@ li.current .arrow-down em {
 	background: url(img/num_bg_an.png) no-repeat scroll right -20px transparent;
 }
 
+
+
+/* fieldset */
+fieldset {
+	border: none;
+	margin: 0;
+	padding: 18px;
+}
+
+fieldset ul {
+	list-style: none;
+	margin: 0 0 18px;
+	padding: 0;
+}
+
+fieldset ul li {
+	list-style: none;
+	margin: 0 0 6px;
+	padding: 0;
+}
+
+fieldset label {
+	float: left;
+	padding-top: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 13px;
+	width: 20%;
+}
+
+input.text, select, textarea {
+	border: 1px solid #006699;
+	margin: 0;
+	padding: 4px 3px;
+	vertical-align: middle;
+}
+
+input {
+	color: #555;
+	font-size: 13px;
+	height: 18px;
+	line-height: 18px;
+	padding: 4px;
+}
+
+input.text {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+      -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+input.text:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.input-mini {
+	width: 60px;
+}
+
+.input-small {
+	width: 90px;
+}
+
+.input-medium {
+	width: 150px;
+}
+
+.input-large {
+	width: 210px;
+}
+
+.input-xlarge {
+	width: 270px;
+}
+
+.input-xxlarge {
+	width: 530px;
+}
+/* end fieldset */

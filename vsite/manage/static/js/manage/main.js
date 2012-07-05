@@ -7,21 +7,29 @@ require.config({
 	}
 });
 
-require(['jquery', 'underscore', 'backbone', "views/model"],
+require(['jquery', 'underscore', 'backbone', "views/list", "views/edit"],
 
-function($, _, Backbone, ModelView) {
+function($, _, Backbone, ListView, EditView) {
 	var custom_views = ["page"];
+
+	var norm_model = function(model) {
+		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
+	};
 
 	var ManageApp = Backbone.Router.extend({
 		routes: {
 			"": "index",
+			"logout": "logout",
 			"add/:model": "add",
-			"update/:model": "update",
+			"update/:model/:id": "update",
 			":model": "list",
 			":model/*page": "list"
 		},
 
 		initialize: function(options) {
+		},
+
+		logout: function() {
 		},
 
 		index: function() {
@@ -31,21 +39,28 @@ function($, _, Backbone, ModelView) {
 		list: function(model, page) {
 			page = parseInt(page);
 			page = page || 0;
-			view = unescape(model).replace(/[ -]+/g, "_");
-			if (custom_views.indexOf(view) == -1) {
-				new ModelView(model);
-			} else {
-				require(['views/' + view], function(view_cls) {
-					new view_cls;
-				});
-			}
+			model = norm_model(model);
+			var view = new ListView(model, page);
+			view.render();
 		},
 
 		add: function(model) {
-			console.log("add");
+			model = norm_model(model);
+			var view = new EditView({
+				model_name: model,
+				type: "add"
+			});
+			view.render();
 		},
 
-		update: function(model) {
+		update: function(model, id) {
+			model = norm_model(model);
+			var view = new EditView({
+				model_name: model,
+				type: "update",
+				model_id: id
+			});
+			view.render();
 		}
 	});
 

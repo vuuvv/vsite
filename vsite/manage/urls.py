@@ -9,6 +9,7 @@ urlpatterns = patterns('vsite.manage.views',
     url(r'^$', 'index'),
     url(r'^template/(?P<name>.*)', 'template'),
     url(r'^accordion', 'accordion'),
+    url(r'api/fields/(?P<model>\w*)', 'fields')
     # url(r'^site_demo/', include('site_demo.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

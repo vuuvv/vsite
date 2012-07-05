@@ -47,3 +47,19 @@ def accordion(request):
 	]
 	return HttpResponse(json.dumps(accord))
 
+def fields(request, model):
+	return HttpResponse(json.dumps([
+		{
+			"name": "title",
+			"type": "StringField",
+		},
+		{
+			"name": "content",
+			"type": "TextField",
+		},
+		{
+			"name": "age",
+			"type": "IntegerField",
+		},
+	]))
+
