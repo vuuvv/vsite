@@ -20,10 +20,11 @@ function($, _, Backbone, ListView, EditView) {
 		routes: {
 			"": "index",
 			"logout": "logout",
-			"add/:model": "add",
-			"update/:model/:id": "update",
+			":model/add": "add",
+			":model/:id": "update",
+			":model/:id/delete": "delete",
 			":model": "list",
-			":model/*page": "list"
+			":model/p/:page": "list"
 		},
 
 		initialize: function(options) {
@@ -51,6 +52,9 @@ function($, _, Backbone, ListView, EditView) {
 				type: "add"
 			});
 			view.render();
+		},
+
+		delete: functioN(mdoel, id) {
 		},
 
 		update: function(model, id) {

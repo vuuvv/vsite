@@ -8,7 +8,7 @@ from django.contrib.sites.managers import CurrentSiteManager
 
 class Slugged(models.Model):
 	title = models.CharField(_("Title"), max_length=100)
-	slug = models.CharField(_("URL"), max_length=100, blank=True, null=True)
+	slug = models.CharField(_("URL"), max_length=200, blank=True, null=True)
 	site = models.ForeignKey(Site, editable=False)
 
 	#objects = CurrentSiteManager()

@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
@@ -18,6 +19,16 @@ class URL(MPTTModel):
 
 	def __unicode__(self):
 		return self.slug
+
+	def save(self):
+		if not self.slug:
+			title = re.sub("[-\s]+", "-", self.title.lower())
+			if self.is_root_node():
+				slug = title
+			else:
+				slug = "%s/%s" % (self.parent.slug, title)
+			self.slug = slug
+		super(URL, self).save()
 
 class Page(Publishable):
 	title = models.CharField(_("Title"), max_length=100)

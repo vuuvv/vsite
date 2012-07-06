@@ -1,11 +1,11 @@
-import json
-
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.conf.urls import patterns, url, include
 from django.db.models.base import ModelBase
 from django.db.models import ForeignKey
 from django.utils.translation import ugettext_lazy as _
+
+from vsite.utils import tojson
 
 class AlreadyRegisted(Exception):
 	pass
@@ -21,12 +21,14 @@ class ModelManage(object):
 	search_fields = ()
 	inlines = []
 	defer = set()
+	ordering = ()
+	readonly_fields = ()
 
 	def __init__(self, model, manage_site):
 		self.model = model
 		self.opts = model._meta
 		self.manage_site = manage_site
-		self._fields = get_fields(self.fields)
+		self.fields_dict = self._get_fields(self.fields)
 
 	@property
 	def urls(self):
@@ -49,33 +51,59 @@ class ModelManage(object):
 		pass
 
 	def add_view(self, request):
-		fields_list = []
-		_fields = self._fields
-		names = self.fields if self.fields is not None else self._fields.keys()
-		for name in names:
-			f = 
-			field = {}
-			field["name"] = name
-			field["type"] = formfield.__class__.__name__
-			for name in ["min_value", "max_value", "min_length", "max_length"]:
-				if hasattr(formfield, name):
-					field[name] = getattr(formfield, name)
-
-			if isinstance(f, ForeignKey):
-				rel = f.rel.to._meta
-				field["related"] = "%s/%s" % (rel.app_label, rel.module_name)
-			fields_list.append(field)
-			if fields is not None:
-				fields_dict[f.name] = field
-
-		return HttpResponse(json.dumps(
-			self.get_fields(self.fields)
-		))
+		fields_list = self._get_client_fields()
+		return HttpResponse(tojson({
+			"model_name": self.model.__class__.__name__
+			"fields": fields_list
+		}))
 
 	def change_view(self, request, object_id):
-		pass
+		obj = self.model.objects.get(pk=object_id)
+		fields_list = self._get_client_fields()
+		fields_dict = self.fields_dict
+		db_fields = self.opts.fields
+		for field in fields_list:
+			name = field_name
+			db_field = db_fields[name]
+			if isinstance(db_field, ForeignKey):
+				field["value"] = obj[db_field.column]
+			else:
+				field["value"] = obj[name]
+		return HttpResponse(tojson(fields_list))
 
-	def get_fields(self, fields=None, exclude=None):
+	def _get_client_fields(self):
+		fields_list = []
+		fields_dict = self.fields_dict
+		readonly_fields = self.readonly_fields
+		defer = self.defer
+		names = self.fields if self.fields is not None else self.fields_dict.keys()
+
+		for name in names:
+			formfield = fields_dict[name]
+			field = {
+				"name": name,
+				"type": formfield.__class__.__name__,
+				"readonly": name in readonly_fields,
+				"defer": name in defer,
+			}
+			for key in ["min_value", "max_value", "min_length", "max_length"]:
+				if hasattr(formfield, key):
+					field[key] = getattr(formfield, key)
+
+			queryset = getattr(formfield, "queryset", None)
+			if queryset is not None:
+				opts = queryset.model._meta
+				field["related_url"] = "%s/%s" % (opts.app_label, opts.module_name)
+
+				if name not in defer:
+					rels = queryset.all()
+					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
+					field["choices"] = objs
+
+			fields_list.append(field)
+			fields_dict[name] = field
+
+	def _get_fields(self, fields=None, exclude=None):
 		opts = self.model._meta
 		fields_dict = {}
 		for f in opts.fields + opts.many_to_many:
@@ -88,7 +116,9 @@ class ModelManage(object):
 
 			formfield = f.formfield()
 			if formfield:
-				fields_dict[f.name] = field
+				fields_dict[f.name] = formfield
+
+		return fields_dict
 
 class ManageSite(object):
 
