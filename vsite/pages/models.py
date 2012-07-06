@@ -7,7 +7,9 @@ from mptt.models import MPTTModel, TreeForeignKey
 from vsite.core.models import Publishable
 
 class URL(MPTTModel):
+	title = models.CharField(_("Title"), max_length=100)
 	slug = models.CharField(_('URL'), max_length=255, blank=True, null=True)
+	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 
 	class Meta:
 		verbose_name = _("URL")
@@ -19,7 +21,7 @@ class URL(MPTTModel):
 
 class Page(Publishable):
 	title = models.CharField(_("Title"), max_length=100)
-	url = models.ForeignKey(URL, related_name="pages")
+	url = TreeForeignKey(URL, related_name="pages")
 	site = models.ForeignKey(Site, related_name="pages")
 
 	class Meta:
@@ -29,4 +31,9 @@ class Page(Publishable):
 
 	def __unicode__(self):
 		return self.title
+
+
+from vsite.manage.sites import site
+site.register(URL)
+site.register(Page)
 

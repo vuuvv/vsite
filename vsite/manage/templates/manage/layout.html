@@ -47,7 +47,7 @@
 							<div>
 								<ul>
 									{% for smenu in menu.children %}
-									<li><a href="#{{ smenu|lower }}">{{ smenu }}</a></li>
+									<li><a href="#{{ smenu.url }}">{{ smenu.title }}</a></li>
 									{% endfor %}
 								</ul>
 							</div>
@@ -55,7 +55,7 @@
 					</li>
 						{% else %}
 					<li class="menu-item-leaf">
-						<a href="#{{ menu.title|lower }}" class="link no-outline">{{ menu.title }}</a>
+						<a href="#{{ menu.url }}" class="link no-outline">{{ menu.title }}</a>
 					</li>
 						{% endif %}
 					{% endfor %}
