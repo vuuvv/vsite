@@ -20,11 +20,11 @@ function($, _, Backbone, ListView, EditView) {
 		routes: {
 			"": "index",
 			"logout": "logout",
-			":model/add": "add",
-			":model/:id": "update",
-			":model/:id/delete": "delete",
-			":model": "list",
-			":model/p/:page": "list"
+			":app/:model/add": "add",
+			":app/:model/:id": "update",
+			":app/:model/:id/delete": "remove",
+			":app/:model": "list",
+			":app/:model/p/:page": "list"
 		},
 
 		initialize: function(options) {
@@ -37,29 +37,32 @@ function($, _, Backbone, ListView, EditView) {
 			this.list("page");
 		},
 
-		list: function(model, page) {
+		list: function(app, model, page) {
 			page = parseInt(page);
 			page = page || 0;
 			model = norm_model(model);
-			var view = new ListView(model, page);
+			var view = new ListView(app, model, page);
 			view.render();
 		},
 
-		add: function(model) {
+		add: function(app, model) {
 			model = norm_model(model);
 			var view = new EditView({
+				app_label: app,
 				model_name: model,
 				type: "add"
 			});
 			view.render();
 		},
 
-		delete: functioN(mdoel, id) {
+		remove: function(app, mdoel, id) {
 		},
 
-		update: function(model, id) {
+		update: function(app, model, id) {
+			// tell if id is  integer
 			model = norm_model(model);
 			var view = new EditView({
+				app_label: app,
 				model_name: model,
 				type: "update",
 				model_id: id
@@ -78,5 +81,4 @@ function($, _, Backbone, ListView, EditView) {
 	app = new ManageApp;
 	Backbone.history.start();
 });
-
 

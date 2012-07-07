@@ -44,7 +44,11 @@ class Page(Publishable):
 		return self.title
 
 
-from vsite.manage.sites import site
-site.register(URL)
+from vsite.manage.sites import site, ModelManage
+
+class URLManage(ModelManage):
+	fields = ("parent", "title", "slug")
+	readonly_fields = ("slug", )
+site.register(URL, URLManage)
 site.register(Page)
 

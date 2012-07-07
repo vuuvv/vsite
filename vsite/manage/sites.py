@@ -24,9 +24,9 @@ class ModelManage(object):
 	ordering = ()
 	readonly_fields = ()
 
-	def __init__(self, model, manage_site):
-		self.model = model
-		self.opts = model._meta
+	def __init__(self, model_cls, manage_site):
+		self.model_cls = model_cls
+		self.opts = model_cls._meta
 		self.manage_site = manage_site
 		self.fields_dict = self._get_fields(self.fields)
 
@@ -52,13 +52,16 @@ class ModelManage(object):
 
 	def add_view(self, request):
 		fields_list = self._get_client_fields()
+		opts = self.opts
 		return HttpResponse(tojson({
-			"model_name": self.model.__class__.__name__
+			"model_name": self.model_cls.__name__,
+			"app_label": opts.app_label,
+			"module_name": opts.module_name,
 			"fields": fields_list
 		}))
 
 	def change_view(self, request, object_id):
-		obj = self.model.objects.get(pk=object_id)
+		obj = self.model_cls.objects.get(pk=object_id)
 		fields_list = self._get_client_fields()
 		fields_dict = self.fields_dict
 		db_fields = self.opts.fields
@@ -101,10 +104,10 @@ class ModelManage(object):
 					field["choices"] = objs
 
 			fields_list.append(field)
-			fields_dict[name] = field
+		return fields_list
 
 	def _get_fields(self, fields=None, exclude=None):
-		opts = self.model._meta
+		opts = self.model_cls._meta
 		fields_dict = {}
 		for f in opts.fields + opts.many_to_many:
 			if not f.editable:

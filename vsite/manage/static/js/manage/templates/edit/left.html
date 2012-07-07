@@ -2,7 +2,7 @@
 	<div class="main-content-header">
 		<div id="main-content-breadcrumb">
 			<div class="home">
-				<%= fields.type %> <%= fields.model_name %>
+				<%= type %> <%= model.model_name %>
 			</div>
 		</div>
 	</div>
@@ -10,10 +10,10 @@
 		<div style="height:500px;">
 			<fieldset>
 				<ul>
-				<% _.each(fields.toJSON(), function(field) { %>
+				<% _.each(model.fields, function(field) { %>
 					<li>
 						<label><%= field.name %></label>
-						<input id="<%= fields.model_name %>-<%= field.name %>" class="text input-large" type="text">
+						<%= field.html %>
 					</li>
 				<% }) %>
 				</ul>
