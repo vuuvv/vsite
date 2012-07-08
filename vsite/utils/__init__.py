@@ -1,5 +1,7 @@
 import json
 
+from django.http import HttpResponse
+
 class DjangoJSONEncoder(json.JSONEncoder):
     """
     JSONEncoder subclass that knows how to encode date/time and decimal types.
@@ -29,3 +31,7 @@ class DjangoJSONEncoder(json.JSONEncoder):
 
 def tojson(obj):
 	return json.dumps(obj, cls=DjangoJSONEncoder)
+
+def render_to_json(obj):
+	return HttpResponse(tojson(obj))
+

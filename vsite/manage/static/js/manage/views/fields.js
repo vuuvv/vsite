@@ -21,7 +21,7 @@ var p = CharField.prototype = {
 	}
 };
 
-p.tmpl = '<input id="<%= app_label %>-<%= module_name%>-<%= name %>" type="text" name="<%= name %>" class="text"/>';
+p.tmpl = '<input id="<%= app_label %>-<%= module_name%>-<%= name %>" type="text" name="<%= name %>" class="text" <% if(readonly) { %>readonly<% } %>/>';
 
 Fields.CharField = CharField;
 
@@ -40,7 +40,16 @@ p = TreeNodeChoiceField.prototype = {
 	}
 };
 
-p.tmpl = '<select><option value="">---------<option></select>';
+/*
+<select>
+	<option value=""><option>
+	<% _.each(choices, function(choice){ %>
+		<option value="<%= choice.id %>><%= choice.title %></option>
+	<% } %>
+</select>
+*/
+
+p.tmpl = '<select id="<%= app_label %>-<%= module_name%>-<%= name %>" class="select" name="<%= name %>"> <option value=""></option> <% _.each(choices, function(choice){ %> <option value="<%= choice.id %>"><%= choice.title %></option> <% }) %> </select>';
 
 Fields.TreeNodeChoiceField = TreeNodeChoiceField;
 /* </TreeNodeChoiceField> */

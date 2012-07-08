@@ -1,11 +1,11 @@
-from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.conf.urls import patterns, url, include
 from django.db.models.base import ModelBase
 from django.db.models import ForeignKey
+from django.forms.models import modelform_factory
 from django.utils.translation import ugettext_lazy as _
 
-from vsite.utils import tojson
+from vsite.utils import render_to_json
 
 class AlreadyRegisted(Exception):
 	pass
@@ -51,14 +51,27 @@ class ModelManage(object):
 		pass
 
 	def add_view(self, request):
+		ModelForm = modelform_factory(self.model_cls)
+		if request.method == 'POST':
+			form = ModelForm(request.POST, request.FILES)
+			if form.is_valid():
+				new_object = form.save()
+				form_validated = True
+				return render_to_json({"error":""})
+			else:
+				form_validated = False
+				new_object = self.model_cls()
+				return render_to_json({"error":"invalid input"})
+
 		fields_list = self._get_client_fields()
 		opts = self.opts
-		return HttpResponse(tojson({
+		return render_to_json({
+			"csrf_token": request.META["CSRF_COOKIE"],
 			"model_name": self.model_cls.__name__,
 			"app_label": opts.app_label,
 			"module_name": opts.module_name,
 			"fields": fields_list
-		}))
+		})
 
 	def change_view(self, request, object_id):
 		obj = self.model_cls.objects.get(pk=object_id)
@@ -72,7 +85,7 @@ class ModelManage(object):
 				field["value"] = obj[db_field.column]
 			else:
 				field["value"] = obj[name]
-		return HttpResponse(tojson(fields_list))
+		return render_to_json(fields_list)
 
 	def _get_client_fields(self):
 		fields_list = []

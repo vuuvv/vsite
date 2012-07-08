@@ -42,7 +42,19 @@ body {
 	background: url(img/global_nav_bg.png) repeat-x scroll 0 0 transparent;
 }
 
+#notify {
+	position: fixed;
+	top: 35px;
+	left: 35%;
+	width: 380px;
+	text-align: center;
+}
+
 * html #global-header {
+	position: absolute;
+}
+
+* html #notify {
 	position: absolute;
 }
 
@@ -185,7 +197,7 @@ li.current .arrow-down em {
 }
 
 #main-body {
-	padding-top: 70px;
+	padding-top: 100px;
 	background: #fff;
 }
 

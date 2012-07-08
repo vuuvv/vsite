@@ -4,7 +4,8 @@ define([
 	'backbone',
 	'views/fields',
 	'text!templates/edit/left.html',
-	'text!templates/edit/right.html'
+	'text!templates/edit/right.html',
+	'plugins'
 ], function($, _, Backbone, Fields, left_tmpl, right_tmpl) {
 	var EditView = Backbone.View.extend({
 
@@ -18,6 +19,7 @@ define([
 				url: this.url
 			});
 			this.model = new Model;
+			$(".alert").alert()
 		},
 
 		render: function() {
@@ -41,6 +43,33 @@ define([
 				type: this.options.type,
 				model: model.toJSON()
 			}));
+			$("#main-form-submit").click(_.bind(this.on_submit, this));
+		},
+
+		on_submit: function() {
+			var form = $("#main-form"),
+				inputs = form.find("select, input"),
+				model = this.model,
+				url = model.get("app_label") + "/" + model.get("module_name") + "/",
+				type = this.options.type,
+				data = {
+					csrfmiddlewaretoken: model.get("csrf_token")
+				};
+			if (type == "add") {
+				url += "add/";
+			} else if (type == "change") {
+				url += this.options.id + "/";
+			}
+			
+			inputs.each(function(index, elem) {
+				if (!elem.readOnly)
+					data[elem.name] = elem.value;
+			});
+
+			$.ajax(url, {
+				type: "POST",
+				data: data
+			});
 		}
 	});
 

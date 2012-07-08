@@ -1,0 +1,15 @@
+
+html {
+	font-size: 100%; /* 1 */
+	-webkit-text-size-adjust: 100%; /* 2 */
+	-ms-text-size-adjust: 100%; /* 2 */
+}
+
+html,
+button,
+input,
+select,
+textarea {
+	color: #444;
+	font: 12px/1.125 Helvetica,arial,freesans,clean,sans-serif;
+}
