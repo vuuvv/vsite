@@ -45,22 +45,27 @@ define([
 		},
 
 		on_fetched_fields: function() {
-			var model = this.model, fields,
+			var model = this.model, fields, hidden_fields,
 				status = model.get("status");
 
 			if (status == "error") {
 				app.error(model.get("msg"), true);
 				return;
 			}
+			app.success("Data Loaded", true);
 
 			fields = model.get("fields");
 			for (var i = 0; i < fields.length; i++) {
 				var field = fields[i];
-				field["app_label"] = model.get("app_label");
-				field["module_name"] = model.get("module_name");
-				var client_field = new Fields[field.type](field);
-				field.html = client_field.html();
+				var client_field = new Fields[field.type]({
+					app_label: model.get("app_label"),
+					module_name: model.get("module_name"),
+					type: this.options.type,
+					field: field
+				});
+				field.html = client_field.html(type);
 			}
+
 			$("#main-left").html(this.left_template({
 				type: this.options.type,
 				model: model.toJSON()
@@ -89,7 +94,7 @@ define([
 			if (type == "add")
 				return url + "add/";
 			else
-				return url + this.options.id + "/";
+				return url + this.options.model_id + "/";
 		},
 
 		on_submit: function() {

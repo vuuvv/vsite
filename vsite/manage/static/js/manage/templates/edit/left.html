@@ -27,5 +27,8 @@
 				<a href="javascript:void(0)" class="btn new-folder">Cancel</a>
 			</div>
 		</div>
+		<% _.each(model.hidden_fields, function(field) { %>
+			<input type="hidden" name="<%= field.name %>" value="<%= field.value %>" />
+		<% }) %>
 	</form>
 </div>

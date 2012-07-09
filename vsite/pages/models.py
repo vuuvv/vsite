@@ -45,10 +45,14 @@ class Page(Publishable):
 
 
 from vsite.manage.sites import site, ModelManage
+from mptt.forms import MPTTAdminForm
 
 class URLManage(ModelManage):
 	fields = ("parent", "title", "slug")
 	readonly_fields = ("slug", )
+
+	form = MPTTAdminForm
+
 site.register(URL, URLManage)
 site.register(Page)
 

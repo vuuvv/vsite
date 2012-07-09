@@ -7,6 +7,8 @@ from django.forms.models import modelform_factory
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import _get_queryset
 
+from mptt.models import TreeForeignKey
+
 from vsite.utils import render_to_json
 
 class AlreadyRegisted(Exception):
@@ -54,27 +56,33 @@ class ModelManage(object):
 		pass
 
 	def add_view(self, request):
-		ModelForm = modelform_factory(self.model_cls)
+		errors = None
+		form_validated = True
+		msg = "Data Saved"
+		obj = None
+
 		if request.method == 'POST':
+			ModelForm = modelform_factory(self.model_cls, form=self.form)
 			form = ModelForm(request.POST, request.FILES)
 			if form.is_valid():
-				new_object = form.save()
-				form_validated = True
-				return render_to_json({"status": "success"})
+				obj = form.save()
 			else:
 				form_validated = False
-				new_object = self.model_cls()
-				return render_to_json({"status": "error", "msg":"invalid input"})
+				obj = form.data
+				errors = form.errors
+				msg = "Invalid inputs"
 
-		fields_list = self._get_client_fields()
+		fields_list = self._get_client_fields(obj)
 		opts = self.opts
 		return render_to_json({
-			"status": "success",
+			"status": "success" if form_validated else "error",
 			"csrf_token": request.META["CSRF_COOKIE"],
 			"model_name": self.model_cls.__name__,
 			"app_label": opts.app_label,
 			"module_name": opts.module_name,
-			"fields": fields_list
+			"fields": fields_list,
+			"errors": errors,
+			"msg": msg
 		})
 
 	def upadate_view(self, request, object_id):
@@ -86,25 +94,39 @@ class ModelManage(object):
 				"status": "error",
 				"msg": "Can't not load this %s" % model_cls.__name__
 			})
-		obj = get_object_or_404(self.model_cls, pk=object_id)
-		opts = self.opts
-		fields_list = self._get_client_fields()
-		fields_dict = self.fields_dict
-		get_field_by_name = self.opts.get_field_by_name
-		for field in fields_list:
-			name = field["name"]
-			db_field = get_field_by_name(name)[0]
-			if isinstance(db_field, ForeignKey):
-				field["value"] = getattr(obj, db_field.column)
+
+		errors = None
+		form_validated = True
+		msg = "Data Updated"
+		obj = None
+
+		if request.method == 'POST':
+			ModelForm = modelform_factory(self.model_cls, form=self.form)
+			form = ModelForm(request.POST, request.FILES, instance=obj)
+			if form.is_valid():
+				obj = form.save()
+				#return render_to_json({"status": "success"})
 			else:
-				field["value"] = getattr(obj, name)
+				form_validated = False
+				obj = form.data
+				errors = form.errors
+				msg = "Invalid inputs"
+
+		opts = self.opts
+		fields_list = self._get_client_fields(obj)
 		return render_to_json({
-			"status": "success",
+			"status": "success" if form_validated else "error",
 			"csrf_token": request.META["CSRF_COOKIE"],
 			"model_name": self.model_cls.__name__,
 			"app_label": opts.app_label,
 			"module_name": opts.module_name,
-			"fields": fields_list
+			"fields": fields_list,
+			"hidden_fields": [{
+				"name": "id",
+				"value": obj.id,
+			}],
+			"errors": errors,
+			"msg": msg
 		})
 
 	def _get_client_fields(self, obj = None):
@@ -114,33 +136,42 @@ class ModelManage(object):
 		json_fields_dict = {}
 		readonly_fields = self.readonly_fields
 		defer = self.defer
-		#names = self.fields if self.fields is not None else self.fields_dict.keys()
 
 		for db_field, formfield in self.fields_dict.items():
+			name = db_field.name
+			is_foreignkey = isinstance(db_field, ForeignKey)
+			# TODO: this should do in the custom model form
+			is_treenode = isinstance(db_field, TreeForeignKey) and db_field.rel.to == model_cls
+			is_formdata = isinstance(obj, dict)
 			field = {
 				"name": name,
 				"type": formfield.__class__.__name__,
 				"readonly": name in readonly_fields,
 				"defer": name in defer,
-				"value": getattr(obj, name) if obj is not None else getattr(obj, db_field.column)
 			}
+			if obj is not None:
+				if is_formdata:
+					field["value"] = obj.get(name, None) 
+				else:
+					field["value"] = getattr(obj, db_field.column) if is_foreignkey else getattr(obj, name)
 
 			# IngeterField and CharField
 			for key in ["min_value", "max_value", "min_length", "max_length"]:
 				if hasattr(formfield, key):
 					field[key] = getattr(formfield, key)
 
-			if isinstance(db_field, ForeinKey):
+			if isinstance(db_field, ForeignKey):
+				opts = db_field.rel.to._meta
 				field["related_url"] = "%s/%s" % (opts.app_label, opts.module_name)
 				qs = formfield.queryset
-				if obj is not None and isinstance(db_field, TreeForeinKey) and db_field.rel.to == model_cls:
+				if obj is not None and is_treenode and not is_formdata:
 					qs = qs.exclude(
 						tree_id = obj.tree_id,
-						lft_gte = obj.lft,
-						right_lte = obj.right,
+						lft__gte = obj.lft,
+						rght__lte = obj.rght,
 					)
 				if name not in defer:
-					rels = queryset.all()
+					rels = qs.all()
 					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
 					field["choices"] = objs
 			elif hasattr(formfield, "choices"):
@@ -148,34 +179,13 @@ class ModelManage(object):
 
 			json_fields_dict[name] = field
 
+		fields_name = self.fields
+		if fields_name is None:
+			return json_fields_dict.values()
+		else:
+			for name in fields_name:
+				fields_list.append(json_fields_dict[name])
 
-		for name in names:
-			# name is a field
-			if not isinstance(name, 'basestring'):
-				name = nam
-
-			formfield = fields_dict[name]
-			field = {
-				"name": name,
-				"type": formfield.__class__.__name__,
-				"readonly": name in readonly_fields,
-				"defer": name in defer,
-			}
-			for key in ["min_value", "max_value", "min_length", "max_length"]:
-				if hasattr(formfield, key):
-					field[key] = getattr(formfield, key)
-
-			queryset = getattr(formfield, "queryset", None)
-			if queryset is not None:
-				opts = queryset.model._meta
-				field["related_url"] = "%s/%s" % (opts.app_label, opts.module_name)
-
-				if name not in defer:
-					rels = queryset.all()
-					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
-					field["choices"] = objs
-
-			fields_list.append(field)
 		return fields_list
 
 	def _get_fields(self, fields=None, exclude=None):
