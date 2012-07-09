@@ -8,7 +8,7 @@ require.config({
 	}
 });
 
-require(['jquery', 'underscore', 'backbone', "views/list", "views/edit"],
+require(['jquery', 'underscore', 'backbone', "views/list", "views/edit", "plugins"],
 
 function($, _, Backbone, ListView, EditView) {
 	var custom_views = ["page"];
@@ -29,6 +29,32 @@ function($, _, Backbone, ListView, EditView) {
 		},
 
 		initialize: function(options) {
+		},
+
+		msg: function(msg, type, is_flash) {
+			type = type || "info";
+			var cls = "notify-" + type,
+				duration = null,
+				$notify = $(".notify").notify();
+			if (is_flash) 
+				duration = 2000;
+			$notify.notify(type, msg, duration);
+		},
+
+		info: function(msg, is_flash) {
+			this.msg(msg, "info", is_flash);
+		},
+
+		error: function(msg, is_flash) {
+			this.msg(msg, "error", is_flash);
+		},
+
+		warning: function(msg, is_flash) {
+			this.msg(msg, "warning", is_flash);
+		},
+
+		success: function(msg, is_flash) {
+			this.msg(msg, "success", is_flash);
 		},
 
 		logout: function() {

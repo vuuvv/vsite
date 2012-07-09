@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load static %}
 <!DOCTYPE HTML>
-<html lang="{% block lang %}{% endblock %}">
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>{% block title %}{% endblock %}</title>
@@ -66,8 +66,9 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div id="notify" class="alert">
-		<a href="javascript:void(0)" class="close" data-dismiss="alert" type="button">×</a>
+	<div id="notify" class="notify">
+		<div class="notify-msg"></div>
+		<a href="javascript:void(0)" class="close" data-dismiss="notify" type="button">×</a>
 	</div>
 </body>
 </html>

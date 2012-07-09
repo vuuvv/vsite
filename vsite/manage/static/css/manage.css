@@ -15,6 +15,7 @@ a {
 	text-decoration: none;
 }
 
+
 html, body {
 	height: 100%;
 	overflow: hidden;
@@ -22,8 +23,8 @@ html, body {
 
 body {
 	margin: 0;
-	padding: 0;
-	font: 12px/1.125 Arial,Helvetica,sans-serif;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
 	color: #444;
 }
 
@@ -40,6 +41,7 @@ body {
 	height: 35px;
 	width: 100%;
 	background: url(img/global_nav_bg.png) repeat-x scroll 0 0 transparent;
+	z-index: 999;
 }
 
 #notify {

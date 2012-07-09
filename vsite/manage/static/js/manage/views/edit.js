@@ -13,25 +13,47 @@ define([
 		right_template: _.template(right_tmpl),
 
 		initialize: function() {
-			var opts = this.options;
-			this.url = opts.app_label + "/" + opts.model_name + "/" + opts.type + "/";
-			var Model = Backbone.Model.extend({
-				url: this.url
-			});
-			this.model = new Model;
-			$(".alert").alert()
+			this.model = this.get_model();
+		},
+
+		get_model: function() {
+			var opts = this.options, Model
+				type = opts.type;
+			if (type == "add") {
+				Model = Backbone.Model.extend({
+					url: opts.app_label + "/" + opts.model_name + "/" + opts.type + "/"
+				});
+			} else if(type == "update") {
+				Model = Backbone.Model.extend({
+					url: opts.app_label + "/" + opts.model_name + "/" + opts.model_id + "/"
+				});
+			}
+			return new Model;
 		},
 
 		render: function() {
+			app.info("Loading...");
 			this.model.fetch({
-				success: _.bind(this.on_fetched_fields, this)
+				success: _.bind(this.on_fetched_fields, this),
+				error: _.bind(this.on_fetched_error, this)
 			});
 			return this;
 		},
 
+		on_fetched_error: function() {
+			app.error("Loading Error", true);
+		},
+
 		on_fetched_fields: function() {
-			var model = this.model,
-				fields = model.get("fields");
+			var model = this.model, fields,
+				status = model.get("status");
+
+			if (status == "error") {
+				app.error(model.get("msg"), true);
+				return;
+			}
+
+			fields = model.get("fields");
 			for (var i = 0; i < fields.length; i++) {
 				var field = fields[i];
 				field["app_label"] = model.get("app_label");
@@ -46,30 +68,50 @@ define([
 			$("#main-form-submit").click(_.bind(this.on_submit, this));
 		},
 
-		on_submit: function() {
-			var form = $("#main-form"),
-				inputs = form.find("select, input"),
-				model = this.model,
-				url = model.get("app_label") + "/" + model.get("module_name") + "/",
-				type = this.options.type,
+		get_form_data: function() {
+			var inputs = $("#main-form").find("select, input"),
 				data = {
-					csrfmiddlewaretoken: model.get("csrf_token")
+					csrfmiddlewaretoken: this.model.get("csrf_token")
 				};
-			if (type == "add") {
-				url += "add/";
-			} else if (type == "change") {
-				url += this.options.id + "/";
-			}
-			
+
 			inputs.each(function(index, elem) {
 				if (!elem.readOnly)
 					data[elem.name] = elem.value;
 			});
+			return data;
+		},
 
-			$.ajax(url, {
+		get_form_url: function() {
+			var model = this.model,
+				url = model.get("app_label") + "/" + model.get("module_name") + "/",
+				type = this.options.type;
+
+			if (type == "add")
+				return url + "add/";
+			else
+				return url + this.options.id + "/";
+		},
+
+		on_submit: function() {
+			app.info("Saving...");
+			$.ajax(this.get_form_url(), {
 				type: "POST",
-				data: data
+				data: this.get_form_data(),
+				dataType: "json",
+				error: _.bind(this.on_http_error, this),
+				success: _.bind(this.on_success, this)
 			});
+		},
+
+		on_http_error: function(jqXHR, textStatus, errorThrown) {
+			app.error("Server Error", true);
+		},
+
+		on_success: function(data) {
+			if (data.status == "error")
+				app.error(data.msg, true);
+			else
+				app.success("Save Successful", true);
 		}
 	});
 

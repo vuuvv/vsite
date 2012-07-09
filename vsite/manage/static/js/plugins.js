@@ -1,101 +1,103 @@
-/* ==========================================================
- * bootstrap-alert.js v2.0.4
- * http://twitter.github.com/bootstrap/javascript.html#alerts
- * ==========================================================
- * Copyright 2012 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================== */
+define([
+	'jquery',
+	'underscore'
+], function($, _) {
+
+"use strict"; // jshint ;_;
+
+var create_or_call = function($dom, name, option, args, cls) {
+	return $dom.each(function() {
+		var $this = $(this),
+			data = $this.data(name),
+			options = typeof option == 'object' && option;
+		if (!data) // object not created, now create
+			$this.data(name, (data = new cls(this, options)));
+		if (typeof option == 'string') // call method
+			data[option].apply(data, Array.prototype.slice.call(args, 1));
+	});
+}
 
 
-!function ($) {
+/* NOTIFY CLASS DEFINITION
+* ====================== */
 
-  "use strict"; // jshint ;_;
+var dismiss = '[data-dismiss="notify"]';
 
+var Notify = function (elem, options) {
+	var $elem = this.$elem = $(elem), 
+		defaults = $.fn.notify.defaults || {};
+	options = this.options = $.extend({}, defaults, options);
+	$elem.on('click', dismiss, _.bind(this.on_close, this));
+	this.$msg = $elem.find(".notify-msg");
+};
 
- /* ALERT CLASS DEFINITION
-  * ====================== */
+Notify.prototype.on_close = function (e) {
+	e && e.preventDefault();
+	this.close();
+};
 
-	var dismiss = '[data-dismiss="alert"]'
-		, Alert = function (el) {
-			var $el = this.$el = $(el);
-			$el.on('click', dismiss, _.bind(this.on_close, this))
-		}
+Notify.prototype.close = function () {
+	var $elem = this.$elem;
+	clearTimeout(this.timer);
+	$elem.removeClass('in');
+	var _remove = function() {
+		$elem.trigger('closed').hide()
+	};
+	$.support.transition && $elem.hasClass('fade') ?
+		$elem.on($.support.transition.end, removeElement) :
+		_remove()
+};
 
-	Alert.prototype.close1 = function (e) {
-		var $this = $(this)
-			, selector = $this.attr('data-target')
-			, $parent
-
-		if (!selector) {
-		  selector = $this.attr('href')
-		  selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-		}
-
-		$parent = $(selector)
-
-		e && e.preventDefault()
-
-		$parent.length || ($parent = $this.hasClass('alert') ? $this : $this.parent())
-
-		$parent.trigger(e = $.Event('close'))
-
-		if (e.isDefaultPrevented()) return
-
-		
-	},
-
-	Alert.prototype.on_close = function (e) {
-		var $this = $(this)
-		e && e.preventDefault()
-		this.close();
-		if (e.isDefaultPrevented()) return
-	},
-
-	Alert.prototype.close = function () {
-		var $this = $(this);
-		$this.removeClass('in');
-		var _remove = function() {
-			$this.trigger('closed').hide()
-		};
-		$.support.transition && $parent.hasClass('fade') ?
-			$parent.on($.support.transition.end, removeElement) :
-			_remove()
-	},
-
-	Alert.prototype.show = function (duration) {
-		var self = this;
-		this.timer = setTimeOut(function() {
-		}, 2000);
+Notify.prototype.show = function (duration) {
+	var self = this;
+	clearTimeout(this.timer);
+	this.$elem.trigger("shown").show();
+	if (_.isNumber(duration)) {
+		this.timer = setTimeout(function() {
+			self.close();
+		}, duration);
 	}
+};
 
+Notify.prototype.msg = function (msg, type, duration) {
+	type = type || info;
+	var cls = "notify-" + type;
+	this.$msg.text(msg);
+	this.$elem.removeClass("notify-info notify-error notify-success notify-warning");
+	this.$elem.addClass(cls);
+	this.show(duration);
+};
 
- /* ALERT PLUGIN DEFINITION
-  * ======================= */
+Notify.prototype.info = function (msg, duration) {
+	this.msg(msg, "info", duration);
+};
 
-	$.fn.alert = function (option) {
-		return this.each(function () {
-			var $this = $(this)
-			, data = $this.data('alert')
-			if (!data) $this.data('alert', (data = new Alert(this)))
-			if (typeof option == 'string') data[option].call($this)
-		})
-	}
+Notify.prototype.error = function (msg, duration) {
+	this.msg(msg, "error", duration);
+};
 
-	$.fn.alert.Constructor = Alert
+Notify.prototype.success = function (msg, duration) {
+	this.msg(msg, "success", duration);
+};
 
+Notify.prototype.warning = function (msg, duration) {
+	this.msg(msg, "warning", duration);
+};
 
- /* ALERT DATA-API
-  * ============== */
+/* NOTIFY PLUGIN DEFINITION
+* ======================= */
 
-}(window.jQuery);
+$.fn.notify = function (option) {
+	return create_or_call(this, "notify", option, arguments, Notify);
+};
+
+$.fn.notify.Constructor = Notify;
+
+$.fn.notify.defaults = {
+	duration: 2000
+};
+
+/* NOTIFY DATA-API
+* ============== */
+
+});

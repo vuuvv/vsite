@@ -1,9 +1,11 @@
+from django import forms
 from django.shortcuts import render_to_response
 from django.conf.urls import patterns, url, include
 from django.db.models.base import ModelBase
 from django.db.models import ForeignKey
 from django.forms.models import modelform_factory
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import _get_queryset
 
 from vsite.utils import render_to_json
 
@@ -17,6 +19,7 @@ class ModelManage(object):
 	fields = None
 	fieldsets = None
 
+	form = forms.ModelForm
 	list_display = ('__str__',)
 	search_fields = ()
 	inlines = []
@@ -39,7 +42,7 @@ class ModelManage(object):
 			url(r'^$', self.list_view, name=''),
 			url(r'^add/$', self.add_view, name=''),
 			url(r'^(\d+)/delete/$', self.delete_view, name=''),
-			url(r'^(\d+)/$', self.change_view, name=''),
+			url(r'^(\d+)/$', self.upadate_view, name=''),
 		)
 
 		return urlpatterns
@@ -57,15 +60,16 @@ class ModelManage(object):
 			if form.is_valid():
 				new_object = form.save()
 				form_validated = True
-				return render_to_json({"error":""})
+				return render_to_json({"status": "success"})
 			else:
 				form_validated = False
 				new_object = self.model_cls()
-				return render_to_json({"error":"invalid input"})
+				return render_to_json({"status": "error", "msg":"invalid input"})
 
 		fields_list = self._get_client_fields()
 		opts = self.opts
 		return render_to_json({
+			"status": "success",
 			"csrf_token": request.META["CSRF_COOKIE"],
 			"model_name": self.model_cls.__name__,
 			"app_label": opts.app_label,
@@ -73,28 +77,83 @@ class ModelManage(object):
 			"fields": fields_list
 		})
 
-	def change_view(self, request, object_id):
-		obj = self.model_cls.objects.get(pk=object_id)
+	def upadate_view(self, request, object_id):
+		model_cls = self.model_cls
+		try:
+			obj = model_cls.objects.get(pk=object_id)
+		except model_cls.DoesNotExist:
+			return render_to_json({
+				"status": "error",
+				"msg": "Can't not load this %s" % model_cls.__name__
+			})
+		obj = get_object_or_404(self.model_cls, pk=object_id)
+		opts = self.opts
 		fields_list = self._get_client_fields()
 		fields_dict = self.fields_dict
-		db_fields = self.opts.fields
+		get_field_by_name = self.opts.get_field_by_name
 		for field in fields_list:
-			name = field_name
-			db_field = db_fields[name]
+			name = field["name"]
+			db_field = get_field_by_name(name)[0]
 			if isinstance(db_field, ForeignKey):
-				field["value"] = obj[db_field.column]
+				field["value"] = getattr(obj, db_field.column)
 			else:
-				field["value"] = obj[name]
-		return render_to_json(fields_list)
+				field["value"] = getattr(obj, name)
+		return render_to_json({
+			"status": "success",
+			"csrf_token": request.META["CSRF_COOKIE"],
+			"model_name": self.model_cls.__name__,
+			"app_label": opts.app_label,
+			"module_name": opts.module_name,
+			"fields": fields_list
+		})
 
-	def _get_client_fields(self):
+	def _get_client_fields(self, obj = None):
+		model_cls = self.model_cls
 		fields_list = []
 		fields_dict = self.fields_dict
+		json_fields_dict = {}
 		readonly_fields = self.readonly_fields
 		defer = self.defer
-		names = self.fields if self.fields is not None else self.fields_dict.keys()
+		#names = self.fields if self.fields is not None else self.fields_dict.keys()
+
+		for db_field, formfield in self.fields_dict.items():
+			field = {
+				"name": name,
+				"type": formfield.__class__.__name__,
+				"readonly": name in readonly_fields,
+				"defer": name in defer,
+				"value": getattr(obj, name) if obj is not None else getattr(obj, db_field.column)
+			}
+
+			# IngeterField and CharField
+			for key in ["min_value", "max_value", "min_length", "max_length"]:
+				if hasattr(formfield, key):
+					field[key] = getattr(formfield, key)
+
+			if isinstance(db_field, ForeinKey):
+				field["related_url"] = "%s/%s" % (opts.app_label, opts.module_name)
+				qs = formfield.queryset
+				if obj is not None and isinstance(db_field, TreeForeinKey) and db_field.rel.to == model_cls:
+					qs = qs.exclude(
+						tree_id = obj.tree_id,
+						lft_gte = obj.lft,
+						right_lte = obj.right,
+					)
+				if name not in defer:
+					rels = queryset.all()
+					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
+					field["choices"] = objs
+			elif hasattr(formfield, "choices"):
+				field["choices"] = formfield.choices
+
+			json_fields_dict[name] = field
+
 
 		for name in names:
+			# name is a field
+			if not isinstance(name, 'basestring'):
+				name = nam
+
 			formfield = fields_dict[name]
 			field = {
 				"name": name,
@@ -132,7 +191,7 @@ class ModelManage(object):
 
 			formfield = f.formfield()
 			if formfield:
-				fields_dict[f.name] = formfield
+				fields_dict[f] = formfield
 
 		return fields_dict
 

@@ -21,7 +21,7 @@ var p = CharField.prototype = {
 	}
 };
 
-p.tmpl = '<input id="<%= app_label %>-<%= module_name%>-<%= name %>" type="text" name="<%= name %>" class="text" <% if(readonly) { %>readonly<% } %>/>';
+p.tmpl = '<input id="<%= app_label %>-<%= module_name%>-<%= name %>" type="text" name="<%= name %>" class="text" <% if(readonly) { %>readonly<% } %> <% if(!(_.isUndefined(value) || _.isNull(value))) { %> value="<%= value %>" <% } %>/>';
 
 Fields.CharField = CharField;
 
@@ -49,7 +49,7 @@ p = TreeNodeChoiceField.prototype = {
 </select>
 */
 
-p.tmpl = '<select id="<%= app_label %>-<%= module_name%>-<%= name %>" class="select" name="<%= name %>"> <option value=""></option> <% _.each(choices, function(choice){ %> <option value="<%= choice.id %>"><%= choice.title %></option> <% }) %> </select>';
+p.tmpl = '<select id="<%= app_label %>-<%= module_name%>-<%= name %>" class="select" name="<%= name %>"> <option value=""></option> <% _.each(choices, function(choice){ %> <option value="<%= choice.id %>" <% if(value === choice.id) { %>selected<% } %>><%= choice.title %></option> <% }) %> </select>';
 
 Fields.TreeNodeChoiceField = TreeNodeChoiceField;
 /* </TreeNodeChoiceField> */
