@@ -5,6 +5,13 @@
 				<%= type %> <%= model.model_name %>
 			</div>
 		</div>
+		<div class="main-content-toolbar">
+			<div id="main-content-tools">
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/add" class="btn upload">New <%= model.model_name %></a>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
 	</div>
 	<form id="main-form">
 		<div class="main-content-body">
@@ -22,9 +29,12 @@
 			</div>
 		</div>
 		<div class="main-content-footer">
-			<div id="main-content-tools">
-				<a href="javascript:void(0)" id="main-form-submit" class="btn upload">Save</a>
-				<a href="javascript:void(0)" class="btn new-folder">Cancel</a>
+			<div id="main-footer-operates">
+				<div id="main-content-tools">
+					<a href="javascript:void(0)" id="main-form-submit" class="btn upload">Save</a>
+					<a href="javascript:void(0)" class="btn new-folder">Cancel</a>
+					<div class="clear"></div>
+				</div>
 			</div>
 		</div>
 		<% _.each(model.hidden_fields, function(field) { %>

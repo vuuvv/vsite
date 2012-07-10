@@ -63,5 +63,5 @@ class Publishable(MetaData):
 	def save(self, *args, **kwargs):
 		if self.publish_date is None:
 			self.publish_date = datetime.now()
-		super(Displayable, self).save(*args, **kwargs)
+		super(Publishable, self).save(*args, **kwargs)
 

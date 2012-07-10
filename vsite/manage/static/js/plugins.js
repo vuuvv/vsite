@@ -97,7 +97,48 @@ $.fn.notify.defaults = {
 	duration: 2000
 };
 
-/* NOTIFY DATA-API
-* ============== */
+/* DIALOG CLASS DEFINITION
+* ====================== */
+var Dialog = function (elem, options) {
+	var $elem = this.$elem = $(elem), 
+		defaults = $.fn.dialog.defaults || {};
+	options = this.options = $.extend({}, defaults, options);
+};
+
+Dialog.prototype = {
+	show: function() {
+		var dialog = $('<div class="dialog"></div>');
+		var head = $('<div></div>');
+		var body = $('<div></div>');
+		var footer = $('<div></div>');
+	},
+
+	hide: function() {
+	},
+
+	close: function() {
+	},
+
+	destroy: function() {
+	}
+
+};
+
+
+/* DIALOG PLUGIN DEFINITION
+* ======================= */
+
+$.fn.dialog = function (option) {
+	return create_or_call(this, "dialog", option, arguments, Dialog);
+};
+
+$.fn.dialog.defaults = {
+	width: 400,
+	height: 300,
+	dragable: true,
+	modal: false
+};
 
 });
+
+

@@ -579,11 +579,13 @@ li.current .arrow-down em {
 
 #main-footer-operates .checkbox {
 	margin-right: 30px;
+	float: left;
 }
 
 #main-footer-operates .operate {
 	margin-right: 12px;
 	color: #3185c7;
+	float: left;
 }
 
 #main-footer-operates .operate:hover {

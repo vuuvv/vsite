@@ -66,29 +66,34 @@ class ModelManage(object):
 		msg = "Data Saved"
 		obj = None
 
+		opts = self.opts
+		model_cls = self.model_cls
+		ret = {
+			"status": "success",
+			"csrf_token": request.META["CSRF_COOKIE"],
+			"model_name": model_cls.__name__,
+			"app_label": opts.app_label,
+			"module_name": opts.module_name,
+			"msg": "Data Loaded",
+		}
+
 		if request.method == 'POST':
-			ModelForm = modelform_factory(self.model_cls, form=self.form)
+			ModelForm = modelform_factory(model_cls, form=self.form)
 			form = ModelForm(request.POST, request.FILES)
 			if form.is_valid():
 				obj = form.save()
+				ret["msg"] = "Data Saved"
+				ret["id"] = obj.id
+				return render_to_json(ret)
 			else:
+				ret["status"] = "error"
+				ret["msg"] = "Invalid inputs"
+				ret["error"] = form.errors
 				form_validated = False
 				obj = form.data
-				errors = form.errors
-				msg = "Invalid inputs"
 
-		fields_list = self._get_client_fields(obj)
-		opts = self.opts
-		return render_to_json({
-			"status": "success" if form_validated else "error",
-			"csrf_token": request.META["CSRF_COOKIE"],
-			"model_name": self.model_cls.__name__,
-			"app_label": opts.app_label,
-			"module_name": opts.module_name,
-			"fields": fields_list,
-			"errors": errors,
-			"msg": msg
-		})
+		ret["fields"] = self._get_client_fields(obj)
+		return render_to_json(ret)
 
 	def upadate_view(self, request, object_id):
 		get_token(request)
@@ -128,7 +133,7 @@ class ModelManage(object):
 			"fields": fields_list,
 			"hidden_fields": [{
 				"name": "id",
-				"value": obj.id,
+				"value": obj.id if form_validated else obj["id"],
 			}],
 			"errors": errors,
 			"msg": msg

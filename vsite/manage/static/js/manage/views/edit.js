@@ -41,21 +41,8 @@ define([
 			return this;
 		},
 
-		on_fetched_error: function() {
-			app.error("Loading Error", true);
-		},
-
-		on_fetched_fields: function() {
-			var model = this.model, fields, hidden_fields,
-				status = model.get("status");
-
-			if (status == "error") {
-				app.error(model.get("msg"), true);
-				return;
-			}
-			app.success("Data Loaded", true);
-
-			fields = model.get("fields");
+		_render: function(model) {
+			var fields = model.get("fields");
 			for (var i = 0; i < fields.length; i++) {
 				var field = fields[i];
 				var widget = new Widgets[field.widget]({
@@ -71,19 +58,36 @@ define([
 				type: this.options.type,
 				model: model.toJSON()
 			}));
-			$(".xheditor").xheditor();
+			$("textarea.xheditor").xheditor();
 			$("#main-form-submit").click(_.bind(this.on_submit, this));
 		},
 
+		on_fetched_error: function() {
+			app.error("Loading Error", true);
+		},
+
+		on_fetched_fields: function() {
+			var model = this.model, fields, hidden_fields,
+				status = model.get("status");
+
+			if (status == "error") {
+				app.error(model.get("msg"), true);
+				return;
+			}
+			app.success(model.get("msg"), true);
+
+			this._render(model);
+		},
+
 		get_form_data: function() {
-			var inputs = $("#main-form").find("select, input"),
+			var inputs = $("#main-form").find("select, input, textarea"),
 				data = {
 					csrfmiddlewaretoken: this.model.get("csrf_token")
 				};
 
 			inputs.each(function(index, elem) {
 				if (!elem.readOnly)
-					data[elem.name] = elem.value;
+					data[elem.name] = $(elem).val();
 			});
 			return data;
 		},
@@ -117,8 +121,16 @@ define([
 		on_success: function(data) {
 			if (data.status == "error")
 				app.error(data.msg, true);
-			else
-				app.success("Save Successful", true);
+			else {
+				app.success(data.msg, true);
+				if (this.options.type == "add") {
+					app.navigate(data.app_label + "/" + data.module_name + "/" + data.id, {trigger: true});
+					return;
+				} else {
+					this.model.set("fields", data.fields);
+					this._render(this.model);
+				}
+			}
 		}
 	});
 
