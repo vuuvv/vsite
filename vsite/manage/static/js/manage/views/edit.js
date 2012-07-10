@@ -2,11 +2,12 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'views/fields',
+	'views/widgets',
 	'text!templates/edit/left.html',
 	'text!templates/edit/right.html',
-	'plugins'
-], function($, _, Backbone, Fields, left_tmpl, right_tmpl) {
+	'plugins',
+	'xheditor'
+], function($, _, Backbone, Widgets, left_tmpl, right_tmpl) {
 	var EditView = Backbone.View.extend({
 
 		left_template: _.template(left_tmpl),
@@ -57,19 +58,20 @@ define([
 			fields = model.get("fields");
 			for (var i = 0; i < fields.length; i++) {
 				var field = fields[i];
-				var client_field = new Fields[field.type]({
+				var widget = new Widgets[field.widget]({
 					app_label: model.get("app_label"),
 					module_name: model.get("module_name"),
 					type: this.options.type,
 					field: field
 				});
-				field.html = client_field.html(type);
+				field.html = widget.render();
 			}
 
 			$("#main-left").html(this.left_template({
 				type: this.options.type,
 				model: model.toJSON()
 			}));
+			$(".xheditor").xheditor();
 			$("#main-form-submit").click(_.bind(this.on_submit, this));
 		},
 

@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 
 from vsite.core.models import Publishable
+from vsite.core.fields import RichTextField
 
 class URL(MPTTModel):
 	title = models.CharField(_("Title"), max_length=100)
@@ -34,6 +35,7 @@ class Page(Publishable):
 	title = models.CharField(_("Title"), max_length=100)
 	url = TreeForeignKey(URL, related_name="pages")
 	site = models.ForeignKey(Site, related_name="pages")
+	content = RichTextField(_("Content"))
 
 	class Meta:
 		verbose_name = _("Pages")
@@ -53,6 +55,9 @@ class URLManage(ModelManage):
 
 	form = MPTTAdminForm
 
+class PageManage(ModelManage):
+	fields = ("site", "url", "title", "content", "publish_date", "status")
+
 site.register(URL, URLManage)
-site.register(Page)
+site.register(Page, PageManage)
 

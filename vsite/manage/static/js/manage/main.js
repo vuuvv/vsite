@@ -4,6 +4,7 @@ require.config({
 		plugins: '../plugins',
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
+		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
 		text: '../libs/require/text'
 	}
 });

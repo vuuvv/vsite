@@ -34,7 +34,7 @@ class MetaData(models.Model):
 		help_text=_("If checked, the description will be automatically "
 			  "generated from content. Uncheck if you want to manually "
 			  "set a custom description."), default=True)
-	keywords = models.TextField(verbose_name=_("Keywords"))
+	keywords = models.TextField(verbose_name=_("Keywords"), blank=True)
 
 	class Meta:
 		abstract = True

@@ -6,6 +6,8 @@ from django.db.models import ForeignKey
 from django.forms.models import modelform_factory
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import _get_queryset
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 
 from mptt.models import TreeForeignKey
 
@@ -50,12 +52,15 @@ class ModelManage(object):
 		return urlpatterns
 
 	def list_view(self, request):
+		get_token(request)
 		pass
 
 	def delete_view(self, request, object_id):
+		get_token(request)
 		pass
 
 	def add_view(self, request):
+		get_token(request)
 		errors = None
 		form_validated = True
 		msg = "Data Saved"
@@ -86,6 +91,7 @@ class ModelManage(object):
 		})
 
 	def upadate_view(self, request, object_id):
+		get_token(request)
 		model_cls = self.model_cls
 		try:
 			obj = model_cls.objects.get(pk=object_id)
@@ -98,7 +104,6 @@ class ModelManage(object):
 		errors = None
 		form_validated = True
 		msg = "Data Updated"
-		obj = None
 
 		if request.method == 'POST':
 			ModelForm = modelform_factory(self.model_cls, form=self.form)
@@ -139,13 +144,17 @@ class ModelManage(object):
 
 		for db_field, formfield in self.fields_dict.items():
 			name = db_field.name
+			widget = formfield.widget
 			is_foreignkey = isinstance(db_field, ForeignKey)
 			# TODO: this should do in the custom model form
 			is_treenode = isinstance(db_field, TreeForeignKey) and db_field.rel.to == model_cls
 			is_formdata = isinstance(obj, dict)
 			field = {
 				"name": name,
-				"type": formfield.__class__.__name__,
+				"field": formfield.__class__.__name__,
+				"widget": widget.__class__.__name__,
+				#"validators": [v.__class__.__name__ for v in formfield.validators],
+				#"attrs": widget.attrs,
 				"readonly": name in readonly_fields,
 				"defer": name in defer,
 			}
@@ -175,7 +184,10 @@ class ModelManage(object):
 					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
 					field["choices"] = objs
 			elif hasattr(formfield, "choices"):
-				field["choices"] = formfield.choices
+				field["choices"] = [{"id": c[0], "title": unicode(c[1])} for c in formfield.choices]
+				if obj is None and hasattr(db_field, "default"):
+					#default
+					field["value"] = db_field.default
 
 			json_fields_dict[name] = field
 
