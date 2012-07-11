@@ -2,19 +2,34 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/list/left.html',
-	'text!templates/list/right.html'
-], function($, _, Backbone, left_tmpl, right_tmpl) {
-	var ListView = Backbone.View.extend({
-		left_template: _.template(left_tmpl),
-		right_template: _.template(right_tmpl),
-
-		initialize: function(options) {
+	'config',
+	'views/model'
+], function($, _, Backbone, config, ModelView) {
+	var ListView = ModelView.extend({
+		get_load_url: function() {
+			return this.get_list_url();
 		},
 
-		render: function() {
-			$("#main-left").html(this.left_template());
-			return this;
+		_render: function(model) {
+			model = model.toJSON();
+			this._render_left_part(model);
+		},
+
+		_render_left_part: function(model, type) {
+			var self = this; 
+				template = config.get_template(model.module_name) + "list/left.html";
+			require([template], function(t) {
+				var tmpl = _.template(t);
+				$("#main-left").html(tmpl({
+					model: model
+				}));
+				$(".fileviewer tr").hover(function() {
+					$(this).addClass("file-row-hovered");
+				}, function() {
+					$(this).removeClass("file-row-hovered");
+				});
+				$(".model-delete-btn").click(_.bind(self.on_delete, self));
+			});
 		}
 	});
 

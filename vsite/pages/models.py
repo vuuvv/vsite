@@ -51,12 +51,14 @@ from mptt.forms import MPTTAdminForm
 
 class URLManage(ModelManage):
 	fields = ("parent", "title", "slug")
+	list_display = ('slug', "parent")
 	readonly_fields = ("slug", )
 
 	form = MPTTAdminForm
 
 class PageManage(ModelManage):
 	fields = ("site", "url", "title", "content", "publish_date", "status")
+	list_display = ('title', "site", "url", "publish_date")
 
 site.register(URL, URLManage)
 site.register(Page, PageManage)

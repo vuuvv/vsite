@@ -500,11 +500,12 @@ li.current .arrow-down em {
 }
 
 .fileheader th.modified {
-	width: 180px;
+	width: 150px;
 }
 
 .fileviewer {
 	border-top: 1px solid #dcdcdc;
+	color: #b0b0b0;
 	height: 500px;
 }
 
@@ -514,6 +515,11 @@ li.current .arrow-down em {
 
 .fileviewer tr {
 	height: 50px;
+}
+
+.fileviewer tr.file-row-hovered {
+	background: #f7f7f7;
+	color: #989898;
 }
 
 .fileviewer td {
@@ -548,17 +554,41 @@ li.current .arrow-down em {
 }
 
 .fileviewer td.modified {
-	width: 180px;
+	width: 150px;
 }
 
-.fileviewer .name-text a {
+.file-row .name-text a {
 	height: 14px;
 	line-height: 14px;
 	overflow:hidden;
+	color: #666;
 }
-.fileviewer .name-text a:hover {
+
+.file-row-hovered .name-text a {
+	color: #323232;
+}
+
+.file-row .name-text a:hover {
 	text-decoration: underline;
 }
+
+.file-row .name-tools {
+	margin-top: 6px;
+}
+
+.file-row .name-tools a {
+	color: #a2c8e6;
+	margin-right: 12px;
+}
+
+.file-row-hovered .name-tools a:hover {
+	text-decoration: underline;
+}
+
+.file-row-hovered .name-tools a {
+	color: #3185c7;
+}
+
 
 .main-content-footer {
 	background: url(img/main_footer_bg.png) repeat-x scroll 0 0 transparent;

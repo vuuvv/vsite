@@ -5,13 +5,14 @@ require.config({
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
 		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
-		text: '../libs/require/text'
+		text: '../libs/require/text',
+		config: 'config'
 	}
 });
 
-require(['jquery', 'underscore', 'backbone', "views/list", "views/edit", "plugins"],
+require(['jquery', 'underscore', 'backbone', "views/list", "plugins"],
 
-function($, _, Backbone, ListView, EditView) {
+function($, _, Backbone, ListView) {
 	var custom_views = ["page"];
 
 	var norm_model = function(model) {
@@ -67,20 +68,23 @@ function($, _, Backbone, ListView, EditView) {
 
 		list: function(app, model, page) {
 			page = parseInt(page);
-			page = page || 0;
+			// pages start from 1
+			page = page || 1;
 			model = norm_model(model);
-			var view = new ListView(app, model, page);
-			view.render();
+			this._render("list", {
+				url_prefix: app + "/" + model,
+				type: "list",
+				page: page
+			});
 		},
 
 		add: function(app, model) {
 			model = norm_model(model);
-			var view = new EditView({
-				app_label: app,
-				model_name: model,
+			url = app + "/" + model + "/add/";
+			this._render("edit", {
+				url_prefix: app + "/" + model,
 				type: "add"
 			});
-			view.render();
 		},
 
 		remove: function(app, mdoel, id) {
@@ -89,13 +93,19 @@ function($, _, Backbone, ListView, EditView) {
 		update: function(app, model, id) {
 			// tell if id is  integer
 			model = norm_model(model);
-			var view = new EditView({
-				app_label: app,
-				model_name: model,
+			url =  app + "/" + model + "/" + id + "/"
+			this._render("edit", {
+				url_prefix: app + "/" + model,
 				type: "update",
 				model_id: id
 			});
-			view.render();
+		},
+
+		_render: function(view, options) {
+			require(["views/" + view], function(View) {
+				var view = new View(options);
+				view.render();
+			});
 		}
 	});
 

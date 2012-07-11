@@ -1,11 +1,11 @@
 <div class="main-content">
 	<div class="main-content-header">
 		<div id="main-content-breadcrumb">
-			<a class="home" href="javascript:void(0)">Pages</a>
+			<a class="home" href="javascript:void(0)"><%= model.model_name %></a>
 		</div>
 		<div class="main-content-toolbar">
 			<div id="main-content-tools">
-				<a href="javascript:void(0)" class="btn upload">Save</a>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/add" class="btn upload">New <%= model.model_name %></a>
 			</div>
 			<div id="main-content-search">
 				<div class="mode-wrap">
@@ -25,55 +25,54 @@
 					<th class="checkbox first">
 						<input type="checkbox" />
 					</th>
+					<% _.each(model.columns, function(column, index) { 
+						if (column == "__str__" || column == "__unicode__") {
+							column = model.model_name;
+						}
+					%>
+						<% if (index == 0) { %>
 					<th class="filename">
-						<span>File Name</span>
+						<span><%= column %></span>
 					</th>
-					<th class="filesize">
-						<span>File Size</span>
-					</th>
+						<% } else { %>
 					<th class="modified">
-						<span>Modified</span>
+						<span><%= column %></span>
 					</th>
+						<% } %>
+					<% }) %>
 				</tr>
 			</table>
 			<div class="fileviewer">
 				<table cellspacing="0" border="0">
+					<% _.each(model.models, function(row) { %>
 					<tr class="file-row">
 						<td class="checkbox">
 							<input type="checkbox" />
 						</td>
+						<% _.each(row.fields, function(field, index) { %>
+							<% if (index == 0) { %>
 						<td class="filename">
 							<div class="details">
 								<div class="thumbnail"></div>
 								<div class="intro">
 									<div class="name-text">
-										<a href="#page">text</a>
+										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>"><%= field %></a>
 									</div>
-									<div class="name-tools"></div>
+									<div class="name-tools">
+										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>">edit</a>
+										<a class="model-delete-btn" model-id="<%= row.id %>" href="javascript:void(0)">delete</a>
+									</div>
 								</div>
 							</div>
 						</td>
-						<td class="filesize right">
-							<span>10MB</span>
-						</td>
+							<% } else { %>
 						<td class="modified">
-							<span>2002-05-03 10:25:37</span>
+							<span><%= field %></span>
 						</td>
+							<% } %>
+						<% }) %>
 					</tr>
-					<tr class="file-row">
-						<td class="checkbox">
-							<input type="checkbox" />
-						</td>
-						<td class="filename">
-							Test
-						</td>
-						<td class="filesize right">
-							<span>1000MB</span>
-						</td>
-						<td class="modified">
-							<span>2002-05-03 10:25:37</span>
-						</td>
-					</tr>
+					<% }) %>
 				</table>
 			</div>
 		</div>

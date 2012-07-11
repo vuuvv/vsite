@@ -2,7 +2,7 @@ from django import forms
 from django.shortcuts import render_to_response
 from django.conf.urls import patterns, url, include
 from django.db.models.base import ModelBase
-from django.db.models import ForeignKey
+from django.db.models import ForeignKey, Model
 from django.forms.models import modelform_factory
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import _get_queryset
@@ -43,7 +43,8 @@ class ModelManage(object):
 
 	def get_urls(self):
 		urlpatterns = patterns('',
-			url(r'^$', self.list_view, name=''),
+			url(r'^$', self.index, name=''),
+			url(r'^p/(\d+)/$', self.list_view, name=''),
 			url(r'^add/$', self.add_view, name=''),
 			url(r'^(\d+)/delete/$', self.delete_view, name=''),
 			url(r'^(\d+)/$', self.upadate_view, name=''),
@@ -51,13 +52,56 @@ class ModelManage(object):
 
 		return urlpatterns
 
-	def list_view(self, request):
+	def index(self, request):
+		return self.list_view(request, 1)
+
+	def list_view(self, request, page):
 		get_token(request)
-		pass
+		opts = self.opts
+		model_cls = self.model_cls
+		page_size = 20
+		# TODO: handle page not valid integer error
+		page = int(page)
+		min_index, max_index = (page - 1) * page_size, page * page_size
+		ret = {
+			"status": "success",
+			"csrf_token": request.META["CSRF_COOKIE"],
+			"model_name": model_cls.__name__,
+			"app_label": opts.app_label,
+			"module_name": opts.module_name,
+			"msg": "Data Loaded",
+		}
+
+		models = model_cls.objects.all()[min_index:max_index]
+		models_list = []
+		for model in models:
+			fields = [] 
+			for item in self.list_display:
+				value = getattr(model, item)
+				if isinstance(value, Model):
+					value = unicode(value)
+				elif callable(value):
+					value = value()
+				fields.append(value)
+			models_list.append({
+				"id": model.id,
+				"fields": fields,
+			})
+
+		ret["columns"] = self.list_display
+		ret["models"] = models_list
+
+		return render_to_json(ret)
 
 	def delete_view(self, request, object_id):
 		get_token(request)
-		pass
+		model_cls = self.model_cls
+		obj = model_cls.objects.get(pk=int(object_id))
+		obj.delete()
+		return render_to_json({
+			"status": "success",
+			"msg": "Data Deleted",
+		})
 
 	def add_view(self, request):
 		get_token(request)
@@ -108,13 +152,14 @@ class ModelManage(object):
 
 		errors = None
 		form_validated = True
-		msg = "Data Updated"
+		msg = "Data Loaded"
 
 		if request.method == 'POST':
 			ModelForm = modelform_factory(self.model_cls, form=self.form)
 			form = ModelForm(request.POST, request.FILES, instance=obj)
 			if form.is_valid():
 				obj = form.save()
+				msg = "Data Updated"
 				#return render_to_json({"status": "success"})
 			else:
 				form_validated = False
