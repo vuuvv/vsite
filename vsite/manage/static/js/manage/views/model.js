@@ -76,8 +76,12 @@ define([
 		on_delete: function(evt) {
 			var elem = $(evt.currentTarget),
 				now = new Date;
+
 			$.ajax(this.get_delete_url(elem.attr("model-id")), {
 				type: "POST",
+				data: {
+					csrfmiddlewaretoken: this.model.get("csrf_token")
+				},
 				dataType: "json",
 				error: _.bind(this.on_http_error, this),
 				success: _.bind(this.on_delete_success, this)

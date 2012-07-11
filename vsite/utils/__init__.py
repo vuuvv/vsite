@@ -26,6 +26,8 @@ class DjangoJSONEncoder(json.JSONEncoder):
 def tojson(obj):
 	return json.dumps(obj, cls=DjangoJSONEncoder)
 
-def render_to_json(obj):
+def render_to_json(obj, status, msg):
+	obj["status"] = status
+	obj["msg"] = msg
 	return HttpResponse(tojson(obj))
 

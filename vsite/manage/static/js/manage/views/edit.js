@@ -41,7 +41,7 @@ define([
 
 		_render_left_part: function(model, type) {
 			var self = this, 
-				template = config.get_template(model.module_name) + "edit/left.html";
+				template = config.get_template(model, "edit", "left");
 			require([template], function(t) {
 				var tmpl = _.template(t);
 				$("#main-left").html(tmpl({

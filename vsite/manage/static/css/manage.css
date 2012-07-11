@@ -589,6 +589,16 @@ li.current .arrow-down em {
 	color: #3185c7;
 }
 
+.filename .name-pic {
+	float: left;
+	position: relative;
+	width: 39px;
+}
+
+.filename .name-intro {
+	float: left;
+}
+
 
 .main-content-footer {
 	background: url(img/main_footer_bg.png) repeat-x scroll 0 0 transparent;

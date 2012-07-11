@@ -67,7 +67,6 @@ button.close {
 	filter: alpha(opacity=20);
 }
 
-
 .close:hover {
 	color: #000000;
 	text-decoration: none;
@@ -75,3 +74,23 @@ button.close {
 	opacity: 0.4;
 	filter: alpha(opacity=40);
 }
+
+.icon32 {
+	background: url(img/icon_32.png);
+	height: 32px;
+	width: 32px;
+	line-height: 0;
+	font-size: 0;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+}
+
+.icon32-folder {
+	background-position: 0 -523px;
+}
+
+.icon32-rtf {
+	background-position: 0 -764px;
+}
+

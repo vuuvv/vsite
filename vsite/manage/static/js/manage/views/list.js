@@ -17,7 +17,7 @@ define([
 
 		_render_left_part: function(model, type) {
 			var self = this; 
-				template = config.get_template(model.module_name) + "list/left.html";
+				template = config.get_template(model, "list", "left");
 			require([template], function(t) {
 				var tmpl = _.template(t);
 				$("#main-left").html(tmpl({

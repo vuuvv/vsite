@@ -46,33 +46,18 @@ class ModelManage(object):
 			url(r'^$', self.index, name=''),
 			url(r'^p/(\d+)/$', self.list_view, name=''),
 			url(r'^add/$', self.add_view, name=''),
-			url(r'^(\d+)/delete/$', self.delete_view, name=''),
-			url(r'^(\d+)/$', self.upadate_view, name=''),
+			url(r'^update/(\d+)/$', self.upadate_view, name=''),
+			url(r'^delete/$', self.delete_view, name=''),
 		)
 
 		return urlpatterns
 
-	def index(self, request):
-		return self.list_view(request, 1)
+	def get_models(self, request, page, **kwargs):
+		min_index, max_index = self.get_page_slices(request, page)
+		list_related = self.get_list_related_fields(request)
+		return model_cls.objects.select_related(*list_related).all()[min_index:max_index]
 
-	def list_view(self, request, page):
-		get_token(request)
-		opts = self.opts
-		model_cls = self.model_cls
-		page_size = 20
-		# TODO: handle page not valid integer error
-		page = int(page)
-		min_index, max_index = (page - 1) * page_size, page * page_size
-		ret = {
-			"status": "success",
-			"csrf_token": request.META["CSRF_COOKIE"],
-			"model_name": model_cls.__name__,
-			"app_label": opts.app_label,
-			"module_name": opts.module_name,
-			"msg": "Data Loaded",
-		}
-
-		models = model_cls.objects.all()[min_index:max_index]
+	def get_models_list(self, request, **kwargs):
 		models_list = []
 		for model in models:
 			fields = [] 
@@ -87,57 +72,83 @@ class ModelManage(object):
 				"id": model.id,
 				"fields": fields,
 			})
+		return models_list
 
-		ret["columns"] = self.list_display
-		ret["models"] = models_list
+	def get_list_related_fields(self, request, **kwargs):
+		list_related = []
+		opts = self.opts
+		for item in self.list_display:
+			try:
+				field = opts.get_field(item)
+			except FieldDoesNotExist:
+				continue
 
-		return render_to_json(ret)
+			if isinstance(field, ForeignKey):
+				list_related.append(item)
+		return list_related
 
-	def delete_view(self, request, object_id):
+	def get_page_size(self, request, **kwargs):
+		return 20
+
+	def get_page_slices(self, request, page, **kwargs):
+		page_size = self.get_page_size(request)
+		page = int(page)
+		return (page - 1) * page_size, page * page_size
+
+	def get_meta_info(self, request, **kwargs):
+		opts = self.opts
+		return {
+			"csrf_token": request.META["CSRF_COOKIE"],
+			"model_name": self.model_cls.__name__,
+			"app_label": opts.app_label,
+			"module_name": opts.module_name,
+		}
+
+	def index(self, request):
+		return self.list_view(request, 1)
+
+	def list_view(self, request, page):
 		get_token(request)
+		page = int(page)
+
+		ret = self.get_meta_info(request)
+		models = self.get_models(request, page)
+		ret["columns"] = self.list_display
+		ret["models"] = self.get_models_list(request)
+
+		return render_to_json(ret, "success", "Data Loaded")
+
+	def delete_view(self, request):
+		get_token(request)
+		ids = [int(id) for id in request.POST["ids"].split()]
 		model_cls = self.model_cls
-		obj = model_cls.objects.get(pk=int(object_id))
+		obj = model_cls.objects.get(id=int(object_id))
 		obj.delete()
-		return render_to_json({
-			"status": "success",
-			"msg": "Data Deleted",
-		})
+		return render_to_json({}, "success", "Data Delete")
 
 	def add_view(self, request):
 		get_token(request)
-		errors = None
-		form_validated = True
-		msg = "Data Saved"
+		msg = "Data Loaded"
+		status = "success"
 		obj = None
-
-		opts = self.opts
 		model_cls = self.model_cls
-		ret = {
-			"status": "success",
-			"csrf_token": request.META["CSRF_COOKIE"],
-			"model_name": model_cls.__name__,
-			"app_label": opts.app_label,
-			"module_name": opts.module_name,
-			"msg": "Data Loaded",
-		}
+		ret = self.get_meta_info(request)
 
 		if request.method == 'POST':
 			ModelForm = modelform_factory(model_cls, form=self.form)
 			form = ModelForm(request.POST, request.FILES)
 			if form.is_valid():
 				obj = form.save()
-				ret["msg"] = "Data Saved"
 				ret["id"] = obj.id
-				return render_to_json(ret)
+				return render_to_json(ret, status, "Data Saved")
 			else:
-				ret["status"] = "error"
-				ret["msg"] = "Invalid inputs"
+				status = "error"
+				msg = "Invalid inputs"
 				ret["error"] = form.errors
-				form_validated = False
 				obj = form.data
 
 		ret["fields"] = self._get_client_fields(obj)
-		return render_to_json(ret)
+		return render_to_json(ret, status, msg)
 
 	def upadate_view(self, request, object_id):
 		get_token(request)
@@ -145,13 +156,12 @@ class ModelManage(object):
 		try:
 			obj = model_cls.objects.get(pk=object_id)
 		except model_cls.DoesNotExist:
-			return render_to_json({
-				"status": "error",
-				"msg": "Can't not load this %s" % model_cls.__name__
-			})
+			return render_to_json({}, "error", 
+				"Can't load this %s" % model_cls.__name__)
 
-		errors = None
+		ret = self.get_meta_info(request)
 		form_validated = True
+		status = "success"
 		msg = "Data Loaded"
 
 		if request.method == 'POST':
@@ -160,39 +170,27 @@ class ModelManage(object):
 			if form.is_valid():
 				obj = form.save()
 				msg = "Data Updated"
-				#return render_to_json({"status": "success"})
 			else:
 				form_validated = False
 				obj = form.data
-				errors = form.errors
+				ret["errors"] = form.errors
 				msg = "Invalid inputs"
 
-		opts = self.opts
-		fields_list = self._get_client_fields(obj)
-		return render_to_json({
-			"status": "success" if form_validated else "error",
-			"csrf_token": request.META["CSRF_COOKIE"],
-			"model_name": self.model_cls.__name__,
-			"app_label": opts.app_label,
-			"module_name": opts.module_name,
-			"fields": fields_list,
-			"hidden_fields": [{
+		ret["fields"] = self._get_client_fields(obj)
+		ret["hidden_fields"] = [{
 				"name": "id",
 				"value": obj.id if form_validated else obj["id"],
-			}],
-			"errors": errors,
-			"msg": msg
-		})
+		}]
+		return render_to_json(ret, status, msg)
 
 	def _get_client_fields(self, obj = None):
 		model_cls = self.model_cls
 		fields_list = []
-		fields_dict = self.fields_dict
 		json_fields_dict = {}
 		readonly_fields = self.readonly_fields
 		defer = self.defer
 
-		for db_field, formfield in self.fields_dict.items():
+		for db_field, formfield in self.fields_dict.values():
 			name = db_field.name
 			widget = formfield.widget
 			is_foreignkey = isinstance(db_field, ForeignKey)
@@ -263,9 +261,24 @@ class ModelManage(object):
 
 			formfield = f.formfield()
 			if formfield:
-				fields_dict[f] = formfield
+				fields_dict[f.name] = (f, formfield)
 
 		return fields_dict
+
+class TreeModelManage(ModelManage):
+	def get_urls(self):
+		urlpatterns = patterns('',
+			url(r'^(\d+)/$', self.index, name=''),
+			url(r'^(\d+)/p/(\d+)/$', self.list_view, name=''),
+		)
+
+		return urlpatterns
+
+	def index(self, request, object_id):
+		return self.list_view(request, object_id, 1)
+
+	def list_view(self, request, object_id, page):
+		pass
 
 class ManageSite(object):
 
