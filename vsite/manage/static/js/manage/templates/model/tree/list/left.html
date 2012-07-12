@@ -1,11 +1,21 @@
 <div class="main-content">
 	<div class="main-content-header">
 		<div id="main-content-breadcrumb">
-			<a class="home" href="javascript:void(0)"><%= model.model_name %></a>
+			<a class="home" href="#<%= model.url_prefix %>"><%= model.model_name %></a>
+			
+			<% _.each(model.ancestors, function(ancestor) { %>
+				<span>&gt;</span>
+				<a class="path" href="#<%= model.url_prefix %>/<%= ancestor[0] %>/"><%= ancestor[1] %></a>
+			<% }) %>
 		</div>
 		<div class="main-content-toolbar">
 			<div id="main-content-tools">
-				<a href="#<%= model.app_label %>/<%= model.module_name %>/add" class="btn upload">New <%= model.model_name %></a>
+				<% if (model.ancestors.length > 0) { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= _.last(model.ancestors)[0] %>/" title="up" class="btn return"></a>
+				<% } else { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>" title="up" class="btn return"></a>
+				<% } %>
+				<a href="#<%= model.url_prefix %>/add" class="btn upload">New <%= model.model_name %></a>
 			</div>
 			<div id="main-content-search">
 				<div class="mode-wrap">
@@ -54,14 +64,22 @@
 						<td class="filename">
 							<div class="details">
 								<div class="name-pic">
-									<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>" class="icon32 icon32-rtf"></a>
+									<% if(row.helper.is_leaf_node) { %>
+									<a href="#<%= model.url_prefix %>/<%= row.helper.id %>" class="icon32 icon32-rtf"></a>
+									<% } else { %>
+									<a href="#<%= model.url_prefix %>/<%= row.helper.id %>/" class="icon32 icon32-folder"></a>
+									<% } %>
 								</div>
 								<div class="name-intro">
 									<div class="name-text">
-										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>"><%= field %></a>
+										<% if(row.helper.is_leaf_node) { %>
+										<a href="#<%= model.url_prefix %>/<%= row.helper.id %>"><%= field %></a>
+										<% } else { %>
+										<a href="#<%= model.url_prefix %>/<%= row.helper.id %>/"><%= field %></a>
+										<% } %>
 									</div>
 									<div class="name-tools">
-										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>">edit</a>
+										<a href="#<%= model.url_prefix %>/<%= row.helper.id %>">edit</a>
 										<a class="model-delete-btn" model-id="<%= row.id %>" href="javascript:void(0)">delete</a>
 									</div>
 								</div>

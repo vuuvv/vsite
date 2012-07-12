@@ -25,6 +25,7 @@ class ModelManage(object):
 
 	form = forms.ModelForm
 	list_display = ('__str__',)
+	list_helpers = ('id',)
 	search_fields = ()
 	inlines = []
 	defer = set()
@@ -44,35 +45,43 @@ class ModelManage(object):
 	def get_urls(self):
 		urlpatterns = patterns('',
 			url(r'^$', self.index, name=''),
-			url(r'^p/(\d+)/$', self.list_view, name=''),
+			url(r'^p/(?P<page>\d+)/$', self.list_view, name=''),
 			url(r'^add/$', self.add_view, name=''),
-			url(r'^update/(\d+)/$', self.upadate_view, name=''),
+			url(r'^update/(?P<id>\d+)/$', self.upadate_view, name=''),
 			url(r'^delete/$', self.delete_view, name=''),
 		)
 
 		return urlpatterns
 
-	def get_models(self, request, page, **kwargs):
-		min_index, max_index = self.get_page_slices(request, page)
+	def get_models(self, request, **kwargs):
+		min_index, max_index = self.get_page_slices(request, **kwargs)
 		list_related = self.get_list_related_fields(request)
-		return model_cls.objects.select_related(*list_related).all()[min_index:max_index]
+		return self.model_cls.objects.select_related(*list_related).all()[min_index:max_index]
+
+	def get_column(self, model, attr):
+		value = getattr(model, attr)
+		if isinstance(value, Model):
+			value = unicode(value)
+		elif callable(value):
+			value = value()
+		return value
+
+	def get_columns(self, model, attrs):
+		get_column = self.get_column
+		return [get_column(model, attr) for attr in attrs]
+
+	def get_columns_dict(self, model, attrs):
+		get_column = self.get_column
+		return dict([(attr, get_column(model, attr)) for attr in attrs])
 
 	def get_models_list(self, request, **kwargs):
-		models_list = []
-		for model in models:
-			fields = [] 
-			for item in self.list_display:
-				value = getattr(model, item)
-				if isinstance(value, Model):
-					value = unicode(value)
-				elif callable(value):
-					value = value()
-				fields.append(value)
-			models_list.append({
-				"id": model.id,
-				"fields": fields,
-			})
-		return models_list
+		return [
+			{
+				"helper": self.get_columns_dict(model, self.list_helpers),
+				"fields": self.get_columns(model, self.list_display),
+			}
+			for model in kwargs.get("models", [])
+		]
 
 	def get_list_related_fields(self, request, **kwargs):
 		list_related = []
@@ -90,9 +99,9 @@ class ModelManage(object):
 	def get_page_size(self, request, **kwargs):
 		return 20
 
-	def get_page_slices(self, request, page, **kwargs):
+	def get_page_slices(self, request, **kwargs):
 		page_size = self.get_page_size(request)
-		page = int(page)
+		page = int(kwargs.get("page", 1))
 		return (page - 1) * page_size, page * page_size
 
 	def get_meta_info(self, request, **kwargs):
@@ -104,19 +113,19 @@ class ModelManage(object):
 			"module_name": opts.module_name,
 		}
 
-	def index(self, request):
-		return self.list_view(request, 1)
+	def index(self, request, **kwargs):
+		return self.list_view(request, **kwargs)
 
-	def list_view(self, request, page):
+	def list_view(self, request, **kwargs):
 		get_token(request)
-		page = int(page)
 
-		ret = self.get_meta_info(request)
-		models = self.get_models(request, page)
-		ret["columns"] = self.list_display
-		ret["models"] = self.get_models_list(request)
+		resp = self.get_meta_info(request, **kwargs)
+		kwargs["resp"] = resp
+		models = self.get_models(request, **kwargs)
+		resp["columns"] = self.list_display
+		resp["models"] = self.get_models_list(request, models=models, **kwargs)
 
-		return render_to_json(ret, "success", "Data Loaded")
+		return render_to_json(resp, "success", "Data Loaded")
 
 	def delete_view(self, request):
 		get_token(request)
@@ -132,34 +141,35 @@ class ModelManage(object):
 		status = "success"
 		obj = None
 		model_cls = self.model_cls
-		ret = self.get_meta_info(request)
+		resp = self.get_meta_info(request)
 
 		if request.method == 'POST':
 			ModelForm = modelform_factory(model_cls, form=self.form)
 			form = ModelForm(request.POST, request.FILES)
 			if form.is_valid():
 				obj = form.save()
-				ret["id"] = obj.id
-				return render_to_json(ret, status, "Data Saved")
+				resp["id"] = obj.id
+				return render_to_json(resp, status, "Data Saved")
 			else:
 				status = "error"
 				msg = "Invalid inputs"
-				ret["error"] = form.errors
+				resp["error"] = form.errors
 				obj = form.data
 
-		ret["fields"] = self._get_client_fields(obj)
-		return render_to_json(ret, status, msg)
+		resp["fields"] = self._get_client_fields(obj)
+		return render_to_json(resp, status, msg)
 
-	def upadate_view(self, request, object_id):
+	def upadate_view(self, request, **kwargs):
 		get_token(request)
 		model_cls = self.model_cls
+		object_id = kwargs["id"]
 		try:
 			obj = model_cls.objects.get(pk=object_id)
 		except model_cls.DoesNotExist:
 			return render_to_json({}, "error", 
 				"Can't load this %s" % model_cls.__name__)
 
-		ret = self.get_meta_info(request)
+		resp = self.get_meta_info(request, **kwargs)
 		form_validated = True
 		status = "success"
 		msg = "Data Loaded"
@@ -173,15 +183,15 @@ class ModelManage(object):
 			else:
 				form_validated = False
 				obj = form.data
-				ret["errors"] = form.errors
+				resp["errors"] = form.errors
 				msg = "Invalid inputs"
 
-		ret["fields"] = self._get_client_fields(obj)
-		ret["hidden_fields"] = [{
+		resp["fields"] = self._get_client_fields(obj)
+		resp["hidden_fields"] = [{
 				"name": "id",
 				"value": obj.id if form_validated else obj["id"],
 		}]
-		return render_to_json(ret, status, msg)
+		return render_to_json(resp, status, msg)
 
 	def _get_client_fields(self, obj = None):
 		model_cls = self.model_cls
@@ -266,19 +276,38 @@ class ModelManage(object):
 		return fields_dict
 
 class TreeModelManage(ModelManage):
+	list_helpers = ("id", "is_leaf_node")
+
 	def get_urls(self):
 		urlpatterns = patterns('',
-			url(r'^(\d+)/$', self.index, name=''),
-			url(r'^(\d+)/p/(\d+)/$', self.list_view, name=''),
+			url(r'^(?P<id>\d+)/$', self.index, name=''),
+			url(r'^(?P<id>\d+)/p/(?P<page>\d+)/$', self.list_view, name=''),
 		)
+		urlpatterns += super(TreeModelManage, self).get_urls()
 
 		return urlpatterns
 
-	def index(self, request, object_id):
-		return self.list_view(request, object_id, 1)
+	def index(self, request, **kwargs):
+		return self.list_view(request, **kwargs)
 
-	def list_view(self, request, object_id, page):
-		pass
+	def get_models(self, request, **kwargs):
+		object_id = kwargs.get("id", None)
+		min_index, max_index = self.get_page_slices(request, **kwargs)
+		list_related = self.get_list_related_fields(request)
+		manager = self.model_cls.objects
+		resp = kwargs["resp"]
+		if object_id is None:
+			resp["ancestors"] = []
+			return manager.select_related(*list_related).filter(
+				parent_id = None
+			)[min_index:max_index]
+		else: 
+			obj = manager.get(pk=object_id)
+			resp["ancestors"] = [(o.id, o.title) for o in obj.get_ancestors()]
+			return manager.select_related(*list_related).filter(
+				tree_id = obj.tree_id,
+				parent_id = obj.id,
+			)[min_index:max_index]
 
 class ManageSite(object):
 

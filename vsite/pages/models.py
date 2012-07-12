@@ -46,10 +46,10 @@ class Page(Publishable):
 		return self.title
 
 
-from vsite.manage.sites import site, ModelManage
+from vsite.manage.sites import site, ModelManage, TreeModelManage
 from mptt.forms import MPTTAdminForm
 
-class URLManage(ModelManage):
+class URLManage(TreeModelManage):
 	fields = ("parent", "title", "slug")
 	list_display = ('slug', "parent")
 	readonly_fields = ("slug", )

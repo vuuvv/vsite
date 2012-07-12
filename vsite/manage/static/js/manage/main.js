@@ -10,9 +10,9 @@ require.config({
 	}
 });
 
-require(['jquery', 'underscore', 'backbone', "views/list", "plugins"],
+require(['jquery', 'underscore', 'backbone', 'config', "plugins"],
 
-function($, _, Backbone, ListView) {
+function($, _, Backbone, config) {
 	var custom_views = ["page"];
 
 	var norm_model = function(model) {
@@ -27,7 +27,9 @@ function($, _, Backbone, ListView) {
 			":app/:model/:id": "update",
 			":app/:model/:id/delete": "remove",
 			":app/:model": "list",
-			":app/:model/p/:page": "list"
+			":app/:model/p/:page": "list",
+			":app/:model/:id/": "tree_list",
+			":app/:model/:id/p/:page": "tree_list"
 		},
 
 		initialize: function(options) {
@@ -63,7 +65,7 @@ function($, _, Backbone, ListView) {
 		},
 
 		index: function() {
-			this.list("page");
+			this.list("pages", "page");
 		},
 
 		list: function(app, model, page) {
@@ -71,17 +73,30 @@ function($, _, Backbone, ListView) {
 			// pages start from 1
 			page = page || 1;
 			model = norm_model(model);
-			this._render("list", {
+			this._render(app, model, "list", {
 				url_prefix: app + "/" + model,
 				type: "list",
 				page: page
 			});
 		},
 
+		tree_list: function(app, model, id, page) {
+			page = parseInt(page);
+			// pages start from 1
+			page = page || 1;
+			model = norm_model(model);
+			this._render(app, model, "list", {
+				url_prefix: app + "/" + model,
+				type: "list",
+				page: page,
+				model_id: id || null
+			});
+		},
+
 		add: function(app, model) {
 			model = norm_model(model);
 			url = app + "/" + model + "/add/";
-			this._render("edit", {
+			this._render(app, model, "edit", {
 				url_prefix: app + "/" + model,
 				type: "add"
 			});
@@ -94,15 +109,15 @@ function($, _, Backbone, ListView) {
 			// tell if id is  integer
 			model = norm_model(model);
 			url =  app + "/" + model + "/" + id + "/"
-			this._render("edit", {
+			this._render(app, model, "edit", {
 				url_prefix: app + "/" + model,
 				type: "update",
 				model_id: id
 			});
 		},
 
-		_render: function(view, options) {
-			require(["views/" + view], function(View) {
+		_render: function(app, model, view, options) {
+			require([config.get_view(app, model, view)], function(View) {
 				var view = new View(options);
 				view.render();
 			});

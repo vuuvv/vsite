@@ -32,7 +32,7 @@ define([
 
 		get_update_url: function() {
 			var opts = this.options;
-			return this.timestamp(opts.url_prefix + "/" + opts.model_id + "/");
+			return this.timestamp(opts.url_prefix + "/update/" + opts.model_id + "/");
 		},
 
 		get_delete_url: function(id) {
@@ -62,6 +62,7 @@ define([
 			}
 			app.success(model.get("msg"), true);
 
+			model.set("url_prefix", this.options.url_prefix);
 			this._render(model);
 		},
 
