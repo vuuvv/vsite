@@ -23,7 +23,7 @@
 			<table class="fileheader">
 				<tr>
 					<th class="checkbox first">
-						<input type="checkbox" />
+						<input type="checkbox" class="select-all" />
 					</th>
 					<% _.each(model.columns, function(column, index) { 
 						if (column == "__str__" || column == "__unicode__") {
@@ -47,22 +47,22 @@
 					<% _.each(model.models, function(row) { %>
 					<tr class="file-row">
 						<td class="checkbox">
-							<input type="checkbox" />
+							<input type="checkbox" model-id="<%= row.helper.id %>" class="select-item" />
 						</td>
 						<% _.each(row.fields, function(field, index) { %>
 							<% if (index == 0) { %>
 						<td class="filename">
 							<div class="details">
 								<div class="name-pic">
-									<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>" class="icon32 icon32-rtf"></a>
+									<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.helper.id %>" class="icon32 icon32-rtf"></a>
 								</div>
 								<div class="name-intro">
 									<div class="name-text">
-										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>"><%= field %></a>
+										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.helper.id %>"><%= field %></a>
 									</div>
 									<div class="name-tools">
-										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.id %>">edit</a>
-										<a class="model-delete-btn" model-id="<%= row.id %>" href="javascript:void(0)">delete</a>
+										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.helper.id %>">edit</a>
+										<a class="model-delete-btn" model-id="<%= row.helper.id %>" href="javascript:void(0)">delete</a>
 									</div>
 								</div>
 							</div>
@@ -81,8 +81,8 @@
 	</div>
 	<div class="main-content-footer">
 		<div id="main-footer-operates">
-			<input id="select-all" class="checkbox" type="checkbox" />
-			<a id="delete-files" class="operate" href="">删除</a>
+			<input class="checkbox select-all" type="checkbox" />
+			<a id="delete-files" class="operate" href="">delete</a>
 		</div>
 		<div class="page-count-set">
 			<span>Items Per Page</span>

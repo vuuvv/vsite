@@ -37,7 +37,7 @@ define([
 
 		get_delete_url: function(id) {
 			var opts = this.options;
-			return this.timestamp(opts.url_prefix + "/" + id + "/delete/");
+			return this.timestamp(opts.url_prefix + "/delete/");
 		},
 
 		render: function() {
@@ -50,6 +50,17 @@ define([
 				error: _.bind(this.on_fetched_error, this)
 			});
 			return this;
+		},
+
+		render_template: function(model, part, where, data, callback) {
+			var self = this,
+				view = this.view,
+				tmpl = config.get_template(model.app_label, model.module_name, view, part);
+			require([tmpl], function(t) {
+				var tmpl = _.template(t);
+				$(where).html(tmpl(data));
+				callback();
+			});
 		},
 
 		on_fetched_model: function() {
@@ -72,25 +83,6 @@ define([
 
 		on_http_error: function(jqXHR, textStatus, errorThrown) {
 			app.error("Server Error", true);
-		},
-
-		on_delete: function(evt) {
-			var elem = $(evt.currentTarget),
-				now = new Date;
-
-			$.ajax(this.get_delete_url(elem.attr("model-id")), {
-				type: "POST",
-				data: {
-					csrfmiddlewaretoken: this.model.get("csrf_token")
-				},
-				dataType: "json",
-				error: _.bind(this.on_http_error, this),
-				success: _.bind(this.on_delete_success, this)
-			});
-			return false;
-		},
-
-		on_delete_success: function() {
 		}
 	});
 

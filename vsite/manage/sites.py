@@ -129,9 +129,8 @@ class ModelManage(object):
 
 	def delete_view(self, request):
 		get_token(request)
-		ids = [int(id) for id in request.POST["ids"].split()]
-		model_cls = self.model_cls
-		obj = model_cls.objects.get(id=int(object_id))
+		ids = [int(id) for id in request.POST["ids[]"].split()]
+		obj = self.model_cls.objects.filter(id__in=ids)
 		obj.delete()
 		return render_to_json({}, "success", "Data Delete")
 
