@@ -74,7 +74,7 @@ define([
 			app.success(model.get("msg"), true);
 
 			model.set("url_prefix", this.options.url_prefix);
-			this._render(model);
+			this._render(model.toJSON());
 		},
 
 		on_fetched_error: function() {

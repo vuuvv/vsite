@@ -13,7 +13,6 @@ define([
 		},
 
 		_render: function(model) {
-			model = model.toJSON();
 			this.render_template(model, "left", "#main-left",
 				{model: model},
 				_.bind(this.left_part_event, this)
@@ -28,29 +27,29 @@ define([
 			});
 			$("#delete-items").click(_.bind(this.on_delete_items, this));
 			$(".delete-item").click(_.bind(this.on_delete_item, this));
-			$(".select-all").click(_.bind(this.check_all, this));
-			$(".select-item").click(_.bind(this.check_one, this));
+			$(".select-all").click(_.bind(this.select_all, this));
+			$(".select-item").click(_.bind(this.select_item, this));
 		},
 
-		check_all: function(evt) {
+		select_all: function(evt) {
 			var elem = $(evt.currentTarget);
 			if (elem.attr("checked")) {
-				$(".checkbox-ahead").attr("checked", true);
+				$(".select-item, .select-all").attr("checked", true);
 			} else {
-				$(".checkbox-ahead").removeAttr("checked");
+				$(".select-item, .select-all").removeAttr("checked");
 			}
 		},
 
-		check_one: function(evt) {
+		select_item: function(evt) {
 			var elem = $(evt.currentTarget);
 			if (!elem.attr("checked")) {
-				$("#check-all").removeAttr("checked");
+				$(".select-all").removeAttr("checked");
 			}
 		},
 
 		get_ids: function() {
 			var ids = [];
-			$(".checkbox-ahead").each(function(elem) {
+			$(".select-item").each(function(elem) {
 				var $elem = $(this);
 				if ($elem.attr("checked"))
 					ids.push($elem.attr("model-id"));
@@ -83,6 +82,7 @@ define([
 		},
 
 		on_delete_success: function() {
+			app.reload();
 		}
 	});
 

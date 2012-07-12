@@ -25,11 +25,11 @@ function($, _, Backbone, config) {
 			"logout": "logout",
 			":app/:model/add": "add",
 			":app/:model/:id": "update",
-			":app/:model/:id/delete": "remove",
 			":app/:model": "list",
 			":app/:model/p/:page": "list",
-			":app/:model/:id/": "tree_list",
-			":app/:model/:id/p/:page": "tree_list"
+			":app/:model/add/:pid": "tree_add",
+			":app/:model/:pid/": "tree_list",
+			":app/:model/:pid/p/:page": "tree_list"
 		},
 
 		initialize: function(options) {
@@ -72,51 +72,52 @@ function($, _, Backbone, config) {
 			page = parseInt(page);
 			// pages start from 1
 			page = page || 1;
-			model = norm_model(model);
 			this._render(app, model, "list", {
-				url_prefix: app + "/" + model,
 				type: "list",
 				page: page
 			});
 		},
 
-		tree_list: function(app, model, id, page) {
+		tree_list: function(app, model, pid, page) {
 			page = parseInt(page);
 			// pages start from 1
 			page = page || 1;
-			model = norm_model(model);
 			this._render(app, model, "list", {
-				url_prefix: app + "/" + model,
 				type: "list",
 				page: page,
-				model_id: id || null
+				pid: pid || null
 			});
 		},
 
 		add: function(app, model) {
-			model = norm_model(model);
-			url = app + "/" + model + "/add/";
 			this._render(app, model, "edit", {
-				url_prefix: app + "/" + model,
 				type: "add"
 			});
 		},
 
-		remove: function(app, mdoel, id) {
+		tree_add: function(app, model, pid) {
+			this._render(app, model, "edit", {
+				type: "add",
+				pid: pid
+			});
 		},
 
 		update: function(app, model, id) {
 			// tell if id is  integer
-			model = norm_model(model);
-			url =  app + "/" + model + "/" + id + "/"
 			this._render(app, model, "edit", {
-				url_prefix: app + "/" + model,
 				type: "update",
 				model_id: id
 			});
 		},
 
+		reload: function() {
+			Backbone.history.fragment = null;
+			Backbone.history.navigate(document.location.hash, true);
+		},
+
 		_render: function(app, model, view, options) {
+			model = norm_model(model);
+			options["url_prefix"] = app + "/" + model;
 			require([config.get_view(app, model, view)], function(View) {
 				var view = new View(options);
 				view.render();

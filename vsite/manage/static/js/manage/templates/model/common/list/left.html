@@ -62,7 +62,7 @@
 									</div>
 									<div class="name-tools">
 										<a href="#<%= model.app_label %>/<%= model.module_name %>/<%= row.helper.id %>">edit</a>
-										<a class="model-delete-btn" model-id="<%= row.helper.id %>" href="javascript:void(0)">delete</a>
+										<a class="delete-item" model-id="<%= row.helper.id %>" href="javascript:void(0)">delete</a>
 									</div>
 								</div>
 							</div>
@@ -82,7 +82,7 @@
 	<div class="main-content-footer">
 		<div id="main-footer-operates">
 			<input class="checkbox select-all" type="checkbox" />
-			<a id="delete-files" class="operate" href="">delete</a>
+			<a id="delete-items" class="operate" href="">delete</a>
 		</div>
 		<div class="page-count-set">
 			<span>Items Per Page</span>

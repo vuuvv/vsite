@@ -15,7 +15,7 @@
 				<% } else { %>
 				<a href="#<%= model.app_label %>/<%= model.module_name %>" title="up" class="btn return"></a>
 				<% } %>
-				<a href="#<%= model.url_prefix %>/add" class="btn upload">New <%= model.model_name %></a>
+				<a href="#<%= model.url_prefix %>/add<% if (!_.isUndefined(model.__pid) && !_.isNull(model.__pid)) { %>/<%= model.__pid %><% } %>" class="btn upload">New <%= model.model_name %></a>
 			</div>
 			<div id="main-content-search">
 				<div class="mode-wrap">
@@ -80,6 +80,7 @@
 									</div>
 									<div class="name-tools">
 										<a href="#<%= model.url_prefix %>/<%= row.helper.id %>">edit</a>
+										<a href="#<%= model.url_prefix %>/add/<%= row.helper.id %>">add child</a>
 										<a class="delete-item" model-id="<%= row.helper.id %>" href="javascript:void(0)">delete</a>
 									</div>
 								</div>

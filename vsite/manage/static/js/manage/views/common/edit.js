@@ -9,6 +9,7 @@ define([
 	'xheditor'
 ], function($, _, Backbone, config, widgets, ModelView) {
 	var EditView = ModelView.extend({
+		view: "edit",
 
 		get_load_url: function() {
 			var type = this.options.type;
@@ -20,12 +21,28 @@ define([
 		},
 
 		_render: function(model) {
-			// TODO: dispatch the model to specified view
-			var fields = model.get("fields"),
-				module_name = model.get("module_name"),
-				app_label = model.get("app_label");
+			this.prepare_fields(model);
+			this.render_template(model, "left", "#main-left",
+				{model: model, type: this.options.type},
+				_.bind(this.left_part_event, this)
+			);
+		},
+
+		left_part_event: function() {
+			$("textarea.xheditor").xheditor();
+			$("#main-form-submit").click(_.bind(this.on_submit, this));
+		},
+
+		prepare_fields: function(model) {
+			var fields = model.fields,
+				module_name = model.module_name,
+				app_label = model.app_label;
+
 			for (var i = 0; i < fields.length; i++) {
 				var field = fields[i];
+				if (field.name == "parent" && this.options.type == "add" && !_.isUndefined(this.options.pid)) {
+					field.value = this.options.pid;
+				}
 				var widget = new widgets[field.widget]({
 					app_label: app_label,
 					module_name: module_name,
@@ -34,23 +51,6 @@ define([
 				});
 				field.html = widget.render();
 			}
-
-			model = model.toJSON();
-			this._render_left_part(model, this.options.type);
-		},
-
-		_render_left_part: function(model, type) {
-			var self = this, 
-				template = config.get_template(model.app_label, model.module_name, "edit", "left");
-			require([template], function(t) {
-				var tmpl = _.template(t);
-				$("#main-left").html(tmpl({
-					type: type,
-					model: model
-				}));
-				$("textarea.xheditor").xheditor();
-				$("#main-form-submit").click(_.bind(self.on_submit, self));
-			});
 		},
 
 		get_form_data: function() {

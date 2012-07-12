@@ -129,9 +129,15 @@ class ModelManage(object):
 
 	def delete_view(self, request):
 		get_token(request)
-		ids = [int(id) for id in request.POST["ids[]"].split()]
-		obj = self.model_cls.objects.filter(id__in=ids)
-		obj.delete()
+		ids = [int(id) for id in request.POST.getlist("ids[]")]
+		model_cls = self.model_cls
+		# have to delete tree node one by one
+		for id in ids:
+			try:
+				obj = model_cls.objects.get(pk=id)
+			except model_cls.DoesNotExist:
+				pass
+			obj.delete()
 		return render_to_json({}, "success", "Data Delete")
 
 	def add_view(self, request):
