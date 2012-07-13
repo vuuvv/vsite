@@ -52,11 +52,20 @@ body {
 	text-align: center;
 }
 
+#filedialog {
+	position: fixed;
+	display:none;
+}
+
 * html #global-header {
 	position: absolute;
 }
 
 * html #notify {
+	position: absolute;
+}
+
+* html #filedialog {
 	position: absolute;
 }
 

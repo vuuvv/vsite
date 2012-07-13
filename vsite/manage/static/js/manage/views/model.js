@@ -56,6 +56,7 @@ define([
 			var self = this,
 				view = this.view,
 				tmpl = config.get_template(model.app_label, model.module_name, view, part);
+
 			require([tmpl], function(t) {
 				var tmpl = _.template(t);
 				$(where).html(tmpl(data));

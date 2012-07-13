@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'mptt',
     'vsite.core',
+    'vsite.filemanage',
     'vsite.manage',
     'vsite.pages',
     'vsite.blog',

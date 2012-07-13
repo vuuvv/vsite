@@ -27,6 +27,7 @@ function($, _, Backbone, config) {
 	var ManageApp = Backbone.Router.extend({
 		routes: {
 			"": "index",
+			"dialog": "dialog",
 			"logout": "logout",
 			":app/:model/add": "add",
 			":app/:model/:id": "update",
@@ -35,6 +36,13 @@ function($, _, Backbone, config) {
 			":app/:model/add/:pid": "tree_add",
 			":app/:model/:pid/": "tree_list",
 			":app/:model/:pid/p/:page": "tree_list"
+		},
+
+		dialog: function() {
+			require(["views/filedialog"], function(Dialog) {
+				var dialog = new Dialog;
+				dialog.render();
+			});
 		},
 
 		initialize: function(options) {
