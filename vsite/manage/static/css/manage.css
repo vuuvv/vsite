@@ -322,25 +322,25 @@ li.current .arrow-down em {
 #main-content-tools .btn1 {
 }
 
-#main-content-tools .upload {
+#main-content-tools .btn-emphasis {
 	color: #fff;
 	background-position: -101px 0;
 }
 
-#main-content-tools .upload:hover {
+#main-content-tools .btn-emphasis:hover {
 	background-position: -101px -29px;
 }
 
-#main-content-tools .new-folder {
+#main-content-tools .btn-normal {
 	background-position: 0 -58px;
 	width: 105px;
 }
 
-#main-content-tools .new-folder:hover {
+#main-content-tools .btn-normal:hover {
 	background-position: 0 -87px;
 }
 
-#main-content-tools .more {
+#main-content-tools .btn-more {
 	background-position: 0 -116px;
 	height: 21px;
 	padding: 7px 0 0;
@@ -506,7 +506,7 @@ li.current .arrow-down em {
 .fileviewer {
 	border-top: 1px solid #dcdcdc;
 	color: #b0b0b0;
-	height: 500px;
+	min-height: 300px;
 }
 
 .fileviewer table {

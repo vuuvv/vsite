@@ -5,9 +5,11 @@ require.config({
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
 		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
+		artdialog: '../libs/artdialog/jquery.artDialog.source',
 		text: '../libs/require/text',
 		config: 'config'
-	}
+	},
+	urlArgs: (new Date()).getTime()
 });
 
 require(['jquery', 'underscore', 'backbone', 'config', "plugins"],
@@ -110,7 +112,7 @@ function($, _, Backbone, config) {
 			});
 		},
 
-		reload: function() {
+		refresh: function() {
 			Backbone.history.fragment = null;
 			Backbone.history.navigate(document.location.hash, true);
 		},

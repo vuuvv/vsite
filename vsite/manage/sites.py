@@ -345,7 +345,8 @@ class ManageSite(object):
 
 	def get_urls(self):
 		urlpatterns = patterns('',
-			url(r'^$', self.index, name='%s_%s' % (self.name, 'index'))
+			url(r'^$', self.index, name='%s_%s' % (self.name, 'index')),
+			url(r'^upload/$', self.upload, name='%s_%s' % (self.name, 'upload'))
 		)
 
 		for model, model_manage in self._registry.iteritems():
@@ -361,6 +362,9 @@ class ManageSite(object):
 		return render_to_response("manage/home/index.html", {
 			"menus": manage_menus,
 		})
+
+	def upload(self, request):
+		render_to_response({});
 
 manage_menus = [
 	{

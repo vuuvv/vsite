@@ -29,6 +29,7 @@ define([
 			$(".delete-item").click(_.bind(this.on_delete_item, this));
 			$(".select-all").click(_.bind(this.select_all, this));
 			$(".select-item").click(_.bind(this.select_item, this));
+			$("#refresh-items").click(app.refresh);
 		},
 
 		select_all: function(evt) {
@@ -47,7 +48,7 @@ define([
 			}
 		},
 
-		get_ids: function() {
+		get_selected_ids: function() {
 			var ids = [];
 			$(".select-item").each(function(elem) {
 				var $elem = $(this);
@@ -57,18 +58,28 @@ define([
 			return ids;
 		},
 
-		on_delete_items: function(evt) {
-			this.delete_items(this.get_ids());
+		on_delete_item: function(evt) {
+			var id = $(evt.currentTarget).attr("model-id");
+			this.delete_items([id]);
 			return false;
 		},
 
-		on_delete_item: function(evt) {
-			var elem = $(evt.currentTarget);
-			this.delete_items([elem.attr("model-id")]);
+		on_delete_items: function(evt) {
+			this.delete_items(this.get_selected_ids());
 			return false;
 		},
 
 		delete_items: function(ids) {
+			var self = this;
+			require(['artdialog'], function(){
+				art.dialog.confirm('Are you sure delete these items', function() {
+					self.send_delete_request(ids);
+				});
+			});
+		},
+
+		send_delete_request: function(ids) {
+			app.info("Delete Data...");
 			$.ajax(this.get_delete_url(), {
 				type: "POST",
 				data: {
@@ -81,8 +92,9 @@ define([
 			});
 		},
 
-		on_delete_success: function() {
-			app.reload();
+		on_delete_success: function(data) {
+			app.success(data.msg);
+			app.refresh();
 		}
 	});
 
