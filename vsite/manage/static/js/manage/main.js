@@ -1,13 +1,16 @@
 require.config({
 	paths: {
 		jquery: '../libs/jquery/jquery-min',
-		plugins: '../plugins',
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
 		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
 		artdialog: '../libs/artdialog/jquery.artDialog.source',
+		swfupload: '../libs/swfupload/swfupload',
+		swfupload_queue: '../libs/swfupload/plugins/swfupload.queue',
 		text: '../libs/require/text',
-		config: 'config'
+
+		config: 'config',
+		plugins: '../plugins'
 	},
 	urlArgs: (new Date()).getTime()
 });
