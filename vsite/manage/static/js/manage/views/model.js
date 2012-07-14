@@ -75,6 +75,7 @@ define([
 			app.success(model.get("msg"), true);
 
 			model.set("url_prefix", this.options.url_prefix);
+			app.csrf_token = model.get("csrf_token");
 			this._render(model.toJSON());
 		},
 

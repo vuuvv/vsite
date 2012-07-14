@@ -38,6 +38,8 @@ function($, _, Backbone, config) {
 			":app/:model/:pid/p/:page": "tree_list"
 		},
 
+		csrf_token: null,
+
 		dialog: function() {
 			require(["views/filedialog"], function(Dialog) {
 				var dialog = new Dialog;
