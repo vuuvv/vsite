@@ -4,7 +4,7 @@ require.config({
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
 		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
-		kindeditor: '../libs/kindeditor/kindeditor-min',
+		kindeditor: '../libs/kindeditor/kindeditor',
 		artdialog: '../libs/artdialog/jquery.artDialog.source',
 		swfupload: '../libs/swfupload/swfupload',
 		swfupload_queue: '../libs/swfupload/plugins/swfupload.queue',
@@ -16,7 +16,7 @@ require.config({
 	urlArgs: (new Date()).getTime()
 });
 
-require(['jquery', 'underscore', 'backbone', 'config', "plugins"],
+require(['jquery', 'underscore', 'backbone', 'config', "plugins", "artdialog"],
 
 function($, _, Backbone, config) {
 	var custom_views = ["page"];
@@ -41,6 +41,16 @@ function($, _, Backbone, config) {
 		csrf_token: null,
 
 		initialize: function(options) {
+		},
+
+		log: function(msg) {
+			if (window.console && window.console.log) {
+				window.console.log(msg);
+			}
+		},
+
+		alert: function(msg) {
+			alert(msg);
 		},
 
 		msg: function(msg, type, is_flash) {

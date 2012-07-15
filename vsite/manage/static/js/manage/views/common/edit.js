@@ -6,7 +6,6 @@ define([
 	'views/widgets',
 	'views/model',
 	'plugins',
-	'xheditor',
 	'kindeditor'
 ], function($, _, Backbone, config, widgets, ModelView) {
 	var EditView = ModelView.extend({
@@ -33,9 +32,22 @@ define([
 			//$("textarea.xheditor").xheditor({
 			//	upImgUrl:'/files/upload/'
 			//});
-			KindEditor.ready(function(K) {
-				K.create('textarea.xheditor', {});
-			});
+			if ($('textarea.xheditor').length > 0) {
+				KindEditor.create('textarea.xheditor', {
+					afterCreate: function() {
+						$(this.srcElement).data("editor", this);
+					},
+					items: [
+						'source', '|', 'undo', 'redo', '|', 
+						'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 
+						'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+						'superscript', 'clearhtml', 'quickformat', 'selectall', '/',
+						'formatblock', 'fontname', 'fontsize', '|', 
+						'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
+						'image', 'flash', 'media', 'insertfile', 'table', 'hr', 'anchor', 'link', 'unlink'
+					],
+				});
+			}
 			$("#main-form-submit").click(_.bind(this.on_submit, this));
 		},
 
@@ -66,8 +78,12 @@ define([
 				};
 
 			inputs.each(function(index, elem) {
-				if (!elem.readOnly)
-					data[elem.name] = $(elem).val();
+				if (!elem.readOnly) {
+					var editor = $(elem).data("editor");
+					if (editor)
+						editor.sync();
+					data[elem.name] = elem.value;
+				}
 			});
 			return data;
 		},

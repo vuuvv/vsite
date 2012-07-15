@@ -78,3 +78,86 @@
 	height: 28px;
 }
 
+.fd-upload-progress {
+	padding: 7px 9px 8px;
+	position: relative;
+}
+
+.fd-upload-progress dl {
+	margin: 0;
+	padding: 0;
+}
+
+.fd-upload-progress-inner {
+	background: url(img/upload_progress_bg.png) no-repeat;
+	width: 142px;
+	height: 148px;
+	padding: 1px 1px;
+	position: relative;
+	overflow: hidden;
+}
+
+.fd-upload-file {
+	color: #07436b;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 16px;
+	overflow: hidden;
+	padding: 4px 0 5px 5px;
+	display: block;
+	text-decoration: none;
+}
+
+dt.fd-hover .fd-upload-file {
+	background: #e9f0f5;
+}
+
+.fd-upload-file-status {
+	background: url(img/file_progress_icon.png);
+}
+
+.fd-ok .fd-upload-file-status {
+	background-position: 0 -360px;
+	float: right;
+	font-size: 0;
+	height: 12px;
+	margin: 2px 5px 0 0;
+	width: 14px;
+	display: block;
+}
+
+.fd-cancelable .fd-upload-file-status {
+	background-position: 0 -306px;
+	float: right;
+	font-size: 0;
+	height: 13px;
+	margin: 2px 5px 0 0;
+	width: 13px;
+	display: block;
+}
+
+.fd-cancelable .fd-upload-file-status:hover {
+	background-position: 0 -324px;
+}
+
+.fd-progress {
+	float: right;
+	display: block;
+	margin-right: 3px;
+	width: 32px;
+	cursor: default;
+}
+
+.fd-upload-name {
+	display: block;
+	float: left;
+	width: 80px;
+	color: #07436b;
+	font-size: 12px;
+	font-weight: normal;
+	height: 16px;
+	line-height: 16px;
+	overflow: hidden;
+	cursor: default;
+}
+
