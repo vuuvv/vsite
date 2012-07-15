@@ -50,7 +50,7 @@
 							<div>
 								<ul>
 									{% for smenu in menu.children %}
-									<li><a href="#{{ smenu.url }}">{{ smenu.title }}</a></li>
+									<li><a {% for attr,value in smenu.attrs.items %}{{ attr }}="{{value}}" {% endfor %}>{{ smenu.title }}</a></li>
 									{% endfor %}
 								</ul>
 							</div>

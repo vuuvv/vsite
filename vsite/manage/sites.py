@@ -372,15 +372,23 @@ manage_menus = [
 		"children": [
 			{
 				"title": _("Settings"), 
-				"url": "settings",
+				"attrs": {
+					"href": "#settings",
+				}
 			},
 			{
 				"title": _("File Manage"), 
-				"url": "file_manage",
+				"attrs": {
+					"class": "cmd",
+					"cmd": "file_manage",
+					"href": "javascript:void(0)",
+				}
 			},
 			{
 				"title": _("Sites"),
-				"url": "sites"
+				"attrs": {
+					"href": "#sites",
+				}
 			}
 		],
 	},
@@ -389,15 +397,21 @@ manage_menus = [
 		"children": [
 			{
 				"title": _("User"), 
-				"url": "user",
+				"attrs": {
+					"href": "#user",
+				}
 			},
 			{
 				"title": _("Role"), 
-				"url": "role",
+				"attrs": {
+					"href": "#role",
+				}
 			},
 			{
 				"title": _("Permission"),
-				"url": "permission"
+				"attrs": {
+					"href": "#permission",
+				}
 			}
 		],
 	},
@@ -406,17 +420,23 @@ manage_menus = [
 		"children": [
 			{
 				"title": _("URL"), 
-				"url": "pages/url",
+				"attrs": {
+					"href": "#pages/url",
+				}
 			},
 			{
 				"title": _("Page"), 
-				"url": "pages/page",
+				"attrs": {
+					"href": "#pages/page",
+				}
 			},
 		],
 	},
 	{
 		"title": _("Logout"),
-		"url": "logout",
+		"attrs": {
+			"href": "#logout",
+		},
 		"children": [],
 	}
 ]

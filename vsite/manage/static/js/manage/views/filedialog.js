@@ -55,10 +55,34 @@ define([
 			});
 		},
 
+		set_swfupload_cookies: function() {
+			var uploader = this.uploader,
+				cookies = document.cookie.split(';'),
+				cookies_len = cookies.length,
+				post_params = uploader.settings.post_params;
+
+			for (var i = 0; i < cookies_len; i++) {
+				var c = cookies[i];
+
+				// Left trim spaces
+				c = c.replace(/^\s+/, "");
+				var parts = c.split('=');
+				if (parts.length == 2) {
+					post_params["__c__"+parts[0]] = parts[1];
+				}
+			}
+
+			uploader.setPostParams(post_params);
+		},
+
 		file_dialog_complete: function() {
-			console.log(app.csrf_token);
-			this.uploader.settings.post_params["csrfmiddlewaretoken"] = app.csrf_token;
-			this.uploader.startUpload();
+			var uploader = this.uploader;
+			uploader.setPostParams({
+				path: "test",
+				csrfmiddlewaretoken: app.csrf_token
+			});
+			this.set_swfupload_cookies();
+			uploader.startUpload();
 		}
 	});
 	return FileDialog;

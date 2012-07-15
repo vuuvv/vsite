@@ -10,6 +10,7 @@ def upload(request):
 	if request.method == 'POST':
 		form = UploadFileForm(request.POST, request.FILES)
 		if form.is_valid():
+			form.save()
 			return HttpResponse("upload success")
 		else:
 			return HttpResponse("upload failed")

@@ -4,6 +4,7 @@ require.config({
 		underscore: '../libs/underscore/underscore',
 		backbone: '../libs/backbone/backbone',
 		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
+		kindeditor: '../libs/kindeditor/kindeditor-min',
 		artdialog: '../libs/artdialog/jquery.artDialog.source',
 		swfupload: '../libs/swfupload/swfupload',
 		swfupload_queue: '../libs/swfupload/plugins/swfupload.queue',
@@ -27,7 +28,6 @@ function($, _, Backbone, config) {
 	var ManageApp = Backbone.Router.extend({
 		routes: {
 			"": "index",
-			"dialog": "dialog",
 			"logout": "logout",
 			":app/:model/add": "add",
 			":app/:model/:id": "update",
@@ -39,13 +39,6 @@ function($, _, Backbone, config) {
 		},
 
 		csrf_token: null,
-
-		dialog: function() {
-			require(["views/filedialog"], function(Dialog) {
-				var dialog = new Dialog;
-				dialog.render();
-			});
-		},
 
 		initialize: function(options) {
 		},
@@ -137,8 +130,18 @@ function($, _, Backbone, config) {
 				var view = new View(options);
 				view.render();
 			});
+		},
+
+		file_manage: function() {
+			require(["views/filedialog"], function(Dialog) {
+				var dialog = new Dialog;
+				dialog.render();
+			});
 		}
 	});
+
+	app = new ManageApp;
+	Backbone.history.start();
 
 	$("#global-header").width($("#main-body").width());
 	$("#global-header .menu li.menu-item").hover(function() {
@@ -146,8 +149,9 @@ function($, _, Backbone, config) {
 	}, function(){
 		$(this).removeClass("current");
 	});
+	$("a.cmd").click(function() {
+		app[$(this).attr("cmd")]();
+	});
 
-	app = new ManageApp;
-	Backbone.history.start();
 });
 

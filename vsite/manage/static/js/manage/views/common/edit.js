@@ -6,7 +6,8 @@ define([
 	'views/widgets',
 	'views/model',
 	'plugins',
-	'xheditor'
+	'xheditor',
+	'kindeditor'
 ], function($, _, Backbone, config, widgets, ModelView) {
 	var EditView = ModelView.extend({
 		view: "edit",
@@ -29,7 +30,12 @@ define([
 		},
 
 		left_part_event: function() {
-			$("textarea.xheditor").xheditor();
+			//$("textarea.xheditor").xheditor({
+			//	upImgUrl:'/files/upload/'
+			//});
+			KindEditor.ready(function(K) {
+				K.create('textarea.xheditor', {});
+			});
 			$("#main-form-submit").click(_.bind(this.on_submit, this));
 		},
 
@@ -88,7 +94,7 @@ define([
 					return;
 				} else {
 					this.model.set("fields", data.fields);
-					this._render(this.model);
+					this._render(this.model.toJSON());
 				}
 			}
 		}
