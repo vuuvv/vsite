@@ -13,6 +13,7 @@ sdist
 develop-eggs
 .installed.cfg
 __pycache__/
+site_demo/site_demo/static/
 
 # Installer logs
 pip-log.txt
