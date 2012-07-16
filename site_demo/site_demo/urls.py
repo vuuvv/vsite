@@ -4,11 +4,12 @@ from django.conf.urls import patterns, include, url
 #from django.contrib import admin
 #admin.autodiscover()
 from vsite import manage
+from vsite import filemanage
 
 urlpatterns = patterns('',
     # Examples:
     url(r'^manage/', include(manage.site.urls), name='manage'),
-    url(r'^files/', include("vsite.filemanage.urls"), name='filemanage'),
+    url(r'^files/', include(filemanage.site.urls), name='filemanage'),
     url(r'^', include('vsite.pages.urls'), name='pages'),
     # url(r'^site_demo/', include('site_demo.foo.urls')),
     #(r'^grappelli/', include('grappelli.urls')),

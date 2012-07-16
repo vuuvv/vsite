@@ -172,7 +172,7 @@ define([
 			var dt = $("#" + file.id);
 			dt.find(".fd-upload-file").removeClass("fd-cancelable").addClass("fd-ok");
 			dt.find(".fd-progress").remove();
-			dt.find(".fd-upload-file-status").unbind("click").disable();
+			dt.find(".fd-upload-file-status").unbind("click");
 		},
 
 		on_queue_complete: function(files_count) {
