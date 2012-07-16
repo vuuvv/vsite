@@ -55,7 +55,7 @@ body {
 
 .content {
 	width: 960px;
-	margin: 134px auto 50px;
+	margin: 134px auto 0;
 }
 
 .content-inner {
