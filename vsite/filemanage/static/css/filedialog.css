@@ -161,3 +161,110 @@ dt.fd-hover .fd-upload-file {
 	cursor: default;
 }
 
+/* <file dialog - files viewer> */
+.fd-icon-list {
+	margin: 0;
+	list-style: none;
+	padding: 20px 0 20px 20px;
+	width: 452px;
+}
+
+.fd-icon-list li {
+	list-style: none;
+	padding: 0;
+	margin: 0 5px 5px 0;
+	width: 100px;
+	height: 150px;
+	position: relative;
+	border: 1px solid #fff;
+	float: left;
+}
+
+.fd-list-item-wrap {
+	text-align: center;
+	position: absolute;
+	height: 150px;
+}
+
+.fd-icon-list .fd-list-item-thumb {
+	padding: 10px 10px 2px;;
+	text-align: center;
+	overflow: hidden;
+	position: relative;
+}
+
+.fd-list-item-name {
+	padding: 5px 3px;
+	display: block;
+}
+
+.fd-list-txt {
+	height: 14px;
+	width: 94px;
+	overflow: hidden;
+	text-align: center;
+	color: #666;
+	cursor: pointer;
+	display: block;
+	font-family: "\5B8B\4F53";
+}
+
+/* </file dialog - files viewer> */
+
+/* <file icon> */
+.fd-icon {
+	background: url(img/file_icon.png) no-repeat 0 0;
+	_background: url(img/file_icon_ie.png) no-repeat 0 0;
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	font-size: 0;
+	line-height: 0;
+}
+.fd-icon-folder {
+	background-position:0 0
+}
+.fd-icon-csv,.fd-icon-other,.fd-icon-rtf {
+	background-position:0 -80px
+}
+.fd-icon-doc {
+	background-position:0 -160px
+}
+.fd-icon-exe {
+	background-position:0 -240px
+}
+.fd-icon-html {
+	background-position:0 -320px
+}
+.fd-icon-music {
+	background-position:0 -400px
+}
+.fd-icon-ppt {
+	background-position:0 -480px
+}
+.fd-icon-pdf {
+	background-position:0 -560px
+}
+.fd-icon-photo,.fd-icon-pic {
+	background-position:0 -640px
+}
+.fd-icon-rar {
+	background-position:0 -720px
+}
+.fd-icon-txt {
+	background-position:0 -800px
+}
+.fd-icon-video {
+	background-position:0 -880px
+}
+.fd-icon-wps {
+	background-position:0 -960px
+}
+.fd-icon-xls {
+	background-position:0 -1040px
+}
+.fd-icon-ziprar {
+	background-position:0 -1120px
+}
+/* </file icon> */
+
