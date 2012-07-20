@@ -45,7 +45,7 @@ define([
 						'formatblock', 'fontname', 'fontsize', '|', 
 						'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
 						'image', 'flash', 'media', 'insertfile', 'table', 'hr', 'anchor', 'link', 'unlink'
-					],
+					]
 				});
 			}
 			$("#main-form-submit").click(_.bind(this.on_submit, this));

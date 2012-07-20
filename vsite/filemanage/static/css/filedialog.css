@@ -162,6 +162,12 @@ dt.fd-hover .fd-upload-file {
 }
 
 /* <file dialog - files viewer> */
+.fd-browser-view {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 430px;
+}
+
 .fd-icon-list {
 	margin: 0;
 	list-style: none;
@@ -169,7 +175,7 @@ dt.fd-hover .fd-upload-file {
 	width: 452px;
 }
 
-.fd-icon-list li {
+.fd-list-item {
 	list-style: none;
 	padding: 0;
 	margin: 0 5px 5px 0;
@@ -178,6 +184,11 @@ dt.fd-hover .fd-upload-file {
 	position: relative;
 	border: 1px solid #fff;
 	float: left;
+}
+
+.fd-list-selected {
+	border: 1px solid #ececec;
+	border-radius: 2px 2px 2px 2px;
 }
 
 .fd-list-item-wrap {
@@ -207,6 +218,22 @@ dt.fd-hover .fd-upload-file {
 	cursor: pointer;
 	display: block;
 	font-family: "\5B8B\4F53";
+}
+
+.fd-list-item-info {
+	color: #bababa;
+}
+
+.fd-list-check {
+	left: 5px;
+	position: absolute;
+	top: 6px;
+	display: none;
+	outline-style: none;
+}
+
+.fd-list-selected .fd-list-check {
+	display: block;
 }
 
 /* </file dialog - files viewer> */
@@ -263,7 +290,7 @@ dt.fd-hover .fd-upload-file {
 .fd-icon-xls {
 	background-position:0 -1040px
 }
-.fd-icon-ziprar {
+.fd-icon-zip{
 	background-position:0 -1120px
 }
 /* </file icon> */

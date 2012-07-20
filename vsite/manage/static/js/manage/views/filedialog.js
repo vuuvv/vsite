@@ -2,18 +2,18 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/filedialog.html',
+	'text!templates/filemanage/filedialog.html',
+	'text!templates/filemanage/filelist.html',
 	'swfupload',
 	'swfupload_queue'
-], function($, _, Backbone, FileDialogTemplate) {
-
+], function($, _, Backbone, FileDialogTemplate, FileListTemplate) {
 	var add_dt_event = function(dt) {
 		dt.hover(function() {
 			$(this).addClass("fd-hover");
 		}, function() {
 			$(this).removeClass("fd-hover");
 		});
-	}
+	};
 
 	var FileDialog = Backbone.View.extend({
 		defaults: {
@@ -21,7 +21,8 @@ define([
 			height: 480
 		},
 
-		template: _.template(FileDialogTemplate),
+		dialog_tmpl: _.template(FileDialogTemplate),
+		list_tmpl: _.template(FileListTemplate),
 
 		initialize: function() {
 			this.options = $.extend({}, this.defaults, this.options);
@@ -29,7 +30,20 @@ define([
 		},
 
 		render: function() {
-			$("#filedialog").html(this.template({}));
+			this.render_dialog();
+			this.render_list("");
+		},
+
+		render_list: function(path) {
+			$.ajax("/files/browse/" + path, {
+				dataType: "json",
+				success: _.bind(this.on_render_list, this),
+				error: _.bind(this.on_http_error, this)
+			});
+		},
+
+		render_dialog: function() {
+			$("#filedialog").html(this.dialog_tmpl({}));
 
 			var opts = this.options,
 				width = opts.width,
@@ -71,7 +85,7 @@ define([
 
 				debug: true,
 				debug_handler: function(msg) {
-					app.log(msg);
+					//app.log(msg);
 				}
 			});
 
@@ -126,6 +140,27 @@ define([
 			});
 		},
 
+		on_render_list: function(data) {
+			$("#fd-browser").html(this.list_tmpl(data));
+
+			$(".fd-list-item").hover(function() {
+				$(this).addClass("fd-list-selected");
+			}, function() {
+				$(this).removeClass("fd-list-selected");
+			});
+			$(".fd-folder-link").click(_.bind(this.on_folder_click, this));
+		},
+
+		on_folder_click: function(e) {
+			var path = $(e.currentTarget).attr("data");
+			path = path || "";
+			this.render_list(path);
+		},
+
+		on_http_error: function(jqXHR, textStatus, errorThrown) {
+			app.error("Server Error", true);
+		},
+
 		on_preload: function() {
 			if (!this.support.loading) {
 				app.alert("You need the Flash Player 9.028 or above to use SWFUpload");
@@ -163,19 +198,28 @@ define([
 		},
 
 		on_upload_success: function(file, server_data) {
-		},
-
-		on_upload_error: function(file, error, msg) {
-		},
-
-		on_upload_complete: function(file) {
+			app.log(server_data);
 			var dt = $("#" + file.id);
 			dt.find(".fd-upload-file").removeClass("fd-cancelable").addClass("fd-ok");
 			dt.find(".fd-progress").remove();
 			dt.find(".fd-upload-file-status").unbind("click");
 		},
 
+		on_upload_error: function(file, error, msg) {
+			app.error(file.name + " upload error");
+			var elem = $("#" + file.id),
+				name = elem.find(".fd-upload-name"),
+				progress = elem.find(".fd-progress");
+
+			name.html("<strike>" + name.text() + "</strike>");
+			progress.html("<strike>0%</strke>");
+		},
+
+		on_upload_complete: function(file) {
+		},
+
 		on_queue_complete: function(files_count) {
+			app.success("Upload Completed");
 		}
 
 	});

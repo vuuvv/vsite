@@ -1,0 +1,59 @@
+<div class="fd-header">
+	<div class="fd-path" id="fd-path">
+		<a data="" href="javascript:void(0)" class="home fd-folder-link">Home</a>
+		<%
+			var path = current_path.replace("\\", "/").replace(/\/+/g, "/").replace(/^$\s+|\s+$|\/+$/g, '');
+			if (path !== "") {
+				var parts = path.split("/");
+				var cpath = "";
+				_.each(parts, function(part) {
+					cpath = cpath === "" ? part : cpath + "/" + part;
+		%>
+		<span>&gt;</span>
+		<a data="<%= cpath %>" href="javascript:void(0)" class="normal fd-folder-link"><%= part %></a>
+				<% }) %>
+			<% } %>
+	</div>
+</div>
+<div class="fd-browser-view">
+	<ul class="fd-icon-list">
+		<% _.each(dirs, function(dir) { %>
+			<li class="fd-list-item">
+				<div class="fd-list-item-wrap">
+					<div class="fd-list-item-intro">
+						<div class="fd-list-item-thumb">
+							<a href="javascript:void(0)" data="<%= current_path === "" ? dir.name : current_path + "/" + dir.name %>" title="<%= dir.name %>" class="fd-icon fd-icon-folder fd-folder-link"></a>
+						</div>
+						<div class="fd-list-item-name">
+							<a href="javascript:void(0)" data="<%= current_path === "" ? dir.name : current_path + "/" + dir.name %>" title="<%= dir.name %>" class="fd-list-txt fd-folder-link"><%= dir.name %></a>
+						</div>
+						<div class="fd-list-item-info"><%= dir.mtime.split(" ")[0] %></div>
+						<input type="checkbox" class="fd-list-check">
+						<div class="fd-list-item-tools"></div>
+					</div>
+				</div>
+			</li>
+		<% }) %>
+		<% _.each(files, function(file) { 
+			var ext = config.get_file_type(file.name);
+		%>
+			<li class="fd-list-item fd-file">
+				<div class="fd-list-item-wrap">
+					<div class="fd-list-item-intro">
+						<div class="fd-list-item-thumb">
+							<a href="#" title="<%= file.name %>" class="fd-icon fd-icon-<%= ext %>"></a>
+						</div>
+						<div class="fd-list-item-name">
+							<a href="#" title="<%= file.name %>" class="fd-list-txt"><%= file.name %></a>
+						</div>
+						<div class="fd-list-item-info"><%= config.format_file_size(file.size) %></div>
+						<input type="checkbox" class="fd-list-check">
+						<div class="fd-list-item-tools"></div>
+					</div>
+				</div>
+			</li>
+		<% }) %>
+		<div class="clear"></div>
+	</ul>
+</div>
+
