@@ -146,7 +146,9 @@ define([
 			$(".fd-list-item").hover(function() {
 				$(this).addClass("fd-list-selected");
 			}, function() {
-				$(this).removeClass("fd-list-selected");
+				var $this = $(this);
+				if (!$this.find(".fd-list-check").is(":checked"))
+					$this.removeClass("fd-list-selected");
 			});
 			$(".fd-folder-link").click(_.bind(this.on_folder_click, this));
 		},
