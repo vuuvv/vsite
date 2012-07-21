@@ -82,6 +82,19 @@ window.config = {
 			return size + "B";
 		}
 		return config.format_size(size / 1024) + "KB";
+	},
+
+	get_cookie: function(key) {
+		var cookies = document.cookie.split(';');
+
+		for (var i = 0, len=cookies.length; i < len; i++) {
+			var cookie = cookies[i];
+			cookie = cookie.replace(/^\s+/, "");
+			var parts = cookie.split('=');
+			if (parts[0] === key)
+				return parts[1];
+		}
+		return "";
 	}
 }
 

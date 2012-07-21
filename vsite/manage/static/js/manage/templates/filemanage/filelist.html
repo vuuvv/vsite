@@ -16,51 +16,14 @@
 	</div>
 </div>
 <div class="fd-browser-view">
-	<ul class="fd-icon-list">
-		<% _.each(dirs, function(dir) { %>
-			<li class="fd-list-item">
-				<div class="fd-list-item-wrap">
-					<div class="fd-list-item-intro">
-						<div class="fd-list-item-thumb">
-							<a href="javascript:void(0)" data="<%= current_path === "" ? dir.name : current_path + "/" + dir.name %>" title="<%= dir.name %>" class="fd-icon fd-icon-folder fd-folder-link"></a>
-						</div>
-						<div class="fd-list-item-name">
-							<a href="javascript:void(0)" data="<%= current_path === "" ? dir.name : current_path + "/" + dir.name %>" title="<%= dir.name %>" class="fd-list-txt fd-folder-link"><%= dir.name %></a>
-						</div>
-						<div class="fd-list-item-info"><%= dir.mtime.split(" ")[0] %></div>
-						<input type="checkbox" class="fd-list-check">
-						<div class="fd-list-item-tools"></div>
-					</div>
-				</div>
-			</li>
-		<% }) %>
-		<% _.each(files, function(file) { 
-			var ext = config.get_file_type(file.name);
-		%>
-			<li class="fd-list-item fd-file">
-				<div class="fd-list-item-wrap">
-					<div class="fd-list-item-intro">
-						<div class="fd-list-item-thumb">
-							<a href="#" title="<%= file.name %>" class="fd-icon fd-icon-<%= ext %>"></a>
-						</div>
-						<div class="fd-list-item-name">
-							<a href="#" title="<%= file.name %>" class="fd-list-txt"><%= file.name %></a>
-						</div>
-						<div class="fd-list-item-info"><%= config.format_file_size(file.size) %></div>
-						<input type="checkbox" class="fd-list-check">
-						<div class="fd-list-item-tools"></div>
-					</div>
-				</div>
-			</li>
-		<% }) %>
-		<div class="clear"></div>
+	<ul class="fd-icon-list clearfix" id="fd-icon-list">
 	</ul>
 </div>
 <div class="fd-tool-bar aui_buttons">
-	<button class="aui_state_highlight">delete</button>
-	<button class="aui_state_highlight">new folder</button>
-	<button class="aui_state_highlight">move to</button>
-	<button class="aui_state_highlight">upload</button>
-	<button class="aui_state_highlight">select</button>
+	<button id="fd-btn-delete" class="aui_state_highlight">delete</button>
+	<button id="fd-btn-new-folder" class="aui_state_highlight">new folder</button>
+	<button id="fd-btn-move" class="aui_state_highlight">move</button>
+	<button id="fd-btn-upload" class="aui_state_highlight">upload</button>
+	<button id="fd-btn-select" class="aui_state_highlight">select</button>
 </div>
 

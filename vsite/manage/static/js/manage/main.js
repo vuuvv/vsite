@@ -26,6 +26,8 @@ function($, _, Backbone, config) {
 	};
 
 	var ManageApp = Backbone.Router.extend({
+		filebrowser: null,
+
 		routes: {
 			"": "index",
 			"logout": "logout",
@@ -143,10 +145,16 @@ function($, _, Backbone, config) {
 		},
 
 		file_manage: function() {
-			require(["views/filedialog"], function(Dialog) {
-				var dialog = new Dialog;
-				dialog.render();
-			});
+			var self = this;
+			if (this.filebrowser === null) {
+				require(["views/filedialog"], function(Dialog) {
+					var dialog = new Dialog;
+					dialog.render();
+					self.filebrowser = dialog;
+				});
+			} else {
+				this.filebrowser.show();
+			}
 		}
 	});
 

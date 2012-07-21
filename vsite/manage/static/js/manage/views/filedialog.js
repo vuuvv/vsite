@@ -4,14 +4,17 @@ define([
 	'backbone',
 	'text!templates/filemanage/filedialog.html',
 	'text!templates/filemanage/filelist.html',
+	'text!templates/filemanage/file.html',
+	'text!templates/filemanage/folder.html',
 	'swfupload',
-	'swfupload_queue'
-], function($, _, Backbone, FileDialogTemplate, FileListTemplate) {
-	var add_dt_event = function(dt) {
-		dt.hover(function() {
-			$(this).addClass("fd-hover");
+	'swfupload_queue',
+	'artdialog'
+], function($, _, Backbone, FileDialogTemplate, FileListTemplate, FileTemplate, FolderTemplate) {
+	var hover_toggle_class = function(dom, name) {
+		dom.hover(function() {
+			$(this).addClass(name);
 		}, function() {
-			$(this).removeClass("fd-hover");
+			$(this).removeClass(name);
 		});
 	};
 
@@ -21,12 +24,42 @@ define([
 			height: 480
 		},
 
+		info: null,
+
+		dialog: null,
+
 		dialog_tmpl: _.template(FileDialogTemplate),
 		list_tmpl: _.template(FileListTemplate),
+		file_tmpl: _.template(FileTemplate),
+		folder_tmpl: _.template(FolderTemplate),
 
 		initialize: function() {
 			this.options = $.extend({}, this.defaults, this.options);
 			this.queues = {};
+		},
+
+		new_folder: function(name) {
+			var info = this.info;
+
+			$.ajax("/files/newfolder/", {
+				data: {
+					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
+					path: info.current_path, 
+					name: name
+				},
+				type: "POST",
+				dataType: "json",
+				success: _.bind(this.on_new_folder_success, this),
+				error: _.bind(this.on_http_error, this)
+			});
+		},
+
+		show: function() {
+			this.dialog.show();
+		},
+
+		hide: function() {
+			this.dialog.hide();
 		},
 
 		render: function() {
@@ -42,23 +75,27 @@ define([
 			});
 		},
 
+		render_file: function(file) {
+			return this.file_tmpl({
+				file: file
+			});
+		},
+
+		render_folder: function(folder) {
+			return this.folder_tmpl({
+				info: this.info,
+				folder: folder
+			});
+		},
+
 		render_dialog: function() {
-			$("#filedialog").html(this.dialog_tmpl({}));
-
-			var opts = this.options,
-				width = opts.width,
-				height = opts.height,
-				w = $("body").width(),
-				h = $("body").height(),
-				left = (w - width) / 2,
-				top = (h - height) / 2;
-
-			$("#filedialog").css({
-				width: width,
-				height: height,
-				top: top,
-				left: left
-			}).show();
+			//$("#filedialog").html(this.dialog_tmpl({}));
+			this.dialog = art.dialog({
+				title: "File Browser",
+				padding: "0",
+				content: this.dialog_tmpl({}),
+				close: _.bind(this.on_dialog_close, this)
+			});
 
 			this.uploader = new SWFUpload({
 				flash_url : "/static/js/libs/swfupload/swfupload.swf",
@@ -90,7 +127,7 @@ define([
 			});
 
 			this.$queue = $("#fd-upload-progress");
-			add_dt_event($("#fd-upload-progress dt"));
+			hover_toggle_class($("#fd-upload-progress dt"), "fd-hover");
 		},
 
 		set_swfupload_cookies: function() {
@@ -113,6 +150,30 @@ define([
 			uploader.setPostParams(post_params);
 		},
 
+		add_file_item_event: function(item, is_folder) {
+			item.hover(function() {
+				$(this).addClass("fd-list-selected");
+			}, function() {
+				var $this = $(this);
+				if (!$this.find(".fd-list-check").is(":checked"))
+					$this.removeClass("fd-list-selected");
+			});
+			if (is_folder)
+				item.find(".fd-folder-link").click(_.bind(this.on_folder_click, this));
+		},
+
+		add_file_to_list: function(file) {
+			var dom = $(this.render_file(file));
+			$(".fd-icon-list").append(dom);
+			this.add_file_item_event(dom);
+		},
+
+		add_folder_to_list: function(folder) {
+			var dom = $(this.render_folder(folder));
+			$(".fd-icon-list").append(dom);
+			this.add_file_item_event(dom, true);
+		},
+
 		add_file_to_queue: function(file) {
 			var $queue = this.$queue,
 				dt = $("<dt>").attr("id", file.id),
@@ -129,7 +190,7 @@ define([
 			$queue.append(dt);
 
 			//event;
-			add_dt_event(dt);
+			hover_toggle_class(dt, "fd-hover");
 			var self = this;
 			status.click(function() {
 				var $this = $(this);
@@ -140,17 +201,44 @@ define([
 			});
 		},
 
-		on_render_list: function(data) {
-			$("#fd-browser").html(this.list_tmpl(data));
+		on_new_folder: function() {
+			var self = this;
+			art.dialog.prompt('Please input the folder name', function (val) {
+				self.new_folder(val);
+			}, 'new folder');
+		},
 
-			$(".fd-list-item").hover(function() {
-				$(this).addClass("fd-list-selected");
-			}, function() {
-				var $this = $(this);
-				if (!$this.find(".fd-list-check").is(":checked"))
-					$this.removeClass("fd-list-selected");
-			});
+		on_new_folder_success: function(data) {
+			if (data.status === "success") {
+				app.success(data.msg);
+				this.add_folder_to_list(data.folder);
+			} else {
+				app.error(data.msg);
+			}
+		},
+
+		// turn function close to hide
+		on_dialog_close: function() {
+			this.dialog.hide();
+			return false;
+		},
+
+		on_render_list: function(data) {
+			this.info = data;
+
+			$("#fd-browser").html(this.list_tmpl(data));
 			$(".fd-folder-link").click(_.bind(this.on_folder_click, this));
+
+			var list = $("#fd-icon-list"),
+				self = this;
+			_.each(data.folders, function(folder) {
+				self.add_folder_to_list(folder);
+			});
+			_.each(data.files, function(file) {
+				self.add_file_to_list(file);
+			});
+
+			$("#fd-btn-new-folder").click(_.bind(this.on_new_folder, this));
 		},
 
 		on_folder_click: function(e) {
@@ -184,8 +272,7 @@ define([
 		on_file_dialog_complete: function() {
 			var uploader = this.uploader;
 			uploader.setPostParams({
-				path: "test",
-				csrfmiddlewaretoken: app.csrf_token
+				path: this.info.current_path,
 			});
 			this.set_swfupload_cookies();
 			uploader.startUpload();
@@ -201,10 +288,16 @@ define([
 
 		on_upload_success: function(file, server_data) {
 			app.log(server_data);
-			var dt = $("#" + file.id);
-			dt.find(".fd-upload-file").removeClass("fd-cancelable").addClass("fd-ok");
-			dt.find(".fd-progress").remove();
-			dt.find(".fd-upload-file-status").unbind("click");
+			var data = eval("(" + server_data + ")");
+			if (data.status === "success") {
+				app.success(data.msg);
+				var dt = $("#" + file.id);
+				dt.find(".fd-upload-file").removeClass("fd-cancelable").addClass("fd-ok");
+				dt.find(".fd-progress").remove();
+				dt.find(".fd-upload-file-status").unbind("click");
+				if (this.info.current_path === data.current_path)
+					this.add_file_to_list(data.file);
+			}
 		},
 
 		on_upload_error: function(file, error, msg) {

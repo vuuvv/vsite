@@ -1,6 +1,11 @@
+.aui_dialog .aui_main{
+	font-size: 0;
+}
+
 .filedialog {
 	height: 480px;
 	width: 640px;
+	font-size: 12px;
 }
 
 .fd-top {
@@ -19,13 +24,14 @@
 
 .fd-body {
 	background: url(img/fd_body_bg.png) repeat-y;
-	padding: 0 3px;
-	height: 472px;
+	padding: 0;
+	height: 480px;
+	overflow: hidden;
 }
 
 .fd-browser {
 	float: left;
-	width: 472px;
+	width: 476px;
 }
 
 .fd-info {
@@ -165,7 +171,7 @@ dt.fd-hover .fd-upload-file {
 .fd-browser-view {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	height: 387px;
+	height: 394px;
 }
 
 .fd-icon-list {
