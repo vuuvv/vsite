@@ -54,6 +54,46 @@ define([
 			});
 		},
 
+		delete_files: function(files) {
+			$.ajax("/files/delete/", {
+				data: {
+					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
+					path: this.info.current_path, 
+					files: files
+				},
+				type: "POST",
+				dataType: "json",
+				success: _.bind(this.on_delete_success, this),
+				error: _.bind(this.on_http_error, this)
+			});
+		},
+
+		select_item: function(check_box) {
+			check_box.parents(".fd-list-item").addClass("fd-list-selected");
+			check_box.attr("checked", true);
+		},
+
+		unselect_item: function(check_box) {
+			check_box.parents(".fd-list-item").removeClass("fd-list-selected");
+			check_box.removeAttr("checked");
+		},
+
+		get_selected_files: function() {
+			var self = this,
+				inputs = $(".fd-list-check:checked");
+			if (inputs.length === 0) {
+				return null;
+			} else {
+				var text_doms = inputs.parents(".fd-list-item").find(".fd-list-txt"),
+					files = [];
+
+				text_doms.each(function() {
+					files.push($(this).text());
+				});
+				return files;
+			}
+		},
+
 		show: function() {
 			this.dialog.show();
 		},
@@ -159,19 +199,24 @@ define([
 					$this.removeClass("fd-list-selected");
 			});
 			if (is_folder)
-				item.find(".fd-folder-link").click(_.bind(this.on_folder_click, this));
+				item.find(".fd-folder-link").click(_.bind(this.on_folder_link_click, this));
 		},
 
-		add_file_to_list: function(file) {
-			var dom = $(this.render_file(file));
+		add_to_list: function(file, is_folder) {
+			var dom = is_folder ? $(this.render_folder(file)) : $(this.render_file(file));
+			dom.data("file", file.name);
 			$(".fd-icon-list").append(dom);
-			this.add_file_item_event(dom);
+			this.add_file_item_event(dom, is_folder);
 		},
 
-		add_folder_to_list: function(folder) {
-			var dom = $(this.render_folder(folder));
-			$(".fd-icon-list").append(dom);
-			this.add_file_item_event(dom, true);
+		remove_from_list: function(files) {
+			var file_items = $(".fd-list-item");
+			file_items.each(function() {
+				var file = $(this);
+				if (_.indexOf(files, file.data("file")) >= 0) {
+					$(this).remove();
+				}
+			});
 		},
 
 		add_file_to_queue: function(file) {
@@ -211,7 +256,28 @@ define([
 		on_new_folder_success: function(data) {
 			if (data.status === "success") {
 				app.success(data.msg);
-				this.add_folder_to_list(data.folder);
+				this.add_to_list(data.folder, true);
+			} else {
+				app.error(data.msg);
+			}
+		},
+
+		on_delete: function() {
+			var self = this,
+				files = this.get_selected_files();
+			if (files === null) {
+				art.dialog.alert("Please select a file!");
+			} else {
+				art.dialog.confirm("Are you sure delete these files?", function() {
+					self.delete_files(files);
+				});
+			}
+		},
+
+		on_delete_success: function(data) {
+			if (data.status === "success") {
+				app.success(data.msg);
+				this.remove_from_list(data.files);
 			} else {
 				app.error(data.msg);
 			}
@@ -227,21 +293,47 @@ define([
 			this.info = data;
 
 			$("#fd-browser").html(this.list_tmpl(data));
-			$(".fd-folder-link").click(_.bind(this.on_folder_click, this));
+			$(".fd-folder-link").click(_.bind(this.on_folder_link_click, this));
 
 			var list = $("#fd-icon-list"),
 				self = this;
 			_.each(data.folders, function(folder) {
-				self.add_folder_to_list(folder);
+				self.add_to_list(folder, true);
 			});
 			_.each(data.files, function(file) {
-				self.add_file_to_list(file);
+				self.add_to_list(file);
 			});
 
+			$(".fd-list-item").click(_.bind(this.on_file_check, this));
+			$("#fd-list-check-all").click(_.bind(this.on_check_all, this));
+			$("#fd-btn-delete").click(_.bind(this.on_delete, this));
 			$("#fd-btn-new-folder").click(_.bind(this.on_new_folder, this));
 		},
 
-		on_folder_click: function(e) {
+		on_file_check: function(e) {
+			var $this = $(e.currentTarget);
+			if ($this.is(":checked")) {
+				this.select_item($this);
+			} else {
+				this.unselect_item($this);
+				var check_all = $("#fd-list-check-all");
+				if ($("#fd-list-check-all").is(":checked")) {
+					check_all.removeAttr("checked");
+				}
+			}
+		},
+
+		on_check_all: function(e) {
+			var $this = $(e.currentTarget),
+				all_check_box = $(".fd-list-check");
+			if ($this.is(":checked")) {
+				this.select_item(all_check_box);
+			} else {
+				this.unselect_item(all_check_box);
+			}
+		},
+
+		on_folder_link_click: function(e) {
 			var path = $(e.currentTarget).attr("data");
 			path = path || "";
 			this.render_list(path);
@@ -272,6 +364,7 @@ define([
 		on_file_dialog_complete: function() {
 			var uploader = this.uploader;
 			uploader.setPostParams({
+				csrfmiddlewaretoken: config.get_cookie("csrftoken"),
 				path: this.info.current_path,
 			});
 			this.set_swfupload_cookies();
@@ -296,7 +389,7 @@ define([
 				dt.find(".fd-progress").remove();
 				dt.find(".fd-upload-file-status").unbind("click");
 				if (this.info.current_path === data.current_path)
-					this.add_file_to_list(data.file);
+					this.add_to_list(data.file);
 			}
 		},
 

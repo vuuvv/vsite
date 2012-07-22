@@ -606,12 +606,12 @@ li.current .arrow-down em {
 	color: #ccc;
 	position: absolute;
 	height: 16px;
-	left: 19px;
+	left: 10px;
 	top: 15px;
 }
 
 #main-footer-operates .checkbox {
-	margin-right: 30px;
+	margin-right: 20px;
 	float: left;
 }
 

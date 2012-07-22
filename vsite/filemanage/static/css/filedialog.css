@@ -1,11 +1,14 @@
-.aui_dialog .aui_main{
+.aui_dialog .aui_main {
 	font-size: 0;
+}
+
+.aui_content {
+	font-size: 12px;
 }
 
 .filedialog {
 	height: 480px;
 	width: 640px;
-	font-size: 12px;
 }
 
 .fd-top {
@@ -186,7 +189,7 @@ dt.fd-hover .fd-upload-file {
 	padding: 0;
 	margin: 0 5px 5px 0;
 	width: 100px;
-	height: 150px;
+	height: 135px;
 	position: relative;
 	border: 1px solid #fff;
 	float: left;
@@ -200,7 +203,7 @@ dt.fd-hover .fd-upload-file {
 .fd-list-item-wrap {
 	text-align: center;
 	position: absolute;
-	height: 150px;
+	height: 135px;
 }
 
 .fd-icon-list .fd-list-item-thumb {
@@ -301,3 +304,12 @@ dt.fd-hover .fd-upload-file {
 }
 /* </file icon> */
 
+.fd-tool-bar {
+	position: relative;
+}
+
+.fd-list-check-all {
+	position: absolute;
+	left: 10px;
+	top: 12px;
+}

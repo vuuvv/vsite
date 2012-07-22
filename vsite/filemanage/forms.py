@@ -37,4 +37,6 @@ class NewFoldForm(forms.Form):
 		data = self.cleaned_data
 		os.makedirs(data["full_path"])
 		return data["path"], data["name"]
-		
+
+class DeleteForm(forms.Form):
+	path = forms.CharField(max_length=200, required=False)

@@ -21,6 +21,7 @@ class FileManageSite(object):
 		urlpatterns = patterns('',
 			url(r'^upload/$', self.upload, name=''),
 			url(r'^newfolder/$', self.new_folder, name=''),
+			url(r'^delete/$', self.delete, name=''),
 			url(r'^browse/(?P<path>(.*))$', self.browse, name=''),
 		)
 
@@ -68,13 +69,22 @@ class FileManageSite(object):
 		else:
 			raise PermissionDenied()
 
+	def delete(self, request):
+		if request.method == 'POST':
+			form = NewFoldForm(request.POST)
+			import pdb;pdb.set_trace()
+			return render_to_json({}, "success", "Files Deleted")
+		else:
+			raise PermissionDenied
+
 	def upload(self, request):
 		if request.method == 'POST':
 			form = UploadFileForm(request.POST, request.FILES)
 			if form.is_valid():
 				path, name = form.save()
 				return render_to_json({
-					"file": self.get_file_info(path, name, self.storage)
+					"file": self.get_file_info(path, name, self.storage),
+					"current_path": path,
 				}, "success", "File Uploaded")
 			else:
 				return render_to_json({
