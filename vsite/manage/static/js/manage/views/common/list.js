@@ -1,10 +1,7 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
 	'config',
 	'views/model'
-], function($, _, Backbone, config, ModelView) {
+], function(config, ModelView) {
 	var ListView = ModelView.extend({
 		view: "list",
 

@@ -1,10 +1,7 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
 	'config',
 	'views/common/list'
-], function($, _, Backbone, config, ListView) {
+], function(config, ListView) {
 	var TreeListView = ListView.extend({
 		get_list_url: function() {
 			var opts = this.options,

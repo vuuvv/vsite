@@ -16,9 +16,9 @@ require.config({
 	urlArgs: (new Date()).getTime()
 });
 
-require(['jquery', 'underscore', 'backbone', 'config', "plugins", "artdialog"],
+require(['config', "plugins", "artdialog"],
 
-function($, _, Backbone, config) {
+function(config) {
 	var custom_views = ["page"];
 
 	var norm_model = function(model) {

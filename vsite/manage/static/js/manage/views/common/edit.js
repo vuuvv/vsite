@@ -1,13 +1,10 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
 	'config',
 	'views/widgets',
 	'views/model',
 	'plugins',
 	'kindeditor'
-], function($, _, Backbone, config, widgets, ModelView) {
+], function(config, widgets, ModelView) {
 	var EditView = ModelView.extend({
 		view: "edit",
 

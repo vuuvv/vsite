@@ -1,8 +1,5 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone'
-], function($, _, Backbone) {
+], function() {
 	var ModelView = Backbone.View.extend({
 
 		initialize: function() {

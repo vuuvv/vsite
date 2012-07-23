@@ -1,7 +1,4 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
 	'text!templates/filemanage/filedialog.html',
 	'text!templates/filemanage/filelist.html',
 	'text!templates/filemanage/file.html',
@@ -9,7 +6,7 @@ define([
 	'swfupload',
 	'swfupload_queue',
 	'artdialog'
-], function($, _, Backbone, FileDialogTemplate, FileListTemplate, FileTemplate, FolderTemplate) {
+], function(FileDialogTemplate, FileListTemplate, FileTemplate, FolderTemplate) {
 	var hover_toggle_class = function(dom, name) {
 		dom.hover(function() {
 			$(this).addClass(name);
