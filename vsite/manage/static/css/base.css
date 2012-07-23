@@ -39,7 +39,4 @@ body {
 
 .clear {
 	clear:both;
-	height:0;
-	font:0/0 Arial;
-	visibility:hidden
 }

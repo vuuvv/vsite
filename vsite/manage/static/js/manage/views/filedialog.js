@@ -44,7 +44,7 @@ define([
 			$.ajax("/files/newfolder/", {
 				data: {
 					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-					path: info.current_path, 
+					path: info.current_path,
 					name: name
 				},
 				type: "POST",
@@ -58,7 +58,7 @@ define([
 			$.ajax("/files/delete/", {
 				data: {
 					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-					path: this.info.current_path, 
+					path: this.info.current_path,
 					files: files
 				},
 				type: "POST",
@@ -81,17 +81,15 @@ define([
 		get_selected_files: function() {
 			var self = this,
 				inputs = $(".fd-list-check:checked");
-			if (inputs.length === 0) {
+			if (inputs.length === 0) 
 				return null;
-			} else {
-				var text_doms = inputs.parents(".fd-list-item").find(".fd-list-txt"),
-					files = [];
+			var text_doms = inputs.parents(".fd-list-item").find(".fd-list-txt"),
+				files = [];
 
-				text_doms.each(function() {
-					files.push($(this).text());
-				});
-				return files;
-			}
+			text_doms.each(function() {
+				files.push($(this).text());
+			});
+			return files;
 		},
 
 		show: function() {
@@ -276,7 +274,12 @@ define([
 
 		on_delete_success: function(data) {
 			if (data.status === "success") {
-				app.success(data.msg);
+				if (data.errors.length > 0) {
+					var msg = "Can't delete " + data.errors.join(",");
+					app.warning(msg);
+				} else {
+					app.success(data.msg);
+				}
 				this.remove_from_list(data.files);
 			} else {
 				app.error(data.msg);

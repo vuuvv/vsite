@@ -1,4 +1,8 @@
+import os
+import errno
+import shutil
 from os import path as ospath
+
 from django.conf.urls.defaults import patterns, url, include
 from django.core.files.storage import default_storage
 from django.core.exceptions import PermissionDenied
@@ -71,9 +75,29 @@ class FileManageSite(object):
 
 	def delete(self, request):
 		if request.method == 'POST':
-			form = NewFoldForm(request.POST)
-			import pdb;pdb.set_trace()
-			return render_to_json({}, "success", "Files Deleted")
+			current_path = request.POST['path']
+			files = request.POST.getlist('files[]')
+			deletes = []
+			not_deletes = []
+			for file in files:
+				path = ospath.join(current_path.strip("/"), file)
+				path = default_storage.path(path)
+				if ospath.exists(path):
+					try:
+						if ospath.isdir(path):
+							shutil.rmtree(path)
+						else:
+							os.remove(path)
+						deletes.append(file)
+					except OSError, e:
+						if e.errno == errno.ENOENT:
+							deletes.append(file)
+						not_deletes.append(file)
+
+			return render_to_json({
+				"files": deletes,
+				"errors": not_deletes,
+			}, "success", "Files Deleted")
 		else:
 			raise PermissionDenied
 
