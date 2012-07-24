@@ -784,3 +784,9 @@ input.text:focus, textarea.text:focus {
 	width: 530px;
 }
 /* end fieldset */
+
+.ke-icon-uploadfile {
+	background-position: 0 -1040;
+	height: 16px;
+	width: 16px;
+}

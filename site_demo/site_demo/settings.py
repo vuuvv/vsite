@@ -86,6 +86,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'vsite.core.utils.StaticRootFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 

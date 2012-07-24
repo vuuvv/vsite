@@ -30,6 +30,15 @@ define(function(require, exports, module) {
 			//	upImgUrl:'/files/upload/'
 			//});
 			if ($('textarea.xheditor').length > 0) {
+				KindEditor.lang({
+					uploadfile: "uploadfile"
+				});
+				KindEditor.plugin('uploadfile', function(K) {
+					var self = this, name = 'uploadfile';
+					self.clickToolbar(name, function() {
+						app.file_manage();
+					});
+				});
 				KindEditor.create('textarea.xheditor', {
 					afterCreate: function() {
 						$(this.srcElement).data("editor", this);
@@ -41,7 +50,7 @@ define(function(require, exports, module) {
 						'superscript', 'clearhtml', 'quickformat', 'selectall', '/',
 						'formatblock', 'fontname', 'fontsize', '|', 
 						'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
-						'image', 'flash', 'media', 'insertfile', 'table', 'hr', 'anchor', 'link', 'unlink'
+						'image', 'flash', 'media', 'uploadfile', 'table', 'hr', 'anchor', 'link', 'unlink'
 					]
 				});
 			}

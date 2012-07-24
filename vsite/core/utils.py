@@ -21,3 +21,9 @@ def get_template_source(name, dirs=None):
 			pass
 	raise TemplateDoesNotExist(name)
 
+from django.contrib.staticfiles.finders import BaseStorageFinder
+from django.core.files.storage import FileSystemStorage
+class StaticRootFinder(BaseStorageFinder):
+	def __init__(self, *args, **kwargs):
+		self.storage = FileSystemStorage(location=settings.STATIC_ROOT)
+		super(StaticRootFinder, self).__init__(*args, **kwargs)

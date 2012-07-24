@@ -22,6 +22,8 @@ define(function(require) {
 			height: 480
 		},
 
+		base_url: "/static/media",
+
 		target: null,
 
 		info: null,
@@ -312,7 +314,7 @@ define(function(require) {
 			} else if (files.length > 1) {
 				art.dialog.alert("You can only choose a file!");
 			} else {
-				this.target.val(this.info.current_path + "/" + files[0]);
+				this.target.val(this.base_url + "/" + this.info.current_path + "/" + files[0]);
 				this.hide();
 			}
 		},
