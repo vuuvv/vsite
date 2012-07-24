@@ -1,5 +1,7 @@
-define([
-], function() {
+define(function(require, exports, module) {
+
+	var config = require('manage/config');
+
 	var ModelView = Backbone.View.extend({
 
 		initialize: function() {
@@ -54,7 +56,7 @@ define([
 				view = this.view,
 				tmpl = config.get_template(model.app_label, model.module_name, view, part);
 
-			require([tmpl], function(t) {
+			require.async(tmpl, function(t) {
 				var tmpl = _.template(t);
 				$(where).html(tmpl(data));
 				callback();

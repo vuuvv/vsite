@@ -1,7 +1,7 @@
-define([
-	'config',
-	'views/common/list'
-], function(config, ListView) {
+define(function(require) {
+	var config = require('manage/config'),
+		ListView = require('manage/views/common/list');
+
 	var TreeListView = ListView.extend({
 		get_list_url: function() {
 			var opts = this.options,

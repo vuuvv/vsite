@@ -1,25 +1,6 @@
-require.config({
-	paths: {
-		jquery: '../libs/jquery/jquery-min',
-		underscore: '../libs/underscore/underscore',
-		backbone: '../libs/backbone/backbone',
-		xheditor: '../libs/xheditor/xheditor-1.1.14-en.min',
-		kindeditor: '../libs/kindeditor/kindeditor',
-		artdialog: '../libs/artdialog/jquery.artDialog.source',
-		swfupload: '../libs/swfupload/swfupload',
-		swfupload_queue: '../libs/swfupload/plugins/swfupload.queue',
-		text: '../libs/require/text',
-
-		config: 'config',
-		plugins: '../plugins'
-	},
-	urlArgs: (new Date()).getTime()
-});
-
-require(['config', "plugins", "artdialog"],
-
-function(config) {
-	var custom_views = ["page"];
+define(function(require, exports, module) {
+	var config = require('manage/config');
+	require('plugins');
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -138,22 +119,25 @@ function(config) {
 		_render: function(app, model, view, options) {
 			model = norm_model(model);
 			options["url_prefix"] = app + "/" + model;
-			require([config.get_view(app, model, view)], function(View) {
+			require.async(config.get_view(app, model, view), function(View) {
 				var view = new View(options);
 				view.render();
 			});
 		},
 
-		file_manage: function() {
+		file_manage: function(target) {
 			var self = this;
+			target = "#pages-page-title";
 			if (this.filebrowser === null) {
-				require(["views/filedialog"], function(Dialog) {
-					var dialog = new Dialog;
+				require.async("manage/views/filedialog", function(Dialog) {
+					var dialog = new Dialog({
+						target: target
+					});
 					dialog.render();
 					self.filebrowser = dialog;
 				});
 			} else {
-				this.filebrowser.show();
+				this.filebrowser.show(target);
 			}
 		}
 	});
@@ -170,6 +154,4 @@ function(config) {
 	$("a.cmd").click(function() {
 		app[$(this).attr("cmd")]();
 	});
-
 });
-

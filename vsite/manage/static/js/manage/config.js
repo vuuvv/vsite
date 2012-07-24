@@ -1,4 +1,4 @@
-define([], function() {
+define(function(require, exports) {
 
 var views = {
 	tree: ["list"]
@@ -16,13 +16,13 @@ var file_types = {
 	custom: ["doc", "exe", "html", "ppt", "pdf", "txt", "wps", "xls"]
 };
 
-window.config = {
+var config = {
 	get_template: function(app_label, module_name, view, part) {
-		return 'text!templates/model/' + this.get_view_type(app_label, module_name, view) + '/' + view + "/" + part + ".html";
+		return 'manage/templates/model/' + this.get_view_type(app_label, module_name, view) + '/' + view + "/" + part + ".tpl";
 	},
 
 	get_view: function(app_label, module_name, view) {
-		return 'views/' + this.get_view_type(app_label, module_name, view) + '/' + view
+		return './views/' + this.get_view_type(app_label, module_name, view) + '/' + view
 	},
 
 	get_view_type: function(app_label, module_name, view) {

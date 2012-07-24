@@ -1,7 +1,6 @@
-define([
-	'config',
-	'views/model'
-], function(config, ModelView) {
+define(function(require, exports, modlue) {
+	var ModelView = require('../model');
+
 	var ListView = ModelView.extend({
 		view: "list",
 
@@ -68,10 +67,8 @@ define([
 
 		delete_items: function(ids) {
 			var self = this;
-			require(['artdialog'], function(){
-				art.dialog.confirm('Are you sure delete these items', function() {
-					self.send_delete_request(ids);
-				});
+			art.dialog.confirm('Are you sure delete these items', function() {
+				self.send_delete_request(ids);
 			});
 		},
 

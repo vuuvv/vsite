@@ -1,10 +1,10 @@
-define([
-	'config',
-	'views/widgets',
-	'views/model',
-	'plugins',
-	'kindeditor'
-], function(config, widgets, ModelView) {
+define(function(require, exports, module) {
+	var widgets = require('manage/views/widgets'),
+		ModelView = require('manage/views/model'),
+		config = require('manage/config');
+
+	require('kindeditor');
+
 	var EditView = ModelView.extend({
 		view: "edit",
 

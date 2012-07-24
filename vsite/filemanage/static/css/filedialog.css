@@ -35,6 +35,7 @@
 .fd-browser {
 	float: left;
 	width: 476px;
+	position: relative;
 }
 
 .fd-info {
@@ -47,6 +48,8 @@
 	background: #f1f4f7;
 	border-bottom: 1px solid #dcdddd;
 	padding: 0;
+	z-index: 10;
+	position: relative;
 }
 
 .fd-path {
@@ -175,6 +178,8 @@ dt.fd-hover .fd-upload-file {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	height: 394px;
+	position: relative;
+	z-index: 5;
 }
 
 .fd-icon-list {
@@ -250,7 +255,7 @@ dt.fd-hover .fd-upload-file {
 /* <file icon> */
 .fd-icon {
 	background: url(img/file_icon.png) no-repeat 0 0;
-	_background: url(img/file_icon_ie.png) no-repeat 0 0;
+	_background: url(img/file_icon_ie6.png) no-repeat 0 0;
 	display: inline-block;
 	width: 80px;
 	height: 80px;
@@ -306,6 +311,7 @@ dt.fd-hover .fd-upload-file {
 
 .fd-tool-bar {
 	position: relative;
+	z-index: 10;
 }
 
 .fd-list-check-all {

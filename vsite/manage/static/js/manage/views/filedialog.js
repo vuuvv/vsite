@@ -1,12 +1,13 @@
-define([
-	'text!templates/filemanage/filedialog.html',
-	'text!templates/filemanage/filelist.html',
-	'text!templates/filemanage/file.html',
-	'text!templates/filemanage/folder.html',
-	'swfupload',
-	'swfupload_queue',
-	'artdialog'
-], function(FileDialogTemplate, FileListTemplate, FileTemplate, FolderTemplate) {
+define(function(require) {
+	var config = require('manage/config'),
+		FileDialogTemplate = require('manage/templates/filemanage/filedialog.tpl'),
+		FileListTemplate = require('manage/templates/filemanage/filelist.tpl'),
+		FileTemplate = require('manage/templates/filemanage/file.tpl'),
+		FolderTemplate = require('manage/templates/filemanage/folder.tpl');
+
+	require('swfupload');
+	require('swfupload_queue');
+
 	var hover_toggle_class = function(dom, name) {
 		dom.hover(function() {
 			$(this).addClass(name);
@@ -21,6 +22,8 @@ define([
 			height: 480
 		},
 
+		target: null,
+
 		info: null,
 
 		dialog: null,
@@ -33,6 +36,8 @@ define([
 		initialize: function() {
 			this.options = $.extend({}, this.defaults, this.options);
 			this.queues = {};
+			if (this.options.target)
+				this.target = $(this.options.target);
 		},
 
 		new_folder: function(name) {
@@ -80,6 +85,20 @@ define([
 				inputs = $(".fd-list-check:checked");
 			if (inputs.length === 0) 
 				return null;
+			var text_doms = inputs.parents(".fd-file").find(".fd-list-txt"),
+				files = [];
+
+			text_doms.each(function() {
+				files.push($(this).text());
+			});
+			return files;
+		},
+
+		get_selected_folder_and_files: function() {
+			var self = this,
+				inputs = $(".fd-list-check:checked");
+			if (inputs.length === 0) 
+				return null;
 			var text_doms = inputs.parents(".fd-list-item").find(".fd-list-txt"),
 				files = [];
 
@@ -89,8 +108,10 @@ define([
 			return files;
 		},
 
-		show: function() {
+		show: function(target) {
 			this.dialog.show();
+			if (target)
+				this.target = $(target);
 		},
 
 		hide: function() {
@@ -112,19 +133,20 @@ define([
 
 		render_file: function(file) {
 			return this.file_tmpl({
+				config: config,
 				file: file
 			});
 		},
 
 		render_folder: function(folder) {
 			return this.folder_tmpl({
+				config: config,
 				info: this.info,
 				folder: folder
 			});
 		},
 
 		render_dialog: function() {
-			//$("#filedialog").html(this.dialog_tmpl({}));
 			this.dialog = art.dialog({
 				title: "File Browser",
 				padding: "0",
@@ -259,7 +281,7 @@ define([
 
 		on_delete: function() {
 			var self = this,
-				files = this.get_selected_files();
+				files = this.get_selected_folder_and_files();
 			if (files === null) {
 				art.dialog.alert("Please select a file!");
 			} else {
@@ -280,6 +302,18 @@ define([
 				this.remove_from_list(data.files);
 			} else {
 				app.error(data.msg);
+			}
+		},
+
+		on_select: function() {
+			var files = this.get_selected_files();
+			if (files === null || files.length < 1) {
+				art.dialog.alert("Please select a file!");
+			} else if (files.length > 1) {
+				art.dialog.alert("You can only choose a file!");
+			} else {
+				this.target.val(this.info.current_path + "/" + files[0]);
+				this.hide();
 			}
 		},
 
@@ -308,6 +342,7 @@ define([
 			$("#fd-list-check-all").click(_.bind(this.on_check_all, this));
 			$("#fd-btn-delete").click(_.bind(this.on_delete, this));
 			$("#fd-btn-new-folder").click(_.bind(this.on_new_folder, this));
+			$("#fd-btn-select").click(_.bind(this.on_select, this));
 		},
 
 		on_file_check: function(e) {
@@ -365,7 +400,7 @@ define([
 			var uploader = this.uploader;
 			uploader.setPostParams({
 				csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-				path: this.info.current_path,
+				path: this.info.current_path
 			});
 			this.set_swfupload_cookies();
 			uploader.startUpload();
@@ -409,7 +444,6 @@ define([
 		on_queue_complete: function(files_count) {
 			app.success("Upload Completed");
 		}
-
 	});
 	return FileDialog;
 });

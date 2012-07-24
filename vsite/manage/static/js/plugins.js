@@ -1,7 +1,4 @@
-define([
-	'jquery',
-	'underscore'
-], function($, _) {
+define(function(require, exports, module) {
 
 "use strict"; // jshint ;_;
 

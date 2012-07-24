@@ -1,6 +1,4 @@
-define([
-], function() {
-
+define(function(require) {
 var Widgets = {};
 
 var Widget = function() {};

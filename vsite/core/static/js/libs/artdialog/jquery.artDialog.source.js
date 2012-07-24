@@ -1718,4 +1718,3 @@ $(function () {
 
 })(this.art || this.jQuery, this, this.artDialog);
 
-
