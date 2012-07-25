@@ -130,7 +130,8 @@ define(function(require) {
 				var btn = $("#fd-btn-select");
 				if (btn.length > 0) {
 				} else {
-					$("<button>").attr("id", "fd-btn-select").appendTo($(".fd-tool-bar")).click(_.bind(this.on_select, this));
+					$("<button>").text("Select").
+						attr("id", "fd-btn-select").addClass("aui_state_highlight").appendTo($(".fd-tool-bar")).click(_.bind(this.on_select, this));
 				}
 			} else {
 				$("#fd-btn-select").remove();
@@ -262,6 +263,7 @@ define(function(require) {
 		add_to_list: function(file, is_folder) {
 			var dom = is_folder ? $(this.render_folder(file)) : $(this.render_file(file));
 			dom.data("file", file.name);
+			dom.data("url", file.url);
 			$(".fd-icon-list").append(dom);
 			this.add_file_item_event(dom, is_folder);
 		},
@@ -381,13 +383,9 @@ define(function(require) {
 			} else if (doms.length > 1) {
 				art.dialog.alert("You can only choose one file!");
 			} else {
-				var fn = this.options.select_callback, file = doms[0].data("file");
+				var fn = this.options.select_callback, file = doms.data("file");
 				if (fn) {
-					if (this.options.current_path === "") {
-						fn(this.base_url + "/" + file);
-					} else {
-						fn(this.base_url + "/" + this.options.current_path + "/" + file);
-					}
+					fn(doms.data("url"));
 				}
 				this.hide();
 			}

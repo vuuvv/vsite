@@ -216,6 +216,12 @@ dt.fd-hover .fd-upload-file {
 	text-align: center;
 	overflow: hidden;
 	position: relative;
+	cursor: pointer;
+}
+
+.fd-list-item-thumb img {
+	height: 80px;
+	width: 80px;
 }
 
 .fd-list-item-name {

@@ -38,12 +38,12 @@ Widgets.Textarea = Textarea;
 /* </Textarea> */
 
 /* <RichTextarea> */
-var XHEditor = function(options) {
+var Editor = function(options) {
 	this.options = options;
 };
-var p = XHEditor.prototype = new Widget;
-p.tmpl = '<textarea name="<%= field.name %>" class="xheditor text input-xxlarge"><% if(!_.isUndefined(field.value)) { %><%= field.value %><% } %></textarea>';
-Widgets.XHEditor = XHEditor;
+var p = Editor.prototype = new Widget;
+p.tmpl = '<textarea name="<%= field.name %>" class="editor text input-xxlarge"><% if(!_.isUndefined(field.value)) { %><%= field.value %><% } %></textarea>';
+Widgets.Editor = Editor;
 /* </RichTextarea> */
 
 

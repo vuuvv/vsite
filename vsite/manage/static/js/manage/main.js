@@ -129,6 +129,13 @@ define(function(require, exports, module) {
 			var self = this;
 			if (this.filebrowser === null) {
 				require.async("manage/views/filedialog", function(Dialog) {
+					if (_.isFunction(path)) {
+						callback = path;
+						path = "";
+					} else {
+						path = path || "";
+					}
+
 					var dialog = new Dialog({
 						current_path: path,
 						select_callback: callback

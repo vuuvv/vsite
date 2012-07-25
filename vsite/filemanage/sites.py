@@ -38,6 +38,7 @@ class FileManageSite(object):
 			"name": name, 
 			"mtime": storage.modified_time(path),
 			"size": storage.size(path),
+			"url": storage.url(path)
 		}
 
 	def get_folder_info(self, path, name, storage):

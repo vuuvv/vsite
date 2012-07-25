@@ -729,8 +729,8 @@ textarea {
 	padding: 4px;
 }
 
-textarea.xheditor {
-	height: 200px;
+textarea.editor {
+	height: 350px;
 }
 
 input.text, textarea.text{
@@ -786,7 +786,7 @@ input.text:focus, textarea.text:focus {
 /* end fieldset */
 
 .ke-icon-uploadfile {
-	background-position: 0 -1040;
+	background-position: 0 -1040px;
 	height: 16px;
 	width: 16px;
 }

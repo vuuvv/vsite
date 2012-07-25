@@ -26,20 +26,22 @@ define(function(require, exports, module) {
 		},
 
 		left_part_event: function() {
-			//$("textarea.xheditor").xheditor({
-			//	upImgUrl:'/files/upload/'
-			//});
-			if ($('textarea.xheditor').length > 0) {
-				KindEditor.lang({
-					uploadfile: "uploadfile"
-				});
+			if ($('textarea.editor').length > 0) {
 				KindEditor.plugin('uploadfile', function(K) {
 					var self = this, name = 'uploadfile';
 					self.clickToolbar(name, function() {
-						app.file_manage();
+						var editor = this;
+						app.file_manage(function(val) {
+							if (config.get_file_type(val) === "photo") {
+								editor.exec('insertimage', val);
+							} else {
+								editor.exec('createlink', val);
+							}
+						});
 					});
 				});
-				KindEditor.create('textarea.xheditor', {
+				KindEditor.create('textarea.editor', {
+					langType: 'en',
 					afterCreate: function() {
 						$(this.srcElement).data("editor", this);
 					},
@@ -50,7 +52,7 @@ define(function(require, exports, module) {
 						'superscript', 'clearhtml', 'quickformat', 'selectall', '/',
 						'formatblock', 'fontname', 'fontsize', '|', 
 						'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
-						'image', 'flash', 'media', 'uploadfile', 'table', 'hr', 'anchor', 'link', 'unlink'
+						'uploadfile', 'table', 'hr', 'anchor', 'link', 'unlink'
 					]
 				});
 			}
