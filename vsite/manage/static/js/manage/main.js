@@ -125,19 +125,19 @@ define(function(require, exports, module) {
 			});
 		},
 
-		file_manage: function(target) {
+		file_manage: function(path, callback) {
 			var self = this;
-			target = "#pages-page-title";
 			if (this.filebrowser === null) {
 				require.async("manage/views/filedialog", function(Dialog) {
 					var dialog = new Dialog({
-						target: target
+						current_path: path,
+						select_callback: callback
 					});
 					dialog.render();
 					self.filebrowser = dialog;
 				});
 			} else {
-				this.filebrowser.show(target);
+				this.filebrowser.show(path, callback);
 			}
 		}
 	});

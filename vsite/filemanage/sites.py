@@ -9,7 +9,7 @@ from django.core.exceptions import PermissionDenied
 
 from vsite.utils import render_to_json
 
-from .forms import UploadFileForm, NewFoldForm
+from .forms import UploadFileForm, NewFoldForm, RenameForm
 
 class FileManageSite(object):
 	def __init__(self, name='filemanage', app_name='filemanage', storage=default_storage):
@@ -25,6 +25,7 @@ class FileManageSite(object):
 		urlpatterns = patterns('',
 			url(r'^upload/$', self.upload, name=''),
 			url(r'^newfolder/$', self.new_folder, name=''),
+			url(r'^rename/$', self.rename, name=''),
 			url(r'^delete/$', self.delete, name=''),
 			url(r'^browse/(?P<path>(.*))$', self.browse, name=''),
 		)
@@ -70,6 +71,22 @@ class FileManageSite(object):
 				return render_to_json({
 					"errors": form.errors,
 				}, "error", "Create Folder Failed") 
+		else:
+			raise PermissionDenied()
+
+	def rename(self, request):
+		if request.method == 'POST':
+			form = RenameForm(request.POST)
+			if form.is_valid():
+				name, new_name = form.save()
+				return render_to_json({
+					"name": name,
+					"new_name": new_name
+				}, "success", "File Renamed")
+			else:
+				return render_to_json({
+					"errors": form.errors,
+				}, "error", "File Rename Failed") 
 		else:
 			raise PermissionDenied()
 

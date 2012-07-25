@@ -2,7 +2,7 @@
 	<div class="fd-path" id="fd-path">
 		<a data="" href="javascript:void(0)" class="home fd-folder-link">Home</a>
 		<%
-			var path = current_path.replace("\\", "/").replace(/\/+/g, "/").replace(/^$\s+|\s+$|\/+$/g, '');
+			var path = info.current_path.replace("\\", "/").replace(/\/+/g, "/").replace(/^$\s+|\s+$|\/+$/g, '');
 			if (path !== "") {
 				var parts = path.split("/");
 				var cpath = "";
@@ -20,11 +20,13 @@
 	</ul>
 </div>
 <div class="fd-tool-bar aui_buttons">
+	<input type="checkbox" id="fd-list-check-all" class="fd-list-check-all" />
 	<button id="fd-btn-delete" class="aui_state_highlight">delete</button>
 	<button id="fd-btn-new-folder" class="aui_state_highlight">new folder</button>
 	<button id="fd-btn-move" class="aui_state_highlight">move</button>
-	<button id="fd-btn-upload" class="aui_state_highlight">upload</button>
+	<button id="fd-btn-rename" class="aui_state_highlight">rename</button>
+	<% if (has_select_btn) { %>
 	<button id="fd-btn-select" class="aui_state_highlight">select</button>
-	<input type="checkbox" id="fd-list-check-all" class="fd-list-check-all" />
+	<% } %>
 </div>
 

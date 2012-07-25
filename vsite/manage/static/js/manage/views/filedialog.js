@@ -19,12 +19,11 @@ define(function(require) {
 	var FileDialog = Backbone.View.extend({
 		defaults: {
 			width: 640,
-			height: 480
+			height: 480,
+			current_path: ""
 		},
 
 		base_url: "/static/media",
-
-		target: null,
 
 		info: null,
 
@@ -38,8 +37,6 @@ define(function(require) {
 		initialize: function() {
 			this.options = $.extend({}, this.defaults, this.options);
 			this.queues = {};
-			if (this.options.target)
-				this.target = $(this.options.target);
 		},
 
 		new_folder: function(name) {
@@ -48,7 +45,7 @@ define(function(require) {
 			$.ajax("/files/newfolder/", {
 				data: {
 					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-					path: info.current_path,
+					path: this.options.current_path,
 					name: name
 				},
 				type: "POST",
@@ -58,16 +55,37 @@ define(function(require) {
 			});
 		},
 
-		delete_files: function(files) {
+		delete_files: function(doms) {
+			var self = this;
 			$.ajax("/files/delete/", {
 				data: {
 					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-					path: this.info.current_path,
-					files: files
+					path: this.options.current_path,
+					files: this.get_names(doms) 
 				},
 				type: "POST",
 				dataType: "json",
-				success: _.bind(this.on_delete_success, this),
+				success: function(data) {
+					self.on_delete_success(data, doms);
+				},
+				error: _.bind(this.on_http_error, this)
+			});
+		},
+
+		rename_file: function(dom, new_name) {
+			var self = this;
+			$.ajax("/files/rename/", {
+				data: {
+					csrfmiddlewaretoken: config.get_cookie("csrftoken"),
+					path: this.options.current_path,
+					name: dom.data("file"),
+					new_name: new_name
+				},
+				type: "POST",
+				dataType: "json",
+				success: function(data) {
+					self.on_rename_success(data, dom);
+				},
 				error: _.bind(this.on_http_error, this)
 			});
 		},
@@ -82,47 +100,67 @@ define(function(require) {
 			check_box.removeAttr("checked");
 		},
 
-		get_selected_files: function() {
-			var self = this,
-				inputs = $(".fd-list-check:checked");
-			if (inputs.length === 0) 
-				return null;
-			var text_doms = inputs.parents(".fd-file").find(".fd-list-txt"),
-				files = [];
+		select_all_item: function() {
+			this.select_item($(".fd-list-check"));
+		},
 
-			text_doms.each(function() {
-				files.push($(this).text());
+		unselect_all_item: function() {
+			this.unselect_item($(".fd-list-check"));
+		},
+
+		get_names: function(doms) {
+			var names = [];
+			doms.each(function() {
+				names.push($(this).data("file"));
 			});
-			return files;
+			return names;
+		},
+
+		get_selected_files: function() {
+			return $(".fd-list-check:checked").parents(".fd-file");
 		},
 
 		get_selected_folder_and_files: function() {
-			var self = this,
-				inputs = $(".fd-list-check:checked");
-			if (inputs.length === 0) 
-				return null;
-			var text_doms = inputs.parents(".fd-list-item").find(".fd-list-txt"),
-				files = [];
-
-			text_doms.each(function() {
-				files.push($(this).text());
-			});
-			return files;
+			return $(".fd-list-check:checked").parents(".fd-list-item");
 		},
 
-		show: function(target) {
-			this.dialog.show();
-			if (target)
-				this.target = $(target);
+		_show: function(path, callback) {
+			this.options.select_callback = callback || null;
+			if (callback) {
+				var btn = $("#fd-btn-select");
+				if (btn.length > 0) {
+				} else {
+					$("<button>").attr("id", "fd-btn-select").appendTo($(".fd-tool-bar")).click(_.bind(this.on_select, this));
+				}
+			} else {
+				$("#fd-btn-select").remove();
+			}
+			if (path === this.options.current_path) {
+				this.dialog.show();
+			} else {
+				this.render_list(path);
+			}
+		},
+
+		show: function(path, callback) {
+			var current_path = this.options.current_path;
+			if (_.isFunction(path)) {
+				callback = path;
+				path = current_path;
+			} else {
+				path = path || current_path;
+			}
+			this._show(path, callback);
 		},
 
 		hide: function() {
+			this.unselect_all_item();
 			this.dialog.hide();
 		},
 
 		render: function() {
 			this.render_dialog();
-			this.render_list("");
+			this.render_list(this.options.current_path);
 		},
 
 		render_list: function(path) {
@@ -228,14 +266,17 @@ define(function(require) {
 			this.add_file_item_event(dom, is_folder);
 		},
 
-		remove_from_list: function(files) {
-			var file_items = $(".fd-list-item");
-			file_items.each(function() {
-				var file = $(this);
-				if (_.indexOf(files, file.data("file")) >= 0) {
-					$(this).remove();
+		remove_from_list: function(files, doms) {
+			doms.each(function() {
+				var dom = $(this);
+				if (_.indexOf(files, dom.data("file")) >= 0) {
+					dom.remove();
 				}
 			});
+		},
+
+		rename: function(new_name, dom) {
+			dom.find(".fd-list-txt").text(new_name);
 		},
 
 		add_file_to_queue: function(file) {
@@ -281,10 +322,36 @@ define(function(require) {
 			}
 		},
 
+		on_rename: function() {
+			var self = this,
+				files = this.get_selected_folder_and_files();
+
+			if (files.length < 1) {
+				art.dialog.alert("Please select a file!");
+			} else if (files.length > 1) {
+				art.dialog.alert("You can only choose one file!");
+			} else {
+				var filename = files.data("file");
+				art.dialog.prompt("Please input the new file name", function(val) {
+					if (filename !== val)
+						self.rename_file(files, val);
+				}, filename);
+			}
+		},
+
+		on_rename_success: function(data, dom) {
+			if (data.status === "success") {
+				app.success(data.msg);
+				this.rename(data.new_name, dom);
+			} else {
+				app.error(data.msg);
+			}
+		},
+
 		on_delete: function() {
 			var self = this,
 				files = this.get_selected_folder_and_files();
-			if (files === null) {
+			if (files.length < 1) {
 				art.dialog.alert("Please select a file!");
 			} else {
 				art.dialog.confirm("Are you sure delete these files?", function() {
@@ -293,7 +360,7 @@ define(function(require) {
 			}
 		},
 
-		on_delete_success: function(data) {
+		on_delete_success: function(data, doms) {
 			if (data.status === "success") {
 				if (data.errors.length > 0) {
 					var msg = "Can't delete " + data.errors.join(",");
@@ -301,20 +368,27 @@ define(function(require) {
 				} else {
 					app.success(data.msg);
 				}
-				this.remove_from_list(data.files);
+				this.remove_from_list(data.files, doms);
 			} else {
 				app.error(data.msg);
 			}
 		},
 
 		on_select: function() {
-			var files = this.get_selected_files();
-			if (files === null || files.length < 1) {
+			var doms = this.get_selected_files();
+			if (doms.length < 1) {
 				art.dialog.alert("Please select a file!");
-			} else if (files.length > 1) {
-				art.dialog.alert("You can only choose a file!");
+			} else if (doms.length > 1) {
+				art.dialog.alert("You can only choose one file!");
 			} else {
-				this.target.val(this.base_url + "/" + this.info.current_path + "/" + files[0]);
+				var fn = this.options.select_callback, file = doms[0].data("file");
+				if (fn) {
+					if (this.options.current_path === "") {
+						fn(this.base_url + "/" + file);
+					} else {
+						fn(this.base_url + "/" + this.options.current_path + "/" + file);
+					}
+				}
 				this.hide();
 			}
 		},
@@ -327,8 +401,12 @@ define(function(require) {
 
 		on_render_list: function(data) {
 			this.info = data;
+			this.options.current_path = data.current_path;
 
-			$("#fd-browser").html(this.list_tmpl(data));
+			$("#fd-browser").html(this.list_tmpl({
+				info: data,
+				has_select_btn: !!this.options.select_callback
+			}));
 			$(".fd-folder-link").click(_.bind(this.on_folder_link_click, this));
 
 			var list = $("#fd-icon-list"),
@@ -344,7 +422,10 @@ define(function(require) {
 			$("#fd-list-check-all").click(_.bind(this.on_check_all, this));
 			$("#fd-btn-delete").click(_.bind(this.on_delete, this));
 			$("#fd-btn-new-folder").click(_.bind(this.on_new_folder, this));
+			$("#fd-btn-rename").click(_.bind(this.on_rename, this));
 			$("#fd-btn-select").click(_.bind(this.on_select, this));
+
+			this.dialog.show();
 		},
 
 		on_file_check: function(e) {
@@ -361,12 +442,11 @@ define(function(require) {
 		},
 
 		on_check_all: function(e) {
-			var $this = $(e.currentTarget),
-				all_check_box = $(".fd-list-check");
+			var $this = $(e.currentTarget);
 			if ($this.is(":checked")) {
-				this.select_item(all_check_box);
+				this.select_all_item();
 			} else {
-				this.unselect_item(all_check_box);
+				this.unselect_all_item();
 			}
 		},
 
@@ -402,7 +482,7 @@ define(function(require) {
 			var uploader = this.uploader;
 			uploader.setPostParams({
 				csrfmiddlewaretoken: config.get_cookie("csrftoken"),
-				path: this.info.current_path
+				path: this.options.current_path
 			});
 			this.set_swfupload_cookies();
 			uploader.startUpload();
@@ -425,7 +505,7 @@ define(function(require) {
 				dt.find(".fd-upload-file").removeClass("fd-cancelable").addClass("fd-ok");
 				dt.find(".fd-progress").remove();
 				dt.find(".fd-upload-file-status").unbind("click");
-				if (this.info.current_path === data.current_path)
+				if (this.options.current_path === data.current_path)
 					this.add_to_list(data.file);
 			}
 		},
