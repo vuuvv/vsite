@@ -23,8 +23,6 @@ p.tmpl = '<input field="<%= field.type %>" id="<%= app_label %>-<%= module_name%
 
 Widgets.TextInput = TextInput;
 Widgets.DateTimeInput = TextInput;
-Widgets.CheckboxInput = TextInput;
-Widgets.BooleanField = TextInput;
 
 /* </TextInput> */
 
@@ -62,11 +60,23 @@ p = Select.prototype = new Widget;
 	<% }) %> 
 </select>;
 */
-p.tmpl = '<select id="<%=app_label%>-<%=module_name%>-<%=field.name%>" class="select input-xxlarge" name="<%= field.name %>"> <option value=""></option> <% _.each(field.choices, function(choice){ %> <option value="<%= choice.id %>" <% if (!_.isUndefined(field.value) && field.value == choice.id) { %>selected<% } %>><%= choice.title %></option> <% }) %> </select>';
+p.tmpl = '<select class="select input-xxlarge" name="<%= field.name %>"> <% _.each(field.choices, function(choice){ %> <option value="<%= choice.id %>" <% if (!_.isUndefined(field.value) && field.value == choice.id) { %>selected<% } %>><%= choice.title %></option> <% }) %> </select>';
 
 Widgets.Select = Select;
 
 /* </Select> */
+
+/* <CheckboxInput> */
+var CheckboxInput = function(options) {
+	this.options = options;
+};
+
+p = CheckboxInput.prototype = new Widget;
+
+p.tmpl = '<input type="checkbox" name="<%= field.name %>" <% if (field.value) { %> checked="checked" <% } %>>'
+
+Widgets.CheckboxInput = CheckboxInput;
+/* </CheckboxInput> */
 
 return Widgets;
 

@@ -48,14 +48,13 @@ CONTENT_STATUS_CHOICES = (
 
 class Publishable(MetaData):
 	status = models.IntegerField(_("Status"),
-		choices=CONTENT_STATUS_CHOICES, default=CONTENT_STATUS_PUBLISHED)
+		choices=CONTENT_STATUS_CHOICES, blank=True, default=CONTENT_STATUS_PUBLISHED)
 	publish_date = models.DateTimeField(_("Published from"),
 		help_text=_("With published checked, won't be shown until this time"),
 			  blank=True, null=True)
 	expiry_date = models.DateTimeField(_("Expires on"),
 		help_text=_("With published checked, won't be shown after this time"),
 			  blank=True, null=True)
-	short_url = models.URLField(blank=True, null=True)
 
 	class Meta:
 		abstract = True

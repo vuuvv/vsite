@@ -21,7 +21,7 @@
 					<ul>
 					<% _.each(model.fields, function(field) { %>
 						<li>
-							<label><%= field.name %></label>
+							<label><%= field.label %></label>
 							<%= field.html %>
 						</li>
 					<% }) %>

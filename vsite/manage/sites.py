@@ -220,12 +220,15 @@ class ModelManage(object):
 				#"attrs": widget.attrs,
 				"readonly": name in readonly_fields,
 				"defer": name in defer,
+				"label": unicode(db_field.verbose_name),
 			}
 			if obj is not None:
 				if is_formdata:
 					field["value"] = obj.get(name, None) 
 				else:
 					field["value"] = getattr(obj, db_field.column) if is_foreignkey else getattr(obj, name)
+			elif db_field.has_default():
+				field["value"] = db_field.get_default()
 
 			# IngeterField and CharField
 			for key in ["min_value", "max_value", "min_length", "max_length"]:
@@ -244,13 +247,12 @@ class ModelManage(object):
 					)
 				if name not in defer:
 					rels = qs.all()
-					objs = [{"id": rel.id, "title": unicode(rel)} for rel in rels]
+					objs = [{"id": "", "title": "---------"}]
+					for rel in rels:
+						objs.append({"id": rel.id, "title": unicode(rel)});
 					field["choices"] = objs
 			elif hasattr(formfield, "choices"):
 				field["choices"] = [{"id": c[0], "title": unicode(c[1])} for c in formfield.choices]
-				if obj is None and hasattr(db_field, "default"):
-					#default
-					field["value"] = db_field.default
 
 			json_fields_dict[name] = field
 

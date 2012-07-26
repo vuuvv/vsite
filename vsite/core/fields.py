@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from vsite.core.widgets import Editor, Image
 
 class RichTextField(models.TextField):
@@ -12,3 +13,10 @@ class ImageField(models.URLField):
 		defaults = {'widget': Image}
 		defaults.update(kwargs)
 		return super(ImageField, self).formfield(**defaults)
+
+if "south" in settings.INSTALLED_APPS:
+	try:
+		from south.modelsinspector import add_introspection_rules
+		add_introspection_rules([], ["^vsite\.core\.fields\."])
+	except ImportError:
+		pass
