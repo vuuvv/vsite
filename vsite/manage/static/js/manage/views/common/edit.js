@@ -87,6 +87,8 @@ define(function(require, exports, module) {
 
 			inputs.each(function(index, elem) {
 				if (!elem.readOnly) {
+					if (elem.type == "checkbox" && elem.checked === false)
+						return;
 					var editor = $(elem).data("editor");
 					if (editor)
 						editor.sync();
@@ -114,7 +116,8 @@ define(function(require, exports, module) {
 			else {
 				app.success(data.msg, true);
 				if (this.options.type == "add") {
-					app.navigate(data.app_label + "/" + data.module_name + "/" + data.id, {trigger: true});
+					//app.navigate(data.app_label + "/" + data.module_name + "/" + data.id, {trigger: true});
+					app.back();
 					return;
 				} else {
 					this.model.set("fields", data.fields);

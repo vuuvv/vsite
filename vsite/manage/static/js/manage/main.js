@@ -116,6 +116,10 @@ define(function(require, exports, module) {
 			Backbone.history.navigate(document.location.hash, true);
 		},
 
+		back: function() {
+			window.history.back();
+		},
+
 		_render: function(app, model, view, options) {
 			model = norm_model(model);
 			options["url_prefix"] = app + "/" + model;

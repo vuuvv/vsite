@@ -31,3 +31,28 @@ def render_to_json(obj, status, msg):
 	obj["msg"] = msg
 	return HttpResponse(tojson(obj))
 
+def generate_pages_nav(pages):
+	result = ["<ul>"]
+
+	stack = [page[0]]
+	last_page = page[0]
+	for page in descendants:
+		parent = stack[-1]
+		# child node
+		if page.rght < last_page.rght:
+			stack.append(last_page)
+			parent = last_page
+			result.append("<ul>")
+		else:
+			# tree up
+			if page.rght > parent.rght:
+				while page.rght > parent.rght:
+					stack.pop()
+					parent = stack[-1]
+					result.append("</ul></li>")
+			else:
+				result.append("</li>")
+
+		result.append(page.title)
+		last_page = page
+

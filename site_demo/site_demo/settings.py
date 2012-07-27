@@ -7,6 +7,7 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+INTERNAL_IPS = ('127.0.0.1',)
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -109,6 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 )
 
 ROOT_URLCONF = 'site_demo.urls'
@@ -134,6 +136,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'debug_toolbar',
     'mptt',
     'vsite.core',
     'vsite.filemanage',
@@ -142,6 +145,8 @@ INSTALLED_APPS = (
     'vsite.blog',
     'south',
 )
+DEBUG = True
+DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -171,6 +176,8 @@ INSTALLED_APPS = (
 #        },
 #    }
 #}
+
+SITE_TITLE = "JOYOU"
 
 LOGGING = {
 	"version": 1,

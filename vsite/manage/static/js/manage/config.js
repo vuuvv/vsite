@@ -5,7 +5,7 @@ var views = {
 };
 
 var lookup_dict = {
-	"pages.url": "tree"
+	"pages.page": "tree"
 };
 
 var file_types = {
@@ -18,7 +18,7 @@ var file_types = {
 
 var config = {
 	get_template: function(app_label, module_name, view, part) {
-		return 'manage/templates/model/' + this.get_view_type(app_label, module_name, view) + '/' + view + "/" + part + ".tpl";
+		return 'manage/templates/model/' + this.get_view_type(app_label, module_name, view) + '/' + view + "/" + part + ".html";
 	},
 
 	get_view: function(app_label, module_name, view) {

@@ -14,10 +14,10 @@ from .managers import PageManager
 class Page(MPTTModel, Publishable):
 	site = models.ForeignKey(Site, related_name="pages", verbose_name=_("Site"))
 	title = models.CharField(_("Title"), max_length=100)
-	slug = models.CharField(_('URL'), max_length=100, blank=True, null=True)
+	slug = models.CharField(_('Slug'), max_length=100, blank=True, null=True)
 	parent = TreeForeignKey('self', null=True, blank=True, verbose_name=_("Parent"), related_name='children')
 	in_navigation = models.BooleanField(_('In Navigation'), default=True)
-	_cached_url = models.CharField(_('Cached URL'), max_length=300, blank=True, editable=False, default='', db_index=True)
+	_cached_url = models.CharField(_('URL'), max_length=300, blank=True, editable=False, default='', db_index=True)
 	is_link = models.BooleanField(_('Is Link'), default=False)
 	content = RichTextField(_("Content"))
 
@@ -33,7 +33,7 @@ class Page(MPTTModel, Publishable):
 		self._original_cached_url = self._cached_url
 
 	def __unicode__(self):
-		return self.slug
+		return self._cached_url
 
 	def is_active(self):
 		if not self.pk:
@@ -48,7 +48,10 @@ class Page(MPTTModel, Publishable):
 		cached_page_urls = {}
 
 		if self.is_root_node():
-			self._cached_url = u'/%s/' % self.slug
+			if self.slug:
+				self._cached_url = u'/%s/' % self.slug
+			else:
+				self._cached_url = u'/'
 		else:
 			self._cached_url = u'%s%s/' % (self.parent._cached_url, self.slug)
 		super(Page, self).save(*args, **kwargs)
@@ -59,13 +62,22 @@ class Page(MPTTModel, Publishable):
 		descendants = self.get_descendants()
 
 		stack = [self]
-		parent = self
+		last_page = self
 		for page in descendants:
-			while parent.rght < page.rght:
-				stack.pop()
-				parent = stack[-1]
+			parent = stack[-1]
+			# child node
+			if page.rght < last_page.rght:
+				stack.append(last_page)
+				parent = last_page
+			else:
+				# tree up
+				while page.rght > parent.rght:
+					stack.pop()
+					parent = stack[-1]
+
 			page._cached_url = u'%s%s/' % (parent._cached_url, page.slug)
 			super(Page, page).save()
+			last_page = page
 
 	@models.permalink
 	def get_absolute_url(self):

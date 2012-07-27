@@ -11,6 +11,23 @@ a {
 	text-decoration: none;
 }
 
+html {
+	font-size: 100%; /* 1 */
+	-webkit-text-size-adjust: 100%; /* 2 */
+	-ms-text-size-adjust: 100%; /* 2 */
+}
+
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
+	color: #444;
+}
 
 #wrapper {
 	position: relative;

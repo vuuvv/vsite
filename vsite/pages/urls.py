@@ -6,8 +6,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('vsite.pages.views',
     # Examples:
-    url(r'^$', 'page'),
-    # url(r'^site_demo/', include('site_demo.foo.urls')),
+    url(r'^$', 'page', name="page"),
+    url(r'^(?P<slug>.*)/$', 'page', name="page"),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
