@@ -154,6 +154,10 @@ a.main_menu_item_link {
 	position: relative;
 }
 
+.main_menu_item ul {
+	display: none;
+}
+
 .content {
 	height: 500px;
 }

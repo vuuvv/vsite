@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-{% load i18n static %}
+{% load i18n static mptt_tags %}
 
 <html lang="en">
 <head>
@@ -38,18 +38,16 @@
 				<div class="main_nav">
 					<div class="main_nav_bg"></div>
 					<ul class="main_menu clearfix">
-						<li class="main_menu_item">
-							<a class="main_menu_item_link" href="#">Products</a>
-						</li>
-						<li class="main_menu_item">
-							<a class="main_menu_item_link" href="#">Products</a>
-						</li>
-						<li class="main_menu_item">
-							<a class="main_menu_item_link" href="#">Products</a>
-						</li>
-						<li class="main_menu_item">
-							<a class="main_menu_item_link" href="#">Products</a>
-						</li>
+						{% recursetree pages %}
+							<li class="main_menu_item {% if node in ancestors or node == page %}current{% endif %}">
+								<a class="main_menu_item_link" href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+								{% if not node.is_leaf_node %}
+								<ul>
+									{{ children }}
+								</ul>
+								{% endif %}
+							</li>
+						{% endrecursetree %}
 					</ul>
 				</div>
 			</div>

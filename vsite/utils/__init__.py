@@ -31,28 +31,71 @@ def render_to_json(obj, status, msg):
 	obj["msg"] = msg
 	return HttpResponse(tojson(obj))
 
-def generate_pages_nav(pages):
-	result = ["<ul>"]
+default_top_nav_pattern = """
+<li class="main_menu_item">
+	<a class="main_menu_item_link" href="#">%s</a>
+"""
 
-	stack = [page[0]]
-	last_page = page[0]
-	for page in descendants:
-		parent = stack[-1]
-		# child node
-		if page.rght < last_page.rght:
-			stack.append(last_page)
-			parent = last_page
-			result.append("<ul>")
-		else:
-			# tree up
-			if page.rght > parent.rght:
-				while page.rght > parent.rght:
+default_sub_nav_pattern = """
+<li class="main_menu_item">
+	<a class="main_menu_item_link" href="#">%s</a>
+"""
+
+def generate_tree_nav(nodes, label_attr="title",
+		top_pattern=default_top_nav_pattern, 
+		sub_pattern=default_sub_nav_pattern):
+	result = []
+	stack = []
+
+	for node in nodes:
+		if len(stack) > 0:
+			top = stack[-1]
+			if top.tree_id != node.tree_id:
+				# another tree
+				result.append("</ul></li>" * len(stack))
+				stack = []
+			elif top.rght < node.rght:
+				# tree up
+				while top.rght < node.rght:
 					stack.pop()
-					parent = stack[-1]
 					result.append("</ul></li>")
-			else:
-				result.append("</li>")
+					top = stack[-1]
+			# append node 
+			result.append(default_top_nav_pattern % getattr(node, label_attr))
+		else:
+			result.append(default_sub_nav_pattern % getattr(node, label_attr))
 
-		result.append(page.title)
-		last_page = page
+		if node.is_leaf_node():
+			result.append("</li>")
+		else:
+			# tree down
+			stack.append(node)
+			result.append('<ul class="clearfix">')
+
+	result.append("</ul></li>" * len(stack))
+
+	return "\n".join(result)
+
+
+#	stack = [nodes[0]]
+#	last_page = nodes[0]
+#	for node in nodes:
+#		parent = stack[-1]
+#		if node.rght < last_page.rght:
+#			# tree down
+#			stack.append(last_page)
+#			result.append("<ul>")
+#		else:
+#			# tree up
+#			if node.rght > parent.rght:
+#				while node.rght > parent.rght:
+#					stack.pop()
+#					parent = stack[-1]
+#					result.append("</ul></li>")
+#			else:
+#				result.append("</li>")
+#
+#		result.appdne("<li>")
+#		result.append(node.title)
+#		last_page = node
 
