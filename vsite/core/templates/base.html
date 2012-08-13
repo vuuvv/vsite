@@ -13,6 +13,7 @@
 	<link media="all" rel="stylesheet" href="{% static "css/main.css" %}" type="text/css" />
 	{% block extra_css %}{% endblock %}
 	<script src="{% static "js/libs/jquery/1.7.2/jquery-min.js" %}"></script>
+	<script src="{% static "js/nav.js" %}"></script>
 	{% block extra_js %}{% endblock %}
 	{% block extra_head %}{% endblock %}
 </head>
@@ -36,17 +37,18 @@
 				<div class="logobox"></div>
 				<div class="header_search_box"></div>
 				<div class="main_nav">
-					<div class="main_nav_bg"></div>
 					<ul class="main_menu clearfix">
-						{% recursetree pages %}
-							<li class="main_menu_item {% if node in ancestors or node == page %}current{% endif %}">
-								<a class="main_menu_item_link" href="{{ node.get_absolute_url }}">{{ node.title }}</a>
-								{% if not node.is_leaf_node %}
+						{% recursetree main_nav %}
+						<li class="main_menu_item{% if node.is_leaf_node %}_leaf{% endif %} {% if node == main_current %}current{% endif %}">
+							<a class="main_menu_item_link" href="{{ node.get_absolute_url }}"><span>{{ node.title }}</span></a>
+							{% if not node.is_leaf_node %}
+							<div class="dropmenu">
 								<ul>
 									{{ children }}
 								</ul>
-								{% endif %}
-							</li>
+							</div>
+							{% endif %}
+						</li>
 						{% endrecursetree %}
 					</ul>
 				</div>

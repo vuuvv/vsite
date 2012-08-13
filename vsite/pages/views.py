@@ -2,6 +2,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 
+from mptt.templatetags.mptt_tags import cache_tree_children
+
 from vsite.pages.models import Page
 from vsite.utils import generate_tree_nav
 
@@ -11,10 +13,31 @@ def page(request, slug=""):
 	else:
 		url = u'/%s/' % slug
 	page = Page.objects.get(_cached_url=url)
-	pages = list(Page.objects.all())
-	ancestors = [p for p in pages if p.lft < page.lft and p.rght > page.rght]
+	pages = cache_tree_children(Page.objects.all)
+
+	children = []
+	ancestors = []
+
+	for p in pages:
+		if p.tree_id == page.tree_id:
+			if p.lft < page.lft and p.rght > page.rght:
+				ancestors.append(p)
+			elif p.lft > page.lft and p.rght < page.rght:
+				children.append(p)
+
+	main_current = ancestors[0]
+	main_nav = [p for p in pages if p.level < 2]
+
+	left_current = ancestors[1] if len(ancestors) > 1 else []
+	left_nav = [p for p in children if p.level < 4]
+	import pdb;pdb.set_trace()
+
+	for p in pages:
+		if p in ancestors:
+			print p._cached_url
 	return render_to_response('pages/page.html', {
 		"page": page,
-		"pages": pages,
+		"main_nav": main_nav,
+		"main_current": main_current,
 		"ancestors": ancestors,
 	})

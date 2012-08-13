@@ -6,78 +6,84 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>{% block title %}{% endblock %}</title>
 
-	<link rel="stylesheet" href="{% static "css/base.css" %}">
-	<link rel="stylesheet" href="{% static "css/components.css" %}">
+	<link rel="stylesheet" href="{% static "css/common.css" %}">
 	<link rel="stylesheet" href="{% static "css/manage.css" %}">
-	<link rel="stylesheet" href="{% static "css/filedialog.css" %}">
-	<link rel="stylesheet" href="{% static "js/libs/artdialog/skins/default.css" %}">
 	<script src="{% static "js/libs/jquery/1.7.2/jquery-min.js" %}"></script>
-	<script src="{% static "js/libs/artdialog/jquery.artDialog.source.js" %}"></script>
 	<script src="{% static "js/libs/underscore/1.3.3/underscore-min.js" %}"></script>
 	<script src="{% static "js/libs/backbone/0.9.2/backbone-min.js" %}"></script>
+	<script src="{% static "js/libs/artdialog/jquery.artDialog.source.js" %}"></script>
 	<script data-main="{% static "js/manage/init" %}" src="{% static "js/libs/seajs/1.1.9/sea-debug.js" %}"></script>
 </head>
 <body>
-	<div id="wrapper">
-		<div id="main-body">
-			<div class="main-header"></div>
-			<div class="main">
-				<div class="main-top"></div>
-				<div class="main-center">
-					<div id="main-left" class="main-left">
-					</div>
-					<div class="main-right">
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="main-bottom"></div>
+	<div class="frame-side">
+		<div class="user-nav">
+			<i class="arrow"></i>
+			<div class="user-head">
+				<img src="{% static "img/face_default.png" %}" alt="" />
 			</div>
-			<div class="main-footer"></div>
+			<div class="user-name">test</div>
+			<dl class="nav-menu">
+				<dt> <span>test</span> </dt>
+				<dd>
+					<ul>
+						<li>
+							<a href="javascript:;">
+								<i class="icon-user"></i>
+								个人资料
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;">
+								<i class="icon-user"></i>
+								个人资料
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;">
+								<i class="icon-user"></i>
+								个人资料
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;">
+								<i class="icon-user"></i>
+								个人资料
+							</a>
+						</li>
+					</ul>
+				</dd>
+			</dl>
 		</div>
-	</div>
-	<div id="global-header">
-		<div class="header">
-			<div class="logo"></div>
-			<div class="right">
-				<ul class="menu">
-					{% for menu in menus %}
-						{% if menu.children %}
-					<li class="menu-item">
-						<a href="javascript:void(0)" class="link no-outline">
-							{{ menu.title }}
-							<span class="arrow-down">
-								<em class="b1"></em>
-								<em class="b2"></em>
-								<em class="b3"></em>
-							</span>
+		<div class="directory-menu">
+			<div class="dir-menu-side">
+				<ul>
+					<li class="focus">
+						<a href="javascript:;">
+							<i class="icon-dm dm-cloud"></i>
+							<span>文件管理</span>
 						</a>
-						<div class="drop-menu">
-							<div>
-								<ul>
-									{% for smenu in menu.children %}
-									<li><a {% for attr,value in smenu.attrs.items %}{{ attr }}="{{value}}" {% endfor %}>{{ smenu.title }}</a></li>
-									{% endfor %}
-								</ul>
-							</div>
-						</div>
 					</li>
-						{% else %}
-					<li class="menu-item-leaf">
-						<a href="#{{ menu.url }}" class="link no-outline">{{ menu.title }}</a>
+					<li>
+						<a href="javascript:;">
+							<i class="icon-dm dm-notebook"></i>
+							<span>文档编辑</span>
+						</a>
 					</li>
-						{% endif %}
-					{% endfor %}
-					<div class="clear"></div>
+					<li>
+						<a href="javascript:;">
+							<i class="icon-dm dm-app"></i>
+							<span>模块管理</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<i class="icon-dm dm-circle"></i>
+							<span>系统管理</span>
+						</a>
+					</li>
 				</ul>
 			</div>
-			<div class="clear"></div>
 		</div>
-	</div>
-	<div id="notify" class="notify">
-		<div class="notify-msg"></div>
-		<a href="javascript:void(0)" class="close" data-dismiss="notify" type="button">×</a>
-	</div>
-	<div id="filedialog">
 	</div>
 </body>
 </html>

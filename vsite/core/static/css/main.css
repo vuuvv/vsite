@@ -113,49 +113,90 @@ body {
 }
 
 .main_nav {
-	list-style:none;
-	height: 35px;
+	height: 34px;
 	position: relative;
 	top: 100px;
 	width: 950px;
 	margin: 0 auto;
-}
-
-.main_nav_bg {
-	background: url("img/bg_nav.png") repeat-x;
-	position: absolute;
-	width: 100%;
-	height: 35px;
-	border-radius: 5px;
+	border: 1px solid #d9d9d9;
 }
 
 .main_menu {
-	position: relative;
-	height: 35px;
+	zoom:1;
+	height:32px;
+	border:1px solid #fff;
+	background:-webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0));
+	background:-moz-linear-gradient(top,#fff,#e0e0e0);
+	background:-o-linear-gradient(top,#fff,#e0e0e0);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#e0e0e0');
+	-webkit-box-shadow:5px 5px 7px #999;
+	-webkit-box-shadow:5px 5px 7px #999;
+	box-shadow:0 1px 3px rgba(153,153,153,0.8)
 }
 
-.main_menu_item {
+.main_menu_item_leaf, .main_menu_item {
 	float: left;
-	height: 35px;
-	overflow: hidden;
+	height: 32px;
+	line-height: 32px;
 	text-align: center;
-	border-left:1px solid #4472a7;
-	border-left:1px solid rgba(255,255,255,0.1);
-	border-right:1px solid #2a598e;
-	border-right:1px solid rgba(0,0,0,0.1);
+	border-right:1px solid #fff;
+	position: relative;
+	white-space: nowrap;
 }
 
 a.main_menu_item_link {
 	float: left;
-	color: #fff;
+	color: #333;
 	display: block;
-	height: 25px;
-	padding: 9px 29px 8px;
+	height: 32px;
+	padding: 0 25px;
 	position: relative;
+	text-decoration: none;
+	border-right: 1px solid #d9d9d9;
+}
+
+.hovered a.main_menu_item_link, .current a.main_menu_item_link {
+	background:-webkit-gradient(linear,left top,left bottom,from(#e0e0e0),to(#fff));
+	background:-moz-linear-gradient(top,#e0e0e0,#fff);
+	background:-o-linear-gradient(top,#e0e0e0,#fff);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0e0e0',endColorstr='#ffffff')
+}
+
+.hovered a.main_menu_item_link {
+	height: 34px;
+}
+
+.main_menu_item .dropmenu {
+	background: url(img/global_layer_bg.png) repeat scroll 0 0 transparent;
+	border: 1px solid #d9d9d9;
+	border-top: 1px solid #fff;
+	padding: 2px 1px 4px;
+	overflow: hidden;
+	color: #fff;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+	position: absolute;
+	top: 33px;
+	left: -2px;
+	display: none;
 }
 
 .main_menu_item ul {
-	display: none;
+
+}
+
+.main_menu_item ul li {
+	text-align: left;
+	float: none;
+	border: none;
+}
+
+.main_menu_item ul li a.main_menu_item_link {
+	float: none;
+	border: none;
+	background: none;
+	filter: none;
 }
 
 .content {

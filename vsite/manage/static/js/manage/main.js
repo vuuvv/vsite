@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
-	var config = require('manage/config');
-	require('plugins');
+	//var config = require('manage/config');
+	//require('plugins');
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -66,7 +66,7 @@ define(function(require, exports, module) {
 		},
 
 		index: function() {
-			this.list("pages", "page");
+			//this.list("pages", "page");
 		},
 
 		list: function(app, model, page) {
