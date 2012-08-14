@@ -12,13 +12,14 @@ define(function(require, exports, module) {
 		routes: {
 			"": "index",
 			"logout": "logout",
-			":app/:model/add": "add",
-			":app/:model/:id": "update",
-			":app/:model": "list",
-			":app/:model/p/:page": "list",
-			":app/:model/add/:pid": "tree_add",
-			":app/:model/:pid/": "tree_list",
-			":app/:model/:pid/p/:page": "tree_list"
+			"filemanage": "filemanage",
+			"m/:app/:model/add": "add",
+			"m/:app/:model/:id": "update",
+			"m/:app/:model": "list",
+			"m/:app/:model/p/:page": "list",
+			"m/:app/:model/add/:pid": "tree_add",
+			"m/:app/:model/:pid/": "tree_list",
+			"m/:app/:model/:pid/p/:page": "tree_list"
 		},
 
 		csrf_token: null,
@@ -155,14 +156,4 @@ define(function(require, exports, module) {
 
 	app = new ManageApp;
 	Backbone.history.start();
-
-	$("#global-header").width($("#main-body").width());
-	$("#global-header .menu li.menu-item").hover(function() {
-		$(this).addClass("current");
-	}, function(){
-		$(this).removeClass("current");
-	});
-	$("a.cmd").click(function() {
-		app[$(this).attr("cmd")]();
-	});
 });
