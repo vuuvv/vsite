@@ -129,7 +129,8 @@ define(function(require, exports, module) {
 		},
 
 		filemanage: function() {
-			vuuvv.window();
+			var win = vuuvv.window();
+			win.open();
 		},
 
 		file_manage: function(path, callback) {

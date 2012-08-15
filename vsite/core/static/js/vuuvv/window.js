@@ -3,13 +3,27 @@ define(function(require, exports, module) {
 require('vuuvv/util');
 
 var WindowManage = function() {
+	this._id = 0;
+	this._zindex = 99;
 	this._windows = {}
 	$(window).bind("resize", _.bind(this.on_resize, this));
 };
 
 WindowManage.prototype = {
 	add: function(win) {
-		win.id = "window_0";
+		win.id = win.type + "_" + this._id;
+		this._id++;
+	},
+
+	del: function(win) {
+	},
+
+	active: function(win) {
+		this._zindex++;
+		win.active(this._zindex);
+	},
+
+	deactive: function(win) {
 	},
 
 	on_resize: function() {
@@ -67,16 +81,24 @@ resizes = ["t", "r", "b", "l", "rt", "rb", "lt", "lb"];
 Window = function(options) {
 	options = options || {};
 	this.options = $.extend({}, this.defaults, options);
-	this.create();
+	this._initialized = false;
 };
 
 Window.prototype = {
+	type: "window",
+
 	defaults: {
 		title: "",
 		resizable: true,
 		draggable: true,
-		type: "window",
 		parent: $(document.body)
+	},
+
+	open: function() {
+		if (!this._initialized)
+			this.create();
+		this.wrap.show();
+		manage.active(this);
 	},
 
 	create: function() {
@@ -97,6 +119,45 @@ Window.prototype = {
 		})));
 
 		options.parent.append(this.wrap);
+
+		if (options.draggable) {
+			wrap.draggable({
+				handle: ".dialog-title"
+			});
+		}
+
+		this._initialized = true;
+	},
+
+	action: function(cmd) {
+		this[cmd]();
+	},
+
+	hide: function() {
+		this.wrap.hide();
+		manage.deactive(this);
+	},
+
+	max: function() {
+	},
+
+	restore: function() {
+	},
+
+	close: function() {
+		manage.del(this.id);
+		this.wrap && this.wrap.hide();
+		self.max_state = false;
+	},
+
+	active: function(zindex) {
+		this.wrap.css({
+			zIndex: zindex
+		}).addClass("window-current");
+	},
+
+	deactive: function() {
+		this.wrap.removeClass("window-current");
 	}
 };
 
