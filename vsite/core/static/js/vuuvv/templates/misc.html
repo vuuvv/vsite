@@ -1,5 +1,4 @@
-<% if (template=="shadow") { %>
-
+{% if (_name=="shadow") { %}
 <div class="shadow-cor cor-tl"></div>
 <div class="shadow-cor cor-tr"></div>
 <div class="shadow-cor cor-br"></div>
@@ -9,10 +8,9 @@
 <div class="shadow-cor cor-b"></div>
 <div class="shadow-cor cor-l"></div>
 
-<% } else if (template="win_title") { %>
-
+{% } else if (_name=="window_title") { %}
 <h2 class="dialog-title" rel="base_title">
-	<span><%= title %></span>
+	<span>{{ title }}</span>
 	<div class="dialog-handle">
 		<a href="javascript:;" class="dialog-minimize" btn="hide">最小化</a>
 		<a href="javascript:;" class="dialog-maximize" btn="max">最大化</a>
@@ -21,21 +19,20 @@
 	</div>
 </h2>
 
-<% } else if (template="window") { %>
-
-<div class="dialog-box" style="display:none" id="<%= id%>_wrap">
-	<%= shadow %>
-	<div id="<%= id%>_inner" style="height: 100%"></div>
+{% } else if (_name=="window") { %}
+<div class="dialog-box" style="display:none" id="{{ id }}_wrap">
+	{{ shadow }}
+	<div id="{{ id }}_inner" style="height: 100%"></div>
 </div>
 
-<% } else if (template="resize") { %>
-	<% for (var type in resizes) { %>
-<div resize="<%= type%>" style="position: absolute;overflow: hidden; background: url(static/js/transparent.gif) repeat scroll 0% 0% transparent; <%= resizes[type] %>"></div>
-	<% } %>
-<% } else if (template="dialog") { %>
+{% } else if (_name=="resize") { %}
+	{% for (var i in resizes) { %}
+	<div class="resizer-{{ resizes[i] }}" resize="{{ resizes[i] }}"></div>
+	{% } %}
 
+{% } else if (_name=="dialog") { %}
 <div class="dialog-box" style="display:none; z-index: 100000002">
-	<%= shadow%>
+	{{ shadow }}
 	<h2 class="dialog-title" rel="title_box">
 		<span rel="base_title"></span>
 		<div class="dialog-handle">
@@ -45,9 +42,6 @@
 	<div rel="base_content"></div>
 </div>
 
+{% } else if (_name=="resize") { %}
 
-<% } else if (template="resize") { %>
-
-
-
-<% } %>
+{% } %}

@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
-	//var config = require('manage/config');
-	//require('plugins');
+	require('vuuvv/util');
+	require('vuuvv/window');
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -28,9 +28,7 @@ define(function(require, exports, module) {
 		},
 
 		log: function(msg) {
-			if (window.console && window.console.log) {
-				window.console.log(msg);
-			}
+			console.log(msg);
 		},
 
 		alert: function(msg) {
@@ -128,6 +126,10 @@ define(function(require, exports, module) {
 				var view = new View(options);
 				view.render();
 			});
+		},
+
+		filemanage: function() {
+			vuuvv.window();
 		},
 
 		file_manage: function(path, callback) {

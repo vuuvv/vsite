@@ -202,7 +202,7 @@ Util.Cookie = {
 	}
 };
 
-var misc_templates = _.template(require('manage/templates/misc.html'));
+var misc_templates = _.template(require('vuuvv/templates/misc.html'));
 
 Util.template = function(name, options) {
 	options = options || {};
