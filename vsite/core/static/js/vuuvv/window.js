@@ -2,6 +2,12 @@ define(function(require, exports, module) {
 
 require('vuuvv/util');
 
+var template = Util.template;
+
+if (!window.vuuvv) {
+	window.vuuvv = {};
+}
+
 var WindowManage = function() {
 	this._id = 0;
 	this._zindex = 99;
@@ -112,13 +118,13 @@ Window.prototype = {
 			parent = options.parent;
 
 		manage.add(this);
-		var wrap = this.wrap = $(Util.template("window", {
+		var wrap = this.wrap = $(template("window", {
 			id: this.id,
 			shadow: ""
 		}));
 
 		var inner = this.inner = wrap.find("#" + this.id + "_inner");
-		var title = this.title = $(Util.template("window_title", {
+		var title = this.title = $(template("window_title", {
 			title: options.title
 		}));
 
@@ -268,12 +274,50 @@ Window.prototype = {
 	}
 };
 
-if (!window.vuuvv) {
-	window.vuuvv = {};
-}
-
 vuuvv.window = function(options) {
 	return new Window(options);
+};
+
+var Message = function(options) {
+	options = options || {};
+	this.options = $.extend({}, this.defaults, options);
+};
+
+Message.prototype = {
+	defaults: {
+		text: "",
+		type: "ok"
+	},
+
+	cls: {
+		ok: "hint-icon hint-ok-m",
+		war: "hint-icon hint-war-m",
+		err: "hint-icon hint-err-m",
+		load: "hint-loader",
+		inf: "hint-icon hint-inf-m"
+	},
+
+	create: function() {
+		var options = this.options,
+			cls = this.cls,
+			dom = this.dom = $(template("min_message", {text: options.text})),
+			icon = dom.find("[rel='type]");
+
+		for (var k in cls) {
+			icon.removeClass(cls[k]);
+		}
+		icon.addClass(cls(options.type));
+	},
+
+	show: function(options) {
+	},
+
+	hide: function() {
+		if (this.timer)
+			window.clearTimeout(this.timer);
+		if (this.dom)
+			this.dom.hide();
+	}
 };
 
 });
