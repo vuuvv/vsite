@@ -210,4 +210,52 @@ Util.template = function(name, options) {
 	return misc_templates(options);
 };
 
+Util.stop_propagation = function(e) {
+	if ($.browser.msie) {
+		event.cancelBubble = true;
+	} else {
+		e.stopPropagation();
+		e.preventDefault();
+	}
+};
+
+Util.center = function(box, options) {
+	var parent,
+		cut = 0,
+		ptop = 0,
+		pleft = 0;
+
+	if (options) {
+		if (options.parent) {
+			parent = options.parent;
+			var offset = parent.offset();
+			ptop = offset.top;
+			pleft = offset.left;
+		} else {
+			parent = $(window);
+		}
+		if (options.cut != undefined) {
+			cut = options.cut;
+		}
+	} else {
+		parent = $(window);
+	}
+
+	var top = (parent.height() - box.height()) / 3 + cut + ptop,
+		left = (parent.width() - box.width()) / 2 + cut + pleft,
+		stop = parent.scrollTop();
+
+	top = Math.max(0, top);
+	left = Math.max(0, left);
+
+	if (stop) {
+		top += stop;
+	}
+
+	box.css({
+		top: top,
+		left: left
+	});
+};
+
 });

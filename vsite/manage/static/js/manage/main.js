@@ -129,7 +129,12 @@ define(function(require, exports, module) {
 		},
 
 		filemanage: function() {
-			var win = vuuvv.window();
+			var win = vuuvv.window({
+				title: "Hello World",
+				content: "<h1>Hello World</h1><h1>Hello World</h1><h1>Hello World</h1>",
+				minable: false,
+				resizable: true
+			});
 			win.open();
 		},
 

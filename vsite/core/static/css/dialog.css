@@ -1,24 +1,33 @@
-.resizer-t,
-.resizer-r,
-.resizer-b,
-.resizer-l,
-.resizer-rt,
-.resizer-rb,
-.resizer-lt,
-.resizer-lb {
+.ui-resizable-handle {
+	display: block;
+	font-size: 0.1px;
 	position: absolute;
-	overflow: hidden;
-	background: url(img/transparent.gif) repeat scroll 0% 0% transparent;
+	z-index: 100;
 }
 
-.resizer-t { left: 0; top: -3px; width: 100%; height: 5px; z-index: 1; }
-.resizer-r { right: -3px; top: 0; width: 5px; height: 100%; z-index: 1; }
-.resizer-b { left: 0; bottom: -3px; width: 100%; height: 5px; z-index: 1; }
-.resizer-l { left: -3px; top: 0; width: 5px; height: 100%; z-index: 1; }
-.resizer-rt { right: -3px; top: -3px; width: 10px; height: 10px; z-index: 2; }
-.resizer-rb { right: -3px; bottom: -3px; width: 10px; height: 10px; z-index: 2; }
-.resizer-lt { left: -3px; top: -3px; width: 10px; height: 10px; z-index: 2; }
-.resizer-lb { left: -3px; bottom: -3px; width: 10px; height: 10px; z-index: 2; }
+.ui-resizable-e {
+	cursor: e-resize;
+	height: 100%;
+	width: 5px;
+	right: -3px;
+	top: 0;
+}
+
+.ui-resizable-s {
+	cursor: s-resize;
+	height: 5px;
+	width: 100%;
+	bottom: -3px;
+	left: 0;
+}
+
+.ui-resizable-se {
+	cursor: se-resize;
+	height: 10px;
+	width: 10px;
+	bottom: -3px;
+	right: -3px;
+}
 
 .dialog-box {
 	position: absolute;
@@ -85,6 +94,15 @@
 .dialog-restore:hover { background-position:-28px -12px; }
 .dialog-minimize { background-position:-42px 0; }
 .dialog-minimize:hover { background-position:-42px -12px; }
+
+.window-frame {
+	position: absolute;
+	top: 41px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
+}
 
 .dialog-bottom {
 	position: relative;
