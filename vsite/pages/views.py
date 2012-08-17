@@ -13,24 +13,23 @@ def page(request, slug=""):
 	else:
 		url = u'/%s/' % slug
 	page = Page.objects.get(_cached_url=url)
-	pages = cache_tree_children(Page.objects.all)
+	#pages = cache_tree_children(Page.objects.all())
+	pages = Page.objects.all()
 
 	children = []
 	ancestors = []
 
 	for p in pages:
-		if p.tree_id == page.tree_id:
-			if p.lft < page.lft and p.rght > page.rght:
-				ancestors.append(p)
-			elif p.lft > page.lft and p.rght < page.rght:
-				children.append(p)
+		if p.is_ancestor_of(page, True):
+			ancestors.append(p)
+		elif p.is_descendant_of(page):
+			children.append(p)
 
 	main_current = ancestors[0]
 	main_nav = [p for p in pages if p.level < 2]
 
 	left_current = ancestors[1] if len(ancestors) > 1 else []
 	left_nav = [p for p in children if p.level < 4]
-	import pdb;pdb.set_trace()
 
 	for p in pages:
 		if p in ancestors:
