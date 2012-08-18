@@ -1,7 +1,11 @@
+from django import template
 from django.conf import settings
+from django.utils.safestring import mark_safe
+
 from django.template.base import (Node, NodeList, Library, TemplateSyntaxError,
 		VariableDoesNotExist)
 
+from mptt.templatetags.mptt_tags import cache_tree_children
 
 register = Library()
 
@@ -72,9 +76,10 @@ def do_for(parser, token):
 	return TreeForNode(loopvar, sequence, nodelist_loop)
 
 class RecurseTreeNode(template.Node):
-	def __init__(self, template_nodes, queryset_var, start_level=None, end_level=None):
+	def __init__(self, template_nodes, queryset_var):
 		self.template_nodes = template_nodes
 		self.queryset_var = queryset_var
+		self.depth = 0
 
 	def _render_node(self, context, node):
 		bits = []
@@ -97,7 +102,7 @@ class RecurseTreeNode(template.Node):
 @register.tag
 def recursetree(parser, token):
 	bits = token.contents.split()
-	if len(bits) < 2:
+	if len(bits) != 2:
 		raise template.TemplateSyntaxError(_('%s tag requires at least queryset') % bits[0])
 
 	queryset_var = template.Variable(bits[1])

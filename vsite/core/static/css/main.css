@@ -154,6 +154,8 @@ a.main_menu_item_link {
 	position: relative;
 	text-decoration: none;
 	border-right: 1px solid #d9d9d9;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .hovered a.main_menu_item_link, .current a.main_menu_item_link {
@@ -171,11 +173,11 @@ a.main_menu_item_link {
 
 .main_menu_item .dropmenu {
 	background: url(img/global_layer_bg.png) repeat scroll 0 0 transparent;
+	width: 200px;
+	padding: 2px 1px 4px;
 	border-left: 1px solid #d9d9d9;
 	border-right: 1px solid #d9d9d9;
 	border-bottom: 1px solid #d9d9d9;
-	padding: 2px 1px 4px;
-	overflow: hidden;
 	color: #fff;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
@@ -187,7 +189,8 @@ a.main_menu_item_link {
 }
 
 .main_menu_item ul {
-
+	margin: 0 4px;
+	padding: 3px 0 0;
 }
 
 .main_menu_item ul li {
@@ -201,6 +204,18 @@ a.main_menu_item_link {
 	border: none;
 	background: none;
 	filter: none;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.main_menu_item ul li a.main_menu_item_link:hover {
+	background: #4ba4f3;
+}
+
+.main_menu_item ul .dropmenu {
+	top: 0px;
+	left: 192px;
+	border-top: 1px solid #d9d9d9;
 }
 
 .content {

@@ -36,6 +36,7 @@ def page(request, slug=""):
 			print p._cached_url
 	return render_to_response('pages/page.html', {
 		"page": page,
+		"pages": pages,
 		"main_nav": main_nav,
 		"main_current": main_current,
 		"ancestors": ancestors,
