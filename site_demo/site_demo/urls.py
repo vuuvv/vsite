@@ -8,6 +8,7 @@ from vsite import filemanage
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^$', "vsite.joyou.views.index"),
     url(r'^manage/', include(manage.site.urls), name='manage'),
     url(r'^files/', include(filemanage.site.urls), name='filemanage'),
     url(r'^', include('vsite.pages.urls'), name='pages'),

@@ -1,0 +1,155 @@
+.slides {
+	background: url(img/slides_bg.png) no-repeat 0 0;
+	width: 952px;
+	height: 430px;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+
+#slides {
+	width: 952px;
+	height: 404px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.slides_container {
+}
+
+.pagination {
+	position: absolute;
+	top: 414px;
+	left: 400px;
+	z-index: 9;
+	width: 130px;
+	margin: 0 auto;
+}
+
+.pagination li {
+	float: left;
+	margin: 0 6px;
+}
+
+.pagination li a {
+	display: block;
+	width: 12px;
+	height: 0;
+	padding-top: 12px;
+	background-image: url(img/pagination.gif);
+	background-position: 0 0;
+	float: left;
+	overflow: hidden;
+}
+
+.pagination li.current a {
+	background-position: 0 -12px;
+}
+
+.promos {
+	width: 952px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.promos ul {
+	overflow: hidden;
+	clear: both;
+	width: 952px;
+	*width: 954px;
+	margin: 0;
+	padding-bottom: 35px;
+	_position: relative;
+	_z-index: 1;
+	zoom: 1;
+}
+
+.promos ul:after {
+	content: '.';
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.promos ul li {
+	display: inline;
+	float: left;
+	position: relative;
+	z-index: 1;
+	width: 230px;
+	height: 155px;
+	margin-left: 11px;
+	_margin-left: 8px;
+	border-top: 1px solid #f2f2f2;
+	-webkit-box-shadow:rgba(0,0,0,.15) 0 1px 3px;
+	   -moz-box-shadow:rgba(0,0,0,.15) 0 1px 3px;
+	        box-shadow:rgba(0,0,0,.15) 0 1px 3px;
+	        box-shadow:rgba(0,0,0,.15) 0 1px 6px \0/IE9;
+	-webkit-border-radius:5px;
+	   -moz-border-radius:5px;
+	        border-radius:5px;
+}
+
+.promos ul li.first-child {
+	margin-left: 0;
+}
+
+.promos ul li.last-child {
+	margin-left: 10px;
+	_margin-left: 8px;
+}
+
+.promos ul li a {
+	width: 100%;
+	height: 100%;
+	display: block;
+	cursor: pointer;
+	background: #f6f6f6;
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(50%,rgba(249,249,249,1)),color-stop(100%,rgba(240,240,240,1)));
+	background:-webkit-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
+	background:-moz-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
+	background:-o-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
+	background:-ms-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
+	background:linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
+	-webkit-border-radius:5px;
+	   -moz-border-radius:5px;
+	        border-radius:5px;
+	-webkit-box-shadow:inset 0 2px 1px rgba(255,255,255,.97);
+	   -moz-box-shadow:inset 0 2px 1px rgba(255,255,255,.97);
+	        box-shadow:inset 0 2px 1px rgba(255,255,255,.97);
+}
+
+.promos ul li a:nth-child(1n) { border-color:#fff; }
+.promos ul li a:hover {
+	background:#f0f0f0;
+	background:-moz-linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
+	background:-webkit-gradient(linear,lefttop,leftbottom,color-stop(50%,rgba(249,249,249,1)),color-stop(100%,rgba(224,224,224,1)));
+	background:-webkit-linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
+	background:-o-linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
+	background:-ms-linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
+	background:linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
+}
+.promos ul li .curve-down { display:inline-block; height:155px; width:100%; _display:inline; _zoom:1; border:1px solid #e0e0e0; border-top-color:#efefef; border-bottom-color:#ccc; }
+.promos ul li .curve-down:nth-child(1n) { border:none;
+	-webkit-border-radius:100% / 8px;
+	   -moz-border-radius:100% / 8px;
+	        border-radius:100% / 8px;
+	-webkit-box-shadow:rgba(0,0,0,.30) 0 2px 3px;
+	   -moz-box-shadow:rgba(0,0,0,.30) 0 2px 3px;
+	        box-shadow:rgba(0,0,0,.30) 0 2px 3px;
+}
+.promos ul li a img { display:block;
+	-webkit-border-radius:5px;
+	   -moz-border-radius:5px;
+	        border-radius:5px;
+}
+.promos ul li a .play { width:46px; height:46px; position:absolute; z-index:1; left:95px; top:66px; opacity:.8; background:url(http://images.apple.com/v/home/k/images/video_play_medium.png) 0 0 no-repeat; background-size:46px 92px; _behavior:url(/global/scripts/lib/iepngfix.htc); }
+@media only screen {
+	.promos ul li a .play { background-image:url(/v/home/k/images/video_play_medium.svg); }
+}
+.promos ul li a:hover .play { background-position:0 100%; opacity:1; }
+
+.promos ul li a.promo-rotate { position:absolute; z-index:1; top:0; }
+

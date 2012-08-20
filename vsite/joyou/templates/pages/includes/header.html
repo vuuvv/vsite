@@ -1,0 +1,32 @@
+{% load tree_tags %}
+<div class="header_bg"></div>
+<div class="top_links">
+	<span class="current_site">
+		<b>English</b>
+	</span>
+	<span class="links_pipe">|</span>
+	<a href="#">German</a>
+	<span class="links_pipe">|</span>
+	<a href="#">Chinese</a>
+	<span class="links_pipe">|</span>
+	<a href="#">Sitemap</a>
+</div>
+<div class="logobox"></div>
+<div class="header_search_box"></div>
+<div class="main_nav">
+	<ul class="main_menu clearfix">
+		{% recursetree pages %}
+		<li class="main_menu_item{% if node.is_leaf_node %}_leaf{% endif %} {% if node == main_current %}current{% endif %}">
+			<a class="main_menu_item_link" href="{{ node.get_absolute_url }}"><span>{{ node.title }}</span></a>
+			{% if not node.is_leaf_node %}
+			<div class="dropmenu">
+				<ul class="clearfix">
+					{{ children }}
+				</ul>
+			</div>
+			{% endif %}
+		</li>
+		{% endrecursetree %}
+	</ul>
+</div>
+

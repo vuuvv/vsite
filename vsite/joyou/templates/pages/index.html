@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link media="all" rel="stylesheet" href="{% static "css/index.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static "js/libs/slidesjs/slides.min.jquery.js" %}" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$('#slides').slides({
+		preload: true,
+		preloadImage: "/static/img/loading.gif",
+		play: 5000,
+		pause: 2500,
+		hoverPause: true,
+		effect: 'fade'
+	});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="slides">
+	<div id="slides" class="drop-shadow round">
+		<div class="slides_container">
+			<div class="slide">
+				<a href="#" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank">
+					<img src="http://quanzhou2.bjsxg01.host.35.com/joyou/image/banner1.jpg" width="952" height="404" alt="Slide 1">
+				</a>
+			</div>
+			<div class="slide">
+				<a href="#" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank">
+					<img src="http://quanzhou2.bjsxg01.host.35.com/joyou/image/banner2.jpg" width="952" height="404" alt="Slide 1">
+				</a>
+			</div>
+			<div class="slide">
+				<a href="#" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank">
+					<img src="http://quanzhou2.bjsxg01.host.35.com/joyou/image/banner3.jpg" width="952" height="404" alt="Slide 1">
+				</a>
+			</div>
+			<div class="slide">
+				<a href="#" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank">
+					<img src="http://quanzhou2.bjsxg01.host.35.com/joyou/image/banner3.jpg" width="952" height="404" alt="Slide 1">
+				</a>
+			</div>
+			<div class="slide">
+				<a href="#" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank">
+					<img src="http://quanzhou2.bjsxg01.host.35.com/joyou/image/banner3.jpg" width="952" height="404" alt="Slide 1">
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="promos">
+	<ul class="clearfix">
+		<li class="first-child">
+			<div class="curve-down">
+				<a href="#">
+					<img height="155" width="230" src="http://images.apple.com/home/images/promo_mountainlion.png" alt="" />
+				</a>
+			</div>
+		</li>
+		<li>
+			<div class="curve-down">
+				<a href="#">
+					<img height="155" width="230" src="http://images.apple.com/home/images/promo_allonipad.png" alt="" />
+				</a>
+			</div>
+		</li>
+		<li>
+			<div class="curve-down">
+				<a href="#">
+					<img height="155" width="230" src="http://images.apple.com/home/images/promo_iphonetvad.png" alt="" />
+				</a>
+			</div>
+		</li>
+		<li class="last-child">
+			<div class="curve-down">
+				<a href="#">
+					<img height="155" width="230" src="http://images.apple.com/home/images/promo_backtoschool_july_2012.png" alt="" />
+				</a>
+			</div>
+		</li>
+	</ul>
+</div>
+{% endblock %}
