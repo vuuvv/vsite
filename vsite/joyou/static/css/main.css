@@ -5,6 +5,10 @@ body {
 	line-height: 16px;
 }
 
+.content a {
+	color: #8d8d8d;
+}
+
 :focus {
 	outline: none;
 }
@@ -53,9 +57,11 @@ body {
 	left: 0;
 	height: 158px;
 	width: 100%;
+	/*
 	background: url(img/header_bg.png);
 	_background: none;
 	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/css/img/header_bg.png')
+	*/
 }
 
 .logobox {
@@ -245,7 +251,56 @@ a.main_menu_item_link {
 }
 
 .footer {
-	background: url(img/footer_bg.png);
-	height: 196px;
+	height: 156px;
+	position: relative;
+}
+
+.copyright {
+	color: #fff;
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+	text-align: right;
+}
+
+.partner {
+	position: absolute;
+	right: 10px;
+	top: 60px;
+	height: 28px;
+}
+
+.partner dt {
+	float: left;
+	font: 16px "微软雅黑";
+	margin: 24px 17px 0 34px;
+	_display: inline;
+}
+
+.partner dd {
+	float: left;
+	margin: 24px 10px 0;
+}
+
+.partner dd a {
+	background: url(img/partners.gif) no-repeat;
+	display: block;
+	text-indent: -9999px;
+	height: 28px;
+}
+
+.partner .tmall {
+	width: 28px;
+	background-position: -78px 0;
+}
+
+.partner .grohe {
+	width: 78px;
+	background-position: 0 0;
+}
+
+.partner .weibo {
+	width: 93px;
+	background-position: -107px 0;
 }
 

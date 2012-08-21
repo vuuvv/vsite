@@ -26,6 +26,16 @@ input,textarea,select {
 	*font-size:100%
 }
 
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #007bc7;
+	text-decoration: underline;
+}
+
 .clearfix:after {
 	content:".";
 	display:block;
