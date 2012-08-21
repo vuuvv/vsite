@@ -255,14 +255,7 @@ a.main_menu_item_link {
 	position: relative;
 }
 
-.copyright {
-	color: #fff;
-	position: absolute;
-	bottom: 10px;
-	right: 20px;
-	text-align: right;
-}
-
+/*
 .partner {
 	position: absolute;
 	right: 10px;
@@ -303,4 +296,60 @@ a.main_menu_item_link {
 	width: 93px;
 	background-position: -107px 0;
 }
+*/
 
+.footer-menu {
+	width: 952px;
+	height: 24px;
+	margin: 0 auto;
+	padding-top: 80px;
+}
+
+.footer-menu li {
+	background: url(img/divider.gif) no-repeat right center;
+	float: left;
+	height: 24px;
+	line-height: 24px;
+	font-size: 13px;
+	color: #fff;
+}
+
+.footer-menu li.first-child, .footer-menu li.last-child {
+	background: none;
+}
+
+.footer-menu li.first-child {
+	width: 365px;
+}
+
+.footer-menu li.last-child a {
+	margin-right: 0;
+}
+
+.footer-menu li a {
+	font-size: 13px;
+	letter-spacing: 1px;
+	margin: 0 17px;
+	color: #fff;
+	height: 15px;
+	line-height: 15px;
+}
+
+.footer-menu li a:hover {
+	border-bottom: 1px dotted #ffcc33;
+	color: #ffcc33;
+}
+
+.footer-menu a {
+}
+
+.footer-menu span.footer-tel {
+	float: right;
+}
+
+.copyright {
+	font-size: 13px;
+	padding-top: 20px;
+	color: #fff;
+	text-align: center;
+}
