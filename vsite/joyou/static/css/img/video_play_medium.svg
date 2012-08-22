@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+]>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="46px" height="92px" viewBox="-0.129 0 46 92" overflow="visible" enable-background="new -0.129 0 46 92" xml:space="preserve">
+<defs>
+</defs>
+<path opacity="0.35" d="M22.867,0c12.628,0,22.867,10.237,22.867,22.868c0,12.63-10.238,22.867-22.867,22.867  C10.238,45.735,0,35.498,0,22.868C0,10.237,10.238,0,22.867,0z"/>
+<path fill="#FFFFFF" d="M16.857,12.335v21.592l16.296-11.027L16.857,12.335z"/>
+<g>
+	<g>
+		<path fill="#FFFFFF" d="M23.003,2.085c-11.543,0-20.901,9.358-20.901,20.901c0,11.543,9.357,20.901,20.901,20.901    s20.901-9.357,20.901-20.901C43.904,11.443,34.546,2.085,23.003,2.085z M23.01,41.589c-10.278,0-18.611-8.331-18.611-18.61    S12.732,4.368,23.01,4.368s18.61,8.332,18.61,18.611S33.289,41.589,23.01,41.589z"/>
+	</g>
+</g>
+<path opacity="0.35" d="M22.876,46.265c12.628,0,22.867,10.237,22.867,22.868C45.743,81.763,35.504,92,22.876,92  C10.247,92,0.009,81.763,0.009,69.133C0.009,56.502,10.247,46.265,22.876,46.265z"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="22.876" y1="89.0254" x2="22.876" y2="49.3525">
+	<stop offset="0" style="stop-color:#0088CC"/>
+	<stop offset="1" style="stop-color:#5CC3F6"/>
+</linearGradient>
+<path opacity="0.8" fill-rule="evenodd" clip-rule="evenodd" fill="url(#SVGID_1_)" d="M22.876,49.353  c10.956,0,19.836,8.88,19.836,19.837c0,10.956-8.881,19.836-19.836,19.836S3.04,80.146,3.04,69.189  C3.04,58.232,11.92,49.353,22.876,49.353z"/>
+<path fill="#FFFFFF" d="M16.857,58.6v21.592l16.296-11.027L16.857,58.6z"/>
+<g>
+	<g>
+		<path fill="#FFFFFF" d="M22.876,48.351c-11.543,0-20.901,9.358-20.901,20.901s9.357,20.9,20.901,20.9s20.901-9.357,20.901-20.9    S34.419,48.351,22.876,48.351z M22.883,87.854c-10.278,0-18.611-8.331-18.611-18.61s8.333-18.611,18.611-18.611    s18.61,8.332,18.61,18.611S33.162,87.854,22.883,87.854z"/>
+	</g>
+</g>
+</svg>

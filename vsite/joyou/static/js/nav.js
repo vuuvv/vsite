@@ -13,10 +13,15 @@ $(function() {
 		$(">.dropmenu", this).hide();//slideUp("slow");
 	});
 
-	$(".main_menu_item_link").click(function(e){
-		var p = $(this).parents("ul");
-		var d = $(this).parents(".dropmenu");
-		alert(d.css("overflow"));
-		return false;
+	$(".left-nav .box-title").hover(function() {
+		$(this).addClass("box-title-hovered");
+	}, function() {
+		$(this).removeClass("box-title-hovered");
+	});
+
+	$(".left-nav .box-item a").hover(function() {
+		$(this).find(".box-item-arrow").show();
+	}, function() {
+		$(this).find(".box-item-arrow").hide();
 	});
 });

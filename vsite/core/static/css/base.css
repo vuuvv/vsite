@@ -31,11 +31,6 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
-	color: #007bc7;
-	text-decoration: underline;
-}
-
 .clearfix:after {
 	content:".";
 	display:block;
@@ -58,4 +53,135 @@ a:hover {
 
 .clear {
 	clear:both;
+}
+
+.arrow {
+	display: block;
+	height: 12px;
+	width: 12px;
+	background-image: url(img/components.png);
+	background-repeat: no-repeat;
+	background-color: transparent;
+	text-indent: -9999em;
+	overflow: hidden;
+}
+
+.arrow-right {
+	background-position: -4px -24px;
+}
+
+.arrow-left {
+	background-position: -4px -36px;
+}
+
+.arrow-up {
+	background-position: -4px -48px;
+}
+
+.arrow-down {
+	background-position: -4px -60px;
+}
+
+.sl-linear {
+    background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#f1f1f1));
+    background: -moz-linear-gradient(top, #fcfcfc, #f1f1f1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#f1f1f1');
+    background:-o-linear-gradient(top, #fcfcfc, #f1f1f1);
+    background: linear-gradient(top, #fcfcfc, #f1f1f1);
+}
+
+.box {
+	overflow: hidden;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+.box-top {
+	border-top: 1px solid #ccc;
+}
+
+.box-opened {
+	border-bottom: 1px solid #ccc;
+}
+
+.box-title {
+	position: relative;
+	border-bottom: 1px solid #ccc;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.box-title-inner {
+	height: 14px;
+	line-height: 16px;
+	padding: 9px 10px 10px;
+	border: 1px solid #fff;
+	overflow: hidden;
+}
+
+.box-title-hovered .box-title-inner {
+	background: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#dadada));
+	background: -moz-linear-gradient(top, #f6f6f6, #dadada);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#dadada');
+	background:-o-linear-gradient(top, #f6f6f6, #dadada);
+	background: linear-gradient(top, #f6f6f6, #dadada);
+	padding: 10px 11px 11px;
+	padding: 10px 11px 10px\0;
+	border:none;
+	cursor:pointer;
+}
+
+.box-title h3 {
+	color: #656565;
+	display: inline;
+	float: left;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.box-item {
+	position: relative;
+}
+
+.box-item a {
+	width: 188px;
+	height: 37px;
+	line-height: 36px;
+	outline: 0 none;
+	color: #666a72;
+	display: inline;
+	float: left;
+}
+
+.box-item a:hover {
+	background: #f5f5f5;
+}
+
+.box-item span.box-item-icon {
+	width: 24px;
+	height: 24px;
+	margin: 6px 10px;
+	overflow: hidden;
+	text-align: -9999px;
+	display: inline;
+	float: left;
+}
+
+.box-item a span {
+	color: #666a72;
+	cursor: pointer;
+	display: inline;
+	float: left;
+	vertical-align: top;
+	font-size: 14px;
+}
+
+.box-item span.box-item-arrow {
+	display: none;
+}
+
+.box-item .arrow-right {
+	position: absolute;
+	right: 11px;
+	top: 13px;
 }

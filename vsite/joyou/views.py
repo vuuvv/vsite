@@ -13,3 +13,14 @@ def index(request, slug=""):
 	return render_to_response('pages/index.html', {
 		"pages": pages,
 	})
+
+def about(request, slug=""):
+	return render_to_response('pages/about.html', {
+		"pages": Page.objects.all(),
+	})
+
+def news(request, slug=""):
+	return render_to_response('pages/news.html', {
+		"pages": Page.objects.all(),
+	})
+

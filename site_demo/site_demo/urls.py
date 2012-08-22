@@ -8,10 +8,9 @@ from vsite import filemanage
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', "vsite.joyou.views.index"),
     url(r'^manage/', include(manage.site.urls), name='manage'),
     url(r'^files/', include(filemanage.site.urls), name='filemanage'),
-    url(r'^', include('vsite.pages.urls'), name='pages'),
+    url(r'^', include('vsite.joyou.urls'), name='pages'),
     # url(r'^site_demo/', include('site_demo.foo.urls')),
     #(r'^grappelli/', include('grappelli.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:

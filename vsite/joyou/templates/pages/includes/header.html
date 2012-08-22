@@ -2,31 +2,204 @@
 <div class="header_bg"></div>
 <div class="top_links">
 	<span class="current_site">
-		<b>English</b>
+		<b>中文</b>
 	</span>
 	<span class="links_pipe">|</span>
-	<a href="#">German</a>
+	<a href="#">德文</a>
 	<span class="links_pipe">|</span>
-	<a href="#">Chinese</a>
+	<a href="#">英文</a>
 	<span class="links_pipe">|</span>
-	<a href="#">Sitemap</a>
+	<a href="#">网站地图</a>
 </div>
 <div class="logobox"></div>
 <div class="header_search_box"></div>
 <div class="main_nav">
 	<ul class="main_menu clearfix">
-		{% recursetree pages %}
-		<li class="main_menu_item{% if node.is_leaf_node %}_leaf{% endif %} {% if node == main_current %}current{% endif %}">
-			<a class="main_menu_item_link" href="{{ node.get_absolute_url }}"><span>{{ node.title }}</span></a>
-			{% if not node.is_leaf_node %}
+		<li class="main_menu_item_leaf ">
+			<a class="main_menu_item_link" href="/"><span>首页</span></a>
+		</li>
+		<li class="main_menu_item ">
+			<a class="main_menu_item_link" href="#"><span>关于中宇</span></a>
 			<div class="dropmenu">
 				<ul class="clearfix">
-					{{ children }}
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>集团简介</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>企业荣誉</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>管理团队</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>创新历史</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>招贤纳士</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>联系我们</span></a>
+					</li>
 				</ul>
 			</div>
-			{% endif %}
 		</li>
-		{% endrecursetree %}
+		<li class="main_menu_item ">
+			<a class="main_menu_item_link" href="#"><span>新闻中心</span></a>
+			<div class="dropmenu">
+				<ul class="clearfix">
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>公司新闻</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>行业新闻</span></a>
+					</li>
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>品牌动态</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>唱响中国</span></a>
+								</li>
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>中宇品质秀</span></a>
+								</li>
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>德国上市</span></a>
+								</li>
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>亮相世博</span></a>
+								</li>
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>携手高仪</span></a>
+								</li>
+								<li class="main_menu_item_leaf ">
+									<a class="main_menu_item_link" href="#"><span>签约郭晶晶</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>中宇有我</span></a>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="main_menu_item ">
+			<a class="main_menu_item_link" href="#"><span>旗下品牌</span></a>
+			<div class="dropmenu">
+				<ul class="clearfix">
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>JOYOU</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>品牌理念</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>设计作品</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>XTIME</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>品牌理念</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>设计作品</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="main_menu_item_leaf ">
+			<a class="main_menu_item_link" href="#"><span>浴室空间</span></a>
+		</li>
+		<li class="main_menu_item ">
+			<a class="main_menu_item_link" href="#"><span>产品展示</span></a>
+			<div class="dropmenu">
+				<ul class="clearfix">
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>JOYOU</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>整体卫浴</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>单品展示</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>XTIME</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>整体卫浴</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>单品展示</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="main_menu_item ">
+			<a class="main_menu_item_link" href="#"><span>销售专区</span></a>
+			<div class="dropmenu">
+				<ul class="clearfix">
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>品牌优势</span></a>
+					</li>
+					<li class="main_menu_item">
+						<a class="main_menu_item_link" href="#"><span>工程案例</span></a>
+						<div class="dropmenu">
+							<ul class="clearfix">
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>经典案例</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>住宅</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>酒店</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>办公楼</span></a>
+								</li>
+								<li class="main_menu_item_leaf">
+									<a class="main_menu_item_link" href="#"><span>公共建筑</span></a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>销售网络</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>终端展示</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>加盟条件</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>加盟流程</span></a>
+					</li>
+					<li class="main_menu_item_leaf ">
+						<a class="main_menu_item_link" href="#"><span>经销商专区</span></a>
+					</li>
+				</ul>
+			</div>
+		</li>
 	</ul>
 </div>
 

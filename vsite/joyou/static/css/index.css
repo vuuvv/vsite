@@ -102,7 +102,8 @@
 	-webkit-border-radius:5px;
 	   -moz-border-radius:5px;
 	        border-radius:5px;
-	background: url(img/promos_bg.png) no-repeat 0 0 transparent;
+	background: url(img/promos_bg.png) no-repeat 0 0 transparent \0;
+	*background: url(img/promos_bg.png) no-repeat 0 0 transparent;
 	height: 160px \0;
 	*height: 160px;
 }
@@ -155,16 +156,33 @@
 	   -moz-box-shadow:rgba(0,0,0,.30) 0 2px 3px;
 	        box-shadow:rgba(0,0,0,.30) 0 2px 3px;
 }
+
 .promos ul li a img { display:block;
 	-webkit-border-radius:5px;
 	   -moz-border-radius:5px;
 	        border-radius:5px;
 }
-.promos ul li a .play { width:46px; height:46px; position:absolute; z-index:1; left:95px; top:66px; opacity:.8; background:url(http://images.apple.com/v/home/k/images/video_play_medium.png) 0 0 no-repeat; background-size:46px 92px; _behavior:url(/global/scripts/lib/iepngfix.htc); }
-@media only screen {
-	.promos ul li a .play { background-image:url(/v/home/k/images/video_play_medium.svg); }
+
+.promos ul li a .play { 
+	width:46px; 
+	height:46px; 
+	position:absolute; 
+	z-index:1; 
+	left:95px; 
+	top:66px; 
+	opacity:.8; 
+	background:url(img/video_play_medium.png) 0 0 no-repeat; 
+	background-size:46px 92px;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/css/img/video_play_medium_1.png',sizingMethod='crop');
+	_background: none;
 }
-.promos ul li a:hover .play { background-position:0 100%; opacity:1; }
+
+.promos ul li a:hover .play { 
+	background-position:0 100%; 
+	opacity:1;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/css/img/video_play_medium_2.png',sizingMethod='crop');
+	_background: none;
+} 
 
 .promos ul li a.promo-rotate { position:absolute; z-index:1; top:0; }
 
@@ -201,6 +219,10 @@
 	padding-left:10px;
 	float:left;
 	background:url(img/bg_header.gif) 3px -403px no-repeat
+}
+
+.an-con li a:hover {
+	text-decoration: underline;
 }
 
 .an-con h5 {
