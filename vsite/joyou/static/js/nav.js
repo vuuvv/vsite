@@ -24,4 +24,24 @@ $(function() {
 	}, function() {
 		$(this).find(".box-item-arrow").hide();
 	});
+
+	$(".box-toggle").click(function() {
+		var box = $(this).parents(".box"),
+			container = box.find(".box-container");
+		if (box.hasClass("box-closed")) {
+			//container.hide();
+			//container.css("display", "none");
+			//box.removeClass("box-opened");
+			container.slideDown(function() {
+				box.removeClass("box-closed");
+			});
+		} else {
+			container.slideUp(function() {
+				box.addClass("box-closed");
+			});
+			//container.show();
+			//container.css("display", "block");
+			//box.addClass("box-opened");
+		}
+	});
 });

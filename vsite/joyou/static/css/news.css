@@ -1,0 +1,11 @@
+.content {
+	margin-top: 15px;
+}
+
+.news-list {
+	margin-bottom: 15px;
+}
+
+.news-list .box-container li {
+	margin: 15px 0 15px 15px;
+}

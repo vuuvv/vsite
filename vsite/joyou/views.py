@@ -20,7 +20,7 @@ def about(request, slug=""):
 	})
 
 def news(request, slug=""):
-	return render_to_response('pages/news.html', {
+	return render_to_response('news/index.html', {
 		"pages": Page.objects.all(),
 	})
 

@@ -5,12 +5,8 @@ body {
 	line-height: 16px;
 }
 
-.content a {
+.page a {
 	color: #8d8d8d;
-}
-
-:focus {
-	outline: none;
 }
 
 .bg_main_top {
@@ -245,10 +241,9 @@ a.main_menu_item_link {
 	border-top: 1px solid #d9d9d9;
 }
 
-.content {
+.page {
 	width: 952px;
 	margin: 0 auto;
-	position: relative;
 	z-index: 5;
 }
 
@@ -355,9 +350,63 @@ a.main_menu_item_link {
 	text-align: center;
 }
 
-.left-side {
+.column-1 {
 	width: 190px;
 	margin: 0 10px 10px 0;
 	float: left;
-	display: inline;
 }
+
+.column-2 {
+	width: 752px;
+	float: left;
+}
+
+.toolbox {
+	position: relative;
+	z-index: 11;
+	height: 24px;
+	border: 1px solid #d1d1d1;
+	background: #f3f3f3;
+	cursor: default;
+}
+
+.breadcrumb {
+	position: relative;
+	float: left;
+	overflow: hidden;
+}
+
+.breadcrumb a,
+.breadcrumb em,
+.breadcrumb span {
+	float: left;
+	max-width: 150px;
+	height: 24px;
+	margin-left: -8px;
+	padding: 0 18px;
+	line-height: 25px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #999;
+	background: url(img/breadcrumb.png) no-repeat 0 0;
+	_background-image: url(img/breadcrumb.gif);
+}
+
+.breadcrumb a:hover {
+	text-decoration: none;
+	color: #666;
+	background-color: #fff;
+	background-position: 0 -24px;
+}
+
+.breadcrumb i {
+	display: none;
+}
+
+.breadcrumb span {
+	position: relative;
+	padding-right: 25px;
+}
+
+

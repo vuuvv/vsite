@@ -53,6 +53,8 @@
 	background-position: 0 0;
 	float: left;
 	overflow: hidden;
+	outline: none;
+	*star:expression(this.onFocus=this.blur()); 
 }
 
 .pagination li.current a {
