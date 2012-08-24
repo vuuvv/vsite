@@ -24,3 +24,13 @@ def news(request, slug=""):
 		"pages": Page.objects.all(),
 	})
 
+def company(request, slug=""):
+	return render_to_response('news/company.html', {
+		"pages": Page.objects.all(),
+	})
+
+def magzine(request, slug=""):
+	return render_to_response('news/magzine.html', {
+		"pages": Page.objects.all(),
+	})
+

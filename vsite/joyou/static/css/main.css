@@ -153,12 +153,21 @@ body {
 	cursor: pointer;
 }
 
+.main_menu_item_last {
+	border-right: none;
+}
+
+.main_menu_item_last a.main_menu_item_link {
+	width: 64px;
+	border-right: none;
+}
+
 a.main_menu_item_link {
 	float: left;
 	color: #333;
 	display: block;
 	height: 32px;
-	padding: 0 25px;
+	padding: 0 30px;
 	position: relative;
 	text-decoration: none;
 	border-right: 1px solid #d9d9d9;
@@ -243,8 +252,15 @@ a.main_menu_item_link {
 
 .page {
 	width: 952px;
-	margin: 0 auto;
+	margin: 0 auto 15px;
 	z-index: 5;
+}
+
+.content {
+	min-height:800px;
+	height:auto !important; 
+	height:800px; 
+	overflow:visible;
 }
 
 .footer {
@@ -363,7 +379,6 @@ a.main_menu_item_link {
 
 .toolbox {
 	position: relative;
-	z-index: 11;
 	height: 24px;
 	border: 1px solid #d1d1d1;
 	background: #f3f3f3;
@@ -409,4 +424,74 @@ a.main_menu_item_link {
 	padding-right: 25px;
 }
 
+.pagination {
+	width: 100%;
+	margin-top: 8px;
+	overflow: hidden;
+}
+
+.pagination li {
+	display: inline-block;
+	*zoom: 1;
+	*display: inline;
+}
+
+.pager {
+	min-width: 48px;
+	width: auto !important;
+	width: 48px;
+	height: 32px;
+	line-height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	position: relative;
+	float: left;
+	padding: 0 8px;
+	margin: 0 0 4px 0;
+	*margin: 0 4px 4px 0;
+	font-size: 12px;
+	color: #08c !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	text-decoration: none;
+	border: 1px solid #ddd;
+	border-left-width: 0;
+	*border-left-width: 1px;
+	cursor: pointer;
+}
+
+.pager:visited {
+	color: #08c;
+}
+
+.pager:hover {
+	color: #ff0163 !important;
+	background-color: #f5f5f5;
+}
+
+.pager-active,
+.pager:active {
+	background-color: #f5f5f5;
+	color: #999 !important;
+	cursor: default;
+}
+
+.pager-active a,
+.pager:active a {
+	color: #999 !important;
+	cursor: default;
+}
+
+.pager:first-of-type {
+    border-left-width: 1px;
+    border-top-left-radius:3px; border-bottom-left-radius:3px;
+}
+.pager:last-of-type {
+    border-top-right-radius:3px; border-bottom-right-radius:3px;
+}
+.pager-hidden{
+    display:none;
+}
 
