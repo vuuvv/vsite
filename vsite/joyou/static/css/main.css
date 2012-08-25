@@ -451,15 +451,17 @@ a.main_menu_item_link {
 	float: left;
 	padding: 0 8px;
 	margin: 0 0 4px 0;
-	*margin: 0 4px 4px 0;
 	font-size: 12px;
 	color: #08c !important;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	text-decoration: none;
 	border: 1px solid #ddd;
 	border-left-width: 0;
-	*border-left-width: 1px;
 	cursor: pointer;
+}
+
+.pager-first {
+	*border-left-width: 1px;
 }
 
 .pager:visited {
@@ -494,4 +496,28 @@ a.main_menu_item_link {
 .pager-hidden{
     display:none;
 }
+
+.sns-icon {
+	display: inline-block;
+	*zoom: 1;
+	*display: inline;
+	background: url(img/sns_icon.png) no-repeat;
+	height: 16px;
+	line-height: 16px;
+	padding-left: 20px;
+}
+
+.sns-copy{background-position:0px 0px}
+.sns-email{background-position:0px -32px}
+.sns-fav{background-position:0px -16px}
+.sns-buzz{background-position:0px -48px}
+.sns-qzone{background-position:0px -64px}
+.sns-baidu{background-position:0px -80px}
+.sns-tsina{background-position:0px -96px}
+.sns-tsohu{background-position:0px -112px}
+.sns-t163{background-position:0px -128px}
+.sns-tqq{background-position:0px -144px}
+.sns-renren{background-position:0px -160px}
+.sns-kaixin001{background-position:0px -176px}
+.sns-sohu{background-position:0px -192px}
 

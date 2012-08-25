@@ -10,6 +10,7 @@ urlpatterns = patterns('vsite.joyou.views',
     url(r'^about/$', 'about', name=""),
     url(r'^news/$', 'news', name=""),
     url(r'^news/company/$', 'company', name=""),
+    url(r'^news/company/1$', 'article', name=""),
     url(r'^news/magzine/$', 'magzine', name=""),
     url(r'^news/brand/$', 'brand', name=""),
 

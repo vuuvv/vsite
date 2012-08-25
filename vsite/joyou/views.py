@@ -34,3 +34,8 @@ def magzine(request, slug=""):
 		"pages": Page.objects.all(),
 	})
 
+def article(request, slug=""):
+	return render_to_response('news/article.html', {
+		"pages": Page.objects.all(),
+	})
+

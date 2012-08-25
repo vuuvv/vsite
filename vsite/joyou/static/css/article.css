@@ -1,0 +1,46 @@
+.article-container {
+	border: 1px solid #cacaca;
+	padding: 15px;
+	margin-bottom: 8px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.article-title {
+	padding-top: 20px;
+}
+
+.article-title h1 {
+	color: #000;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 160%;
+	text-align: center;
+}
+
+.article-title h2 {
+	color: #000;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 160%;
+	text-align: center;
+}
+
+.article-info {
+	color: #666;
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+}
+
+.article-info i {
+	color: #d33;
+	margin: 0 7px 0 0;
+	font-style: normal;
+}
+
+.article-container .separator {
+	border-bottom: 1px solid #d3d3d3;
+	margin: 2px 30px;
+}
