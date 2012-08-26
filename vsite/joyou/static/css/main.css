@@ -257,9 +257,9 @@ a.main_menu_item_link {
 }
 
 .content {
-	min-height:800px;
+	min-height:500px;
 	height:auto !important; 
-	height:800px; 
+	height:500px; 
 	overflow:visible;
 }
 
@@ -486,6 +486,7 @@ a.main_menu_item_link {
 	cursor: default;
 }
 
+/*
 .pager:first-of-type {
     border-left-width: 1px;
     border-top-left-radius:3px; border-bottom-left-radius:3px;
@@ -493,6 +494,17 @@ a.main_menu_item_link {
 .pager:last-of-type {
     border-top-right-radius:3px; border-bottom-right-radius:3px;
 }
+*/
+
+.pagination > .pager:first-child {
+    border-left-width: 1px;
+    border-top-left-radius:3px; border-bottom-left-radius:3px;
+}
+
+.pagination > .pager:last-child {
+    border-top-right-radius:3px; border-bottom-right-radius:3px;
+}
+
 .pager-hidden{
     display:none;
 }
@@ -502,9 +514,13 @@ a.main_menu_item_link {
 	*zoom: 1;
 	*display: inline;
 	background: url(img/sns_icon.png) no-repeat;
+	width: 16px;
 	height: 16px;
 	line-height: 16px;
-	padding-left: 20px;
+}
+
+.sns-icon:hover {
+	opacity: 0.8;
 }
 
 .sns-copy{background-position:0px 0px}

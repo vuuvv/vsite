@@ -32,6 +32,15 @@
 	text-align: center;
 	height: 32px;
 	line-height: 32px;
+	font-size: 0;
+}
+
+.article-info .sns-icon {
+	padding-right: 4px;
+}
+
+.article-info span, .article-info a {
+	font-size: 12px;
 }
 
 .article-info i {
@@ -40,7 +49,25 @@
 	font-style: normal;
 }
 
+.article-info .sns-icon {
+	margin-bottom: -3px;
+}
+
 .article-container .separator {
 	border-bottom: 1px solid #d3d3d3;
 	margin: 2px 30px;
+}
+
+.article {
+	margin: 15px 0 20px 0;
+	display: block;
+	padding: 0 30px;
+}
+
+.article p {
+	font-size: 13px;
+	line-height: 18px;
+	margin: 0;
+	padding: 0 0 20px;
+	text-indent: 2em;
 }
