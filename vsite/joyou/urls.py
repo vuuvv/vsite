@@ -13,6 +13,9 @@ urlpatterns = patterns('vsite.joyou.views',
     url(r'^news/company/1$', 'article', name=""),
     url(r'^news/magzine/$', 'magzine', name=""),
     url(r'^news/brand/$', 'brand', name=""),
+    url(r'^product/$', 'joyou_serials', name=""),
+    url(r'^product/joyou/$', 'joyou_serials', name=""),
+    url(r'^product/joyou/serials/$', 'joyou_serials', name=""),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

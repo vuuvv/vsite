@@ -39,3 +39,8 @@ def article(request, slug=""):
 		"pages": Page.objects.all(),
 	})
 
+def joyou_serials(request, slug=""):
+	return render_to_response('product/joyou_serials.html', {
+		"pages": Page.objects.all(),
+	})
+

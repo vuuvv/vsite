@@ -367,14 +367,34 @@ a.main_menu_item_link {
 }
 
 .column-1 {
-	width: 190px;
-	margin: 0 10px 10px 0;
+	width: 206px;
+	margin: 0 14px 10px 0;
 	float: left;
 }
 
 .column-2 {
-	width: 752px;
+	width: 732px;
 	float: left;
+}
+
+.left-nav {
+	padding: 0 8px;
+}
+
+.left-header {
+	background: url(img/left_header.png) no-repeat;
+	height: 54px;
+	line-height: 72px;
+	font-size: 18px;
+	font-weight: 700;
+	width: 206px;
+	overflow: hidden;
+	color: #fff;
+	cursor: default;
+}
+
+.left-header span {
+	padding-left: 18px;
 }
 
 .toolbox {

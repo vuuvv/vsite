@@ -98,7 +98,6 @@ a {
 .box {
 	overflow: hidden;
 	border: 1px solid #ccc;
-	position: relative;
 }
 
 .box-follow {
@@ -174,7 +173,7 @@ a {
 	overflow: hidden;
 }
 
-.box-opened .box-container {
+.box-closed .box-container {
 	display: none;
 }
 

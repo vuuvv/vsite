@@ -1,0 +1,81 @@
+{% extends "normal.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img width="952" src="{% static "img/banner_product.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+<div class="left-nav">
+	<div class="box">
+		<div class="box-title">
+			<div class="box-title-inner sl-linear">
+				<h3>JOYOU</h3>
+				<a href="javascript:;" class="box-toggle no-outline"></a>
+			</div>
+		</div>
+		<div class="box-container">
+			<ul>
+				<li class="box-item">
+					<a href="#">
+						<span class="box-item-name">整体卫浴</span>
+						<span class="box-item-arrow arrow arrow-right"></span>
+					</a>
+				</li>
+				<li class="box-item">
+					<a href="#">
+						<span class="box-item-name">单品展示</span>
+						<span class="box-item-arrow arrow arrow-right"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="box box-follow box-closed">
+		<div class="box-title">
+			<div class="box-title-inner sl-linear">
+				<h3>XTIME</h3>
+				<a href="javascript:;" class="box-toggle no-outline"></a>
+			</div>
+		</div>
+		<div class="box-container">
+			<ul>
+				<li class="box-item">
+					<a href="#">
+						<span class="box-item-name">整体卫浴</span>
+						<span class="box-item-arrow arrow arrow-right"></span>
+					</a>
+				</li>
+				<li class="box-item">
+					<a href="#">
+						<span class="box-item-name">单品展示</span>
+						<span class="box-item-arrow arrow arrow-right"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block column_2 %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		{% block breadcrumb %}
+		{% endblock %}
+	</div>
+</div>
+<div class="content">
+	{% block content %}
+	{% endblock %}
+</div>
+{% endblock %}

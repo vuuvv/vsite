@@ -7,7 +7,12 @@
 }
 
 .news-box .box-container li {
-	margin: 15px 0 15px 15px;
+	margin: 15px 0 15px 11px;
+	_margin: 15px 0 15px 7px;
+}
+
+.news-box .box-horizontal {
+	_height: 224px;
 }
 
 .news-list li {
@@ -37,7 +42,7 @@
 
 .news-list .news-info {
 	float: left;
-	width: 542px;
+	width: 522px;
 }
 
 .news-list .news-title {
