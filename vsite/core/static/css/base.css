@@ -119,10 +119,9 @@ ul.list-horizontal li {
 }
 
 .box-title-inner {
-	position: relative;
-	height: 14px;
-	line-height: 16px;
-	padding: 9px 16px 10px;
+	height: 33px;
+	line-height: 33px;
+	padding: 0 0 0 16px;
 	border: 1px solid #fff;
 	overflow: hidden;
 }
@@ -133,7 +132,7 @@ ul.list-horizontal li {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#dadada');
 	background:-o-linear-gradient(top, #f6f6f6, #dadada);
 	background: linear-gradient(top, #f6f6f6, #dadada);
-	padding: 9px 16px 10px;
+	padding: 0 0 0 16px;
 	border: 1px solid #fff;
 	cursor:pointer;
 }
@@ -148,9 +147,7 @@ ul.list-horizontal li {
 	text-indent: -9999px;
 	display: inline;
 	cursor: pointer;
-	position: absolute;
-	right: 0;
-	top: 0;
+	float: right;
 }
 
 .box-toggle:hover {
