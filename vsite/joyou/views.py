@@ -44,3 +44,9 @@ def joyou_serials(request, slug=""):
 		"pages": Page.objects.all(),
 	})
 
+def city(request, slug=""):
+	return render_to_response('product/city.html', {
+		"pages": Page.objects.all(),
+	})
+
+

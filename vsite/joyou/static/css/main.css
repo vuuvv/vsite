@@ -378,19 +378,19 @@ a.main_menu_item_link {
 }
 
 .left-nav {
-	padding: 0 8px;
+	background: url(img/left_header.png) no-repeat;
+	padding: 0 21px 0 6px;
 }
 
 .left-header {
-	background: url(img/left_header.png) no-repeat;
-	height: 54px;
-	line-height: 72px;
+	height: 42px;
+	line-height: 48px;
 	font-size: 18px;
 	font-weight: 700;
-	width: 206px;
 	overflow: hidden;
 	color: #fff;
 	cursor: default;
+	text-align: center;
 }
 
 .left-header span {

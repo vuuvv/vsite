@@ -1,0 +1,53 @@
+{% extends "product/layout.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+	<a href="/">首页</a>
+	<a href="/product/">产品展示</a>
+	<a href="/product/joyou/">JOYOU</a>
+	<a href="/product/joyou/serials/">整体卫浴</a>
+	<em>城市映像系列</em>
+{% endblock %}
+
+{% block content %}
+<div class="serial-view clearfix">
+	<div class="prev-button prev-button-disable"></div>
+	<div class="serial-pic">
+		<img  id="serial_pic" src="{% static "img/city_1.jpg" %}" alt="" />
+	</div>
+	<div class="next-button"></div>
+</div>
+<div class="thumbs-box">
+	<ul>
+		<li>
+			<a class="thumb-btn thumb-active no-outline" href="{% static "img/city_1.jpg" %}">
+				<img src="{% static "img/city_1_t.jpg" %}" alt="" />
+			</a>
+		</li>
+		<li>
+			<a class="thumb-btn no-outline" href="{% static "img/city_2.jpg" %}">
+				<img src="{% static "img/city_2_t.jpg" %}" alt="" />
+			</a>
+		</li>
+		<li>
+			<a class="thumb-btn no-outline" href="{% static "img/city_3.jpg" %}">
+				<img src="{% static "img/city_3_t.jpg" %}" alt="" />
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div class="tab-bar">
+	<ul class="clearfix">
+		<li class="tab-first">
+			<a class="tab-anchor" href="">简介</a>
+		</li>
+		<li>
+			<a class="tab-anchor" href="">相关技术</a>
+		</li>
+		<li class="tab-last">
+			<a class="tab-anchor" href="">系列产品</a>
+		</li>
+	</ul>
+</div>
+{% endblock %}
