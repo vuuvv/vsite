@@ -87,6 +87,17 @@ a {
 	background-position: -4px -60px;
 }
 
+.border-left {
+	background: url(img/border_left_right.png) no-repeat left top;
+}
+
+.border-right {
+	background: url(img/border_left_right.png) no-repeat right top;
+}
+
+.border-right {
+}
+
 .sl-linear {
     background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#f1f1f1));
     background: -moz-linear-gradient(top, #fcfcfc, #f1f1f1);

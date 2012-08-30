@@ -50,3 +50,19 @@ def city(request, slug=""):
 	})
 
 
+def joyou_categories(request, slug=""):
+	return render_to_response('product/joyou_categories.html', {
+		"pages": Page.objects.all(),
+	})
+
+def joyou_faucet(request, slug=""):
+	return render_to_response('product/joyou_faucet.html', {
+		"pages": Page.objects.all(),
+	})
+
+def joyou_shunv(request, slug=""):
+	return render_to_response('product/joyou_shunv.html', {
+		"pages": Page.objects.all(),
+	})
+
+

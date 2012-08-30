@@ -390,6 +390,7 @@ a.main_menu_item_link {
 	color: #fff;
 	cursor: default;
 	text-align: center;
+	overflow: hidden;
 }
 
 .left-header span {

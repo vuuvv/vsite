@@ -6,14 +6,24 @@
 }
 
 .serials h5 {
-	color: #000;
+	color: #006dae;
 	font-size: 14px;
 	font-weight: bold;
 }
 
+.products h5 {
+	padding-top: 5px;
+	text-align: center;
+	font-weight: normal;
+}
+
+.products img {
+	border: 2px solid #ccc;
+}
+
 .serials p {
 	font-size: 12px;
-	color: #565656;
+	color: #4D4D4D;
 }
 
 .serial-view {
@@ -59,7 +69,7 @@
 .thumbs-box {
 	height: 69px;
 	border: 1px solid #ccc;
-	margin: 10px 20px 0;
+	margin-top: 10px;
 }
 
 .thumbs-box li {
@@ -84,19 +94,52 @@
 	height: 54px;
 }
 
+.serial-info {
+	position: relative;
+}
+
 .tab-bar {
 	margin-top: 25px;
 	background: #fff;
 	border: 1px solid #d7d7d7;
 	font-size: 14px;
 	height: 34px;
+	position: relative;
+	z-index: 2;
 }
 
 .tab-bar li {
 	height: 36px;
 	line-height: 16px;
+	margin-right: -1px;
 	border-right: 1px solid #d7d7d7;
 	float: left;
+	_margin-top: 2px;
+	_margin-bottom: -4px;
+}
+
+.tab-bar li.tab-first {
+	border-left: none;
+	margin-left: -1px;
+}
+
+.tab-bar li.tab-last {
+	height: 34px;
+	line-height: 34px;
+	margin-top: 0;
+}
+
+.tab-bar ul li.selected {
+	background: #f6f6f6;
+	height: 36px;
+	line-height: 36px;
+	margin-right: -1px;
+	margin-top: 0;
+	border-bottom: none;
+	border-left: 1px solid #d7d7d7;
+	border-top: 2px solid #09f;
+	top: -3px;
+	position: relative;
 }
 
 .tab-bar .tab-anchor {
@@ -107,12 +150,70 @@
 	padding: 0 25px;
 }
 
-.tab-bar ul li.selected {
-	background: #f6f6f6;
-	height: 36px;
-	line-height: 36px;
-	border-bottom: none;
-	border-left: 1px solid #d7d7d7;
-	border-top: 2px solid #
+.tab-bar .tab-anchor:hover {
+	color: #09f;
+}
+
+.tab-bar .selected .tab-anchor:hover {
+	color: #000;
+}
+
+.serial-info .summary {
+	background-color: #f6f6f6;
+	border: 1px solid #d7d7d7;
+	border-top: none;
+	margin-bottom: 10px;
+	padding: 20px 15px 10px;
+	position: relative;
+	z-index: 1;
+	font-size: 12px;
+}
+
+.product-list-row {
+	background: url(img/line_shadow_large.png) no-repeat -90px bottom;
+	_background: url(img/line_shadow_large.gif) no-repeat -90px bottom;
+	margin-top: 20px;
+}
+
+.product-list-row ul {
+	padding: 0 10px 25px;
+}
+
+.product-list-row li {
+	float: left;
+	padding: 0 8px 5px 7px;
+	width: 215px;
+	overflow: hidden;
+}
+
+.product-list-row li.first-item {
+	border-left: none;
+}
+
+.product-list-row .img-box {
+	margin-bottom: 10px;
+}
+
+.product-list-row .info-box {
+	padding-left: 15px;
+	position: relative;
+}
+
+.product-list-row h5 {
+	font-size: 15px;
+	color: #666;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.product-list-row .title {
+	background: url(img/more_btn.png) no-repeat right center;
+	display: block;
+	color: #999;
+	font-size: 13px;
+	margin-right: 10px;
+}
+
+.product-list-row .more {
 }
 
