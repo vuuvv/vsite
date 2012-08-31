@@ -65,4 +65,9 @@ def joyou_shunv(request, slug=""):
 		"pages": Page.objects.all(),
 	})
 
+def JY00221(request, slug=""):
+	return render_to_response('product/JY00221.html', {
+		"pages": Page.objects.all(),
+	})
+
 

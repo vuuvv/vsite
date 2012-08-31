@@ -158,7 +158,7 @@
 	color: #000;
 }
 
-.serial-info .summary {
+.serial-info .tab-content {
 	background-color: #f6f6f6;
 	border: 1px solid #d7d7d7;
 	border-top: none;
@@ -208,12 +208,66 @@
 
 .product-list-row .title {
 	background: url(img/more_btn.png) no-repeat right center;
+	_background: url(img/more_btn.gif) no-repeat right center;
 	display: block;
 	color: #999;
 	font-size: 13px;
 	margin-right: 10px;
 }
 
-.product-list-row .more {
+.product-show {
+	margin-top: 15px;
+	border: 1px solid #A5DAE6;
 }
 
+.product-show .img-box {
+	border-right: 1px solid #A5DAE6;
+	height: 325px;
+	width: 400px;
+	float: left;
+}
+
+.product-show .info-box {
+	padding: 14px;
+	float: left;
+}
+
+.product-show .info-box .detail {
+	width: 300px;
+}
+
+.product-show .info-box h5 {
+	font-size: 24px;
+	font-weight: bold;
+	height: 36px;
+	line-height: 36px;
+	text-overflow: ellipsis;
+}
+
+.product-show .spu {
+	border-top: 1px dashed #ccc;
+}
+
+.product-show .spu-info {
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.product-show .spu-info li {
+	color: #909090;
+	height: 24px;
+	line-height: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.product-show .spu-info span {
+	padding-left: 5px;
+}
+
+.product-show .spu-info tr {
+	color: #909090;
+	height: 24px;
+	line-height: 24px;
+}

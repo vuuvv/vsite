@@ -34,6 +34,7 @@ a {
 .no-outline {
 	outline: none;
 	star:expression(this.onFocus=this.blur()); 
+	outline-style: none;
 }
 
 .clearfix:after {

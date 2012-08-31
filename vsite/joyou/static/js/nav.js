@@ -3,6 +3,53 @@ $(function() {
 		$(".content").append($("<div>" + msg + "</div>"));
 	};
 
+	var header_search = $("#header_search_box");
+	var header_search_input = $("#header_search_box input");
+	var placeholder = "搜索产品、新闻";
+
+	header_search_input.val(placeholder);
+	header_search_input.data("dirty", false);
+
+	header_search.hover(function() {
+		$(this).addClass("header_search_box_active");
+	}, function() {
+		var $this = $(this);
+		if (!$this.find("input").data("is_focus")) {
+			$(this).removeClass("header_search_box_active");
+		}
+	});
+
+	header_search_input.focus(function() {
+		var $this = $(this);
+		$this.data("is_focus", true);
+		if (!$this.data("dirty")) {
+			$this.val("");
+		}
+		if ($this.val() !== "") {
+			if ($.browser.msie)
+				this.createTextRange().select();
+			else {
+				this.selectionStart = 0;
+				this.selectionEnd = this.value.length;
+			}
+		}
+		header_search.addClass("header_search_box_active");
+	});
+
+	header_search_input.blur(function() {
+		var $this = $(this);
+		$this.data("is_focus", false);
+		if ($this.val() === "") {
+			$this.val(placeholder);
+			$this.data("dirty", false);
+		}
+		header_search.removeClass("header_search_box_active");
+	});
+
+	header_search_input.change(function() {
+		$(this).data("dirty", true);
+	});
+
 	$(".main_menu_item, .main_menu_item_leaf").hover(function() {
 		$(this).addClass("hovered");
 		$(">.dropmenu:not(:animated)", this).slideDown("fast");

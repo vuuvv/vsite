@@ -1,0 +1,103 @@
+{% extends "product/layout.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+	<a href="/">首页</a>
+	<a href="/product/">产品展示</a>
+	<a href="/product/joyou/">JOYOU</a>
+	<a href="/product/joyou/faucet/">龙头系列</a>
+	<a href="/product/joyou/faucet/shunv/">淑女系列</a>
+	<em>JY00221</em>
+{% endblock %}
+
+{% block content %}
+
+<div class="product-show clearfix">
+	<div class="img-box">
+		<img src="{% static "img/jy00221.jpg" %}" alt="" />
+	</div>
+	<div class="info-box">
+		<div class="detail">
+			<h5>JY00221</h5>
+			<div class="spu">
+				<ul class="spu-info">
+					<table>
+						<tr>
+							<td>品&#12288;&#12288;牌：</td>
+							<td>中宇</td>
+						</tr>
+						<tr>
+							<td>商品名称：</td>
+							<td>单孔单把脸盆龙头</td>
+						</tr>
+						<tr>
+							<td>型&#12288;&#12288;号</td>
+							<td>JY00221</td>
+						</tr>
+						<tr>
+							<td>龙头款式</td>
+							<td>单把单孔</td>
+						</tr>
+						<tr>
+							<td>材&#12288;&#12288;质：</td>
+							<td>黄铜</td>
+						</tr>
+						<tr>
+							<td>阀芯类型：</td>
+							<td>陶瓷片阀芯</td>
+						</tr>
+						<tr>
+							<td>安装方式：</td>
+							<td>坐式</td>
+						</tr>
+						<tr>
+							<td>是否冷热水：</td>
+							<td>是</td>
+						</tr>
+					</table>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="serial-info">
+	<div class="tab-bar">
+		<ul class="clearfix">
+			<li class="tab-first selected">
+				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">产品特点</a>
+			</li>
+			<li>
+				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">中宇技术</a>
+			</li>
+			<li>
+				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">装配图</a>
+			</li>
+			<li>
+				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">说明书</a>
+			</li>
+			<li class="tab-last">
+				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">相关产品</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="tab-content">
+		<div id="summary">
+			<div class="article">
+				<ol>
+					<li>龙头主体选用优质A级黄铜锭，采用国际最先进的低压铸造技术制作，一体成型，壁厚均匀，质密无渗漏。</li>
+					<li>优质黄铜材制造，并经过高科技洗铅处理，达到美国NSF认证标准，无铅更健康。</li>
+					<li>采用优质进口KCG陶瓷阀芯，手感更舒适，确保50万次以上无滴漏。</li>
+					<li>多层电镀，镀层均匀，附着细密，表面光亮如镜、色泽明亮、历久恒新。</li>
+					<li>采用国际领先品牌瑞士（Neoper）钮铂起泡器，出水更柔和。</li>
+					<li>欧洲设计名家设计，款式新颖，共享欧洲卫浴生活好品质。</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="tech">
+		</div>
+	</div>
+</div>
+{% endblock %}
