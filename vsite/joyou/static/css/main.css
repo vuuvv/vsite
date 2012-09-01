@@ -10,7 +10,7 @@ body {
 }
 
 .bg_main_top {
-	background: url(img/bg_top.gif);
+	/*background: url(img/bg_top.gif);*/
 	height: 222px;
 	position: relative;
 	width: 100%;
@@ -61,10 +61,10 @@ body {
 }
 
 .logobox {
-	top: 20px;
-	left: 25px;
-	width: 296px;
-	height: 60px;
+	top: 15px;
+	left: 15px;
+	width: 330px;
+	height: 70px;
 	position: absolute;
 	background: url("img/logo.png");
 	_background: none;
@@ -75,7 +75,7 @@ body {
 	position: absolute;
 	right: 25px;
 	top: 5px;
-	color: #fff;
+	color: #1E6FF4;
 }
 
 .links_pipe {
@@ -83,7 +83,7 @@ body {
 }
 
 .top_links a {
-	color: #fff;
+	color: #1E6FF4;
 	text-decoration: none;
 }
 
@@ -442,14 +442,16 @@ a.main_menu_item_link {
 
 .left-nav {
 	background: url(img/left_header.png) no-repeat;
-	padding: 0 21px 0 6px;
+	_background: url(img/left_header.gif) no-repeat;
+	padding: 0 17px 0 5px;
 }
 
 .left-header {
-	height: 42px;
-	line-height: 48px;
+	height: 36px;
+	line-height: 36px;
 	font-size: 18px;
 	font-weight: 700;
+	letter-spacing: 2px;
 	color: #fff;
 	cursor: default;
 	text-align: center;

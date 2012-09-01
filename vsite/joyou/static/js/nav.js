@@ -84,6 +84,7 @@ $(function() {
 				box.addClass("box-closed");
 			});
 		}
+		return false;
 	});
 
 	$(".thumb-btn").click(function() {

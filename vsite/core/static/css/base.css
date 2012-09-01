@@ -125,12 +125,14 @@ ul.list-horizontal li {
 }
 
 .box-title {
+	display: block;
 	border-bottom: 1px solid #ccc;
 	overflow: hidden;
 	cursor: pointer;
 }
 
 .box-title-inner {
+	display: block;
 	height: 33px;
 	line-height: 33px;
 	padding: 0 0 0 16px;
@@ -195,7 +197,7 @@ ul.list-horizontal li {
 }
 
 .box-item {
-	width: 177px;
+	width: 182px;
 	height: 37px;
 	overflow: hidden;
 }
