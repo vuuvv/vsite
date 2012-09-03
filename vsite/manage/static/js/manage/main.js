@@ -13,6 +13,8 @@ define(function(require, exports, module) {
 			"": "index",
 			"logout": "logout",
 			"filemanage": "filemanage",
+			"apps": "apps"
+			/*
 			"m/:app/:model/add": "add",
 			"m/:app/:model/:id": "update",
 			"m/:app/:model": "list",
@@ -20,6 +22,7 @@ define(function(require, exports, module) {
 			"m/:app/:model/add/:pid": "tree_add",
 			"m/:app/:model/:pid/": "tree_list",
 			"m/:app/:model/:pid/p/:page": "tree_list"
+			*/
 		},
 
 		csrf_token: null,
@@ -66,6 +69,9 @@ define(function(require, exports, module) {
 
 		index: function() {
 			//this.list("pages", "page");
+		},
+
+		apps: function() {
 		},
 
 		list: function(app, model, page) {
