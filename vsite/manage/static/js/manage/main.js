@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+	require('vuuvv/vuuvv');
 	require('vuuvv/util');
 	require('vuuvv/window');
 
