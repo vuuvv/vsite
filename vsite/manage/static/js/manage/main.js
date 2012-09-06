@@ -1,7 +1,9 @@
 define(function(require, exports, module) {
 	require('vuuvv/vuuvv');
+	/*
 	require('vuuvv/util');
 	require('vuuvv/window');
+	*/
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -136,6 +138,7 @@ define(function(require, exports, module) {
 		},
 
 		filemanage: function() {
+			/*
 			var win = vuuvv.window({
 				title: "Hello World",
 				content: "<h1>Hello World</h1><h1>Hello World</h1><h1>Hello World</h1>",
@@ -143,6 +146,9 @@ define(function(require, exports, module) {
 				resizable: true
 			});
 			win.open();
+			*/
+			var mask = new VUI.Mask();
+			mask.render();
 		},
 
 		file_manage: function(path, callback) {

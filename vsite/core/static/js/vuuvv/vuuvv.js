@@ -474,7 +474,7 @@ Event.prototype = {
 	 * @param {String} type 事件名
 	 */
 	fire_event: function(type) {
-		var listeners = getListener(this, type), r, fn;
+		var listeners = get_listener(this, type), r, fn;
 		if (listeners) {
 			for (var i = listeners.length - 1; i >= 0; i--) {
 				r = listeners[i].apply(this, arguments);
@@ -676,7 +676,7 @@ var helpers = VUI.helpers = {
 	create_element_by_html: function(html) {
 		var el = document.createElement('div');
 		el.innerHTML = html;
-		el = el.firstChild;
+		el = el.firstElementChild;
 		el.parentNode.removeChild(el);
 		return el;
 	}
@@ -688,16 +688,21 @@ var ui_template = utils.template(require('vuuvv/templates/ui.html'));
 Widget = VUI.Widget = function() {};
 
 Widget.prototype = {
+	name: '',
+	class_name: '',
 	template: '',
 
-	defaults: {
-		name: '',
-		class_name: ''
+	init_options: function(options) {
+		for (var k in options) {
+			this[k] = options[k];
+		}
+		this.id = this.id || 'vui_' + helpers.uid();
+		if (this.name) {
+			this.template = 'vui_' + this.name;
+		}
 	},
 
-	init_options: function(options) {
-		this.options = $.extends({}, this.defaults, options);
-		this.id = this.options.id || 'vui' + helpers.uid();
+	initialize: function() {
 	},
 
 	render: function(where) {
@@ -708,7 +713,7 @@ Widget.prototype = {
 			box.parentNode.replaceChild(el, box);
 			helpers.copy_attrs(el, box);
 		} else {
-			if(utils.is_string(where)) {
+			if(typeof where == 'string') {
 				where = document.getElementById(where);
 			}
 			where = where || helpers.get_fixed_layer();
@@ -737,18 +742,15 @@ Widget.prototype = {
 	}
 };
 
+utils.inherits(Widget, Event);
+
 var Mask = VUI.Mask = function(options) {
 	this.init_options(options);
 	this.initialize();
 };
 
 Mask.prototype = {
-	template: 'mask',
-
-	default: {
-		name: 'mask',
-		class_name: ''
-	},
+	name: 'mask',
 
 	on_postrender: function() {
 		var self = this;
