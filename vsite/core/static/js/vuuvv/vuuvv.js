@@ -393,6 +393,18 @@ var utils = vuuvv.utils = {
 		}) : '';
 	},
 
+	template: function(text, data, settings) {
+		var re = /{%\s*define\s+(\S+)\s+%}([\s\S]*?){%\s*end\s+define\s*%}/g;
+		var result = {};
+		while(1) {
+			var match = re.exec(text);
+			if (!match)
+				break;
+			result[match[1]] = _.template(match[2], data, settings);
+		}
+		return result;
+	},
+
 	/**
 	 * 获取节点所在的window对象
 	 * @param {Node} node 指定节点
@@ -477,6 +489,21 @@ Event.prototype = {
 
 var __uid = 0;
 
+var FIXED_LAYER_ID = 'vui_fixedlayer';
+
+function update_fixed_offset() {
+	var layer = document.getElementById(FIXED_LAYER_ID);
+	helpers.set_viewport_offset(layer, {
+		left: 0,
+		top: 0
+	});
+}
+
+function bind_fixed_layer() {
+	$(window).on('scroll', update_fixed_offset);
+	$(window).on('resize', utils.defer(update_fixed_offset, 0, true));
+}
+
 var helpers = VUI.helpers = {
 	/**
 	 * 产生uid
@@ -487,7 +514,7 @@ var helpers = VUI.helpers = {
 	},
 
 	/**
-	 * 获取整个页面的viewport
+	 * 获取整个页面的viewport, viewport就是浏览器的屏幕
 	 * @return {Element} 页面的viewport
 	 */
 	get_viewport: function() {
@@ -543,6 +570,33 @@ var helpers = VUI.helpers = {
 	},
 
 	/**
+	 * 在viewport上给element设定位置，element须为顶级的ui所在的dom,
+	 * 其实可以理解为绝对定位。
+	 * @public
+	 * @function
+	 * @param {Element} elem 被放置的元素，应为顶级ui元素，如dialog等
+	 * @param {Object} offset 指定的位置
+	 */
+	set_viewport_offset: function(elem, offset) {
+		var rect;
+		var fixed = helpers.get_fixed_layer();
+		if (elem.parentNode === fixed) {
+			elem.style.left = offset.left + 'px';
+			elem.style.top = offset.top + 'px';
+		} else {
+			var left = parseInt(elem.style.left) | 0;
+			var top = parseInt(elem.style.top) | 0;
+			var rect = elem.getBoundingClientRect();
+			var ol = offset.left - rect.left;
+			var ot = offset.top - rect.top;
+			if (ol) 
+				elem.style.left = left + ol + 'px';
+			if (ot)
+				elem.style.top = top + ot + 'px';
+		}
+	},
+
+	/**
 	 * 获取该事件发生时所在屏幕的位置
 	 * @param {Object} evt 产生的事件
 	 * @return {Object} 事件发生时所在的位置信息
@@ -575,7 +629,162 @@ var helpers = VUI.helpers = {
 			left: offset.left - rect.left,
 			top: offset.top - rect.top
 		}
+	},
+
+	/**
+	 * 获取或产生一个用于fixed定位的层（layer），主要用于dialog等popup组件。
+	 * @return {Element} 一个用于fixed定位的层
+	 */
+	get_fixed_layer: function() {
+		var layer = document.getElementById(FIXED_LAYER_ID);
+		if (layer == null) {
+			layer = document.createElement('div');
+			layer.id = FIXED_LAYER_ID;
+			document.body.appendChild(layer);
+			if (browser.ie && browser.version <= 8) {
+				layer.style.position = 'absolute';
+				bind_fixed_layer();
+				setTimeout(update_fixed_offset);
+			} else {
+				layer.style.position = 'fixed';
+			}
+			layer.style.left = '0';
+			layer.style.top = '0';
+			layer.style.width = '0';
+			layer.style.height = '0';
+		}
+		return layer;
+	},
+
+	copy_attrs: function(tar, src) {
+		var attrs = src.attributes;
+		var i = attributes.length;
+		while (i--) {
+			var attr_node = attributes[i];
+			if (attr_node.nodeName != 'style' && attr_node.nodeName != 'class' && (!browser.ie || attr_node.specified)) {
+				tar.setAttribute(attr_node.nodeName, attr_node.nodeValue);
+			}
+		}
+		if (src.className) {
+			tar.className += ' ' + src.className;
+		}
+		if (src.style.cssText) {
+			tar.style.cssText += ';' + src.style.cssText;
+		}
+	},
+
+	create_element_by_html: function(html) {
+		var el = document.createElement('div');
+		el.innerHTML = html;
+		el = el.firstChild;
+		el.parentNode.removeChild(el);
+		return el;
 	}
 };
+
+/* UI part */
+var ui_template = utils.template(require('vuuvv/templates/ui.html'));
+
+Widget = VUI.Widget = function() {};
+
+Widget.prototype = {
+	template: '',
+
+	defaults: {
+		name: '',
+		class_name: ''
+	},
+
+	init_options: function(options) {
+		this.options = $.extends({}, this.defaults, options);
+		this.id = this.options.id || 'vui' + helpers.uid();
+	},
+
+	render: function(where) {
+		var html = ui_template[this.template](this);
+		var el = this.elem = helpers.create_element_by_html(html);
+		var box = this.get_dom();
+		if (box != null) {
+			box.parentNode.replaceChild(el, box);
+			helpers.copy_attrs(el, box);
+		} else {
+			if(utils.is_string(where)) {
+				where = document.getElementById(where);
+			}
+			where = where || helpers.get_fixed_layer();
+			where.appendChild(el);
+		}
+		this.$elem = $(this.elem);
+		this.post_render();
+	},
+
+	post_render: function() {
+		this.fire_event('postrender');
+	},
+
+	get_dom: function(name) {
+		if (name) {
+			return document.getElementById(this.id + '_' + name);
+		} else {
+			return document.getElementById(this.id);
+		}
+	},
+
+	dispose: function() {
+		var box = this.get_dom();
+		if (box) 
+			$(box).remove();
+	}
+};
+
+var Mask = VUI.Mask = function(options) {
+	this.init_options(options);
+	this.initialize();
+};
+
+Mask.prototype = {
+	template: 'mask',
+
+	default: {
+		name: 'mask',
+		class_name: ''
+	},
+
+	on_postrender: function() {
+		var self = this;
+		$(window).on('resize', function() {
+			setTimeout(function () {
+				if (self.$elem.is(":visible"))
+					self._fill();
+			});
+		});
+
+		this.$elem.on('mousedown', function() {
+			return false;
+		});
+	},
+
+	show: function(z_index) {
+		this._fill();
+		this.$elem.css({
+			display: '',
+			zIndex: z_index
+		});
+	},
+
+	hide: function() {
+		this.$elem.hide();
+	},
+
+	_fill: function() {
+		var rect = helpers.get_viewport_rect();
+		this.$elem.css({
+			width: rect.width,
+			height: rect.height
+		});
+	}
+};
+
+utils.inherits(Mask, Widget);
 
 });
