@@ -794,7 +794,7 @@ Draggable = VUI.Draggable = {
 		var doc = document;
 		this.drag_start_x = evt.clientX;
 		this.drag_start_y = evt.clientY;
-		this.client_rect = helpers.get_client_rect(this.get_dom());
+		this.client_rect = this.get_client_rect();
 		if (doc.addEventListener) {
 			doc.addEventListener('mousemove', this._drag_mousemove, true);
 			doc.addEventListener('mouseup', this._drag_mouseup, true);
@@ -812,9 +812,8 @@ Draggable = VUI.Draggable = {
 	},
 
 	get_safe_offset: function(offset) {
-		var box = this.get_dom();
 		var vp_rect = helpers.get_viewport_rect();
-		var rect = helpers.get_client_rect(box);
+		var rect = this.get_client_rect();
 		var left = offset.left;
 		left = Math.min(left, vp_rect.right - rect.width);
 		var top = offset.top;
@@ -835,6 +834,7 @@ Draggable = VUI.Draggable = {
 
 	on_dragmove: function(dx, dy) {
 		var rect = this.client_rect;
+		console.log(dx, dy);
 		var offset = this.get_safe_offset({
 			left: rect.left + dx,
 			top: rect.top + dy
@@ -905,6 +905,10 @@ Widget.prototype = {
 		this.$elem.data("widget", this);
 
 		this.fire_event('postrender');
+	},
+
+	get_client_rect: function(name) {
+		return helpers.get_client_rect(this.get_dom(name));
 	},
 
 	get_dom: function(name) {
