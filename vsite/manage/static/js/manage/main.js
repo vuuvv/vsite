@@ -147,31 +147,10 @@ define(function(require, exports, module) {
 			});
 			win.open();
 			*/
-			var mask = new VUI.Mask();
-			mask.render();
-		},
-
-		file_manage: function(path, callback) {
-			var self = this;
-			if (this.filebrowser === null) {
-				require.async("manage/views/filedialog", function(Dialog) {
-					if (_.isFunction(path)) {
-						callback = path;
-						path = "";
-					} else {
-						path = path || "";
-					}
-
-					var dialog = new Dialog({
-						current_path: path,
-						select_callback: callback
-					});
-					dialog.render();
-					self.filebrowser = dialog;
-				});
-			} else {
-				this.filebrowser.show(path, callback);
-			}
+			var w = new VUI.Dialog({
+				drag_handle: "drag_handle"
+			});
+			w.render();
 		}
 	});
 

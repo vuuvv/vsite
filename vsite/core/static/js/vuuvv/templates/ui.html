@@ -1,3 +1,26 @@
 {% define vui_mask %}
 <div id="{{ id }}" class="vui-{{ name }} {{ class_name }}"></div>
 {% end define %}
+
+{% define vui_state %}
+<div id="{{ id }}_state"></div>
+{% end define %}
+
+{% define vui_button %}
+<div id="{{ id }}" class="vui-box vui-{{ name }} {{ class_name }}">
+	<div class="vui-{{ name }}-wrap">
+		<div id="{{ id }}_body" class="vui-{{ name }}-body" unselectable="on" {% if (title) { %} title="{{ title }}" {% } %}>
+			{% if (show_icon) { %} <div class="vui-box vui-icon"></div> {% } %}
+			{% if (show_text) { %} <div class="vui-box vui-label">{{ label }}</div> {% } %}
+		</div>
+	</div>
+</div>
+{% end define %}
+
+{% define vui_dialog %}
+<div id="{{ id }}" style="width: 100px;height: 100px;left: 200px;position: absolute;background:blue;">
+	<div id="{{ id }}_drag_handle" style="height: 20px; background: red;">
+	</div>
+</div>
+{% end define %}
+
