@@ -698,6 +698,8 @@ var inherits = function(cls, pcls) {
 		for (var i = 0, size = funcs.length; i < size; i++) {
 			funcs[i].apply(this, arguments);
 		}
+		if (this.auto_render)
+			this.render();
 	}
 };
 
@@ -876,19 +878,20 @@ Widget.prototype = {
 	name: '',
 	class_name: '',
 	template: '',
+	auto_render: false,
 
 	initialize: function(options) {
 		for (var k in options) {
 			this[k] = options[k];
 		}
 		this.id = this.id || 'vui' + helpers.uid();
-		if (this.name) {
+		if (!this.template && this.name) {
 			this.template = 'vui_' + this.name;
 		}
 	},
 
 	render: function(where) {
-		var html = ui_template[this.template](this);
+		var html = this.get_render_html();
 		var $elem = this.$elem = $(html);
 		var el = $elem[0];
 		var box = this.get_dom();
@@ -905,6 +908,10 @@ Widget.prototype = {
 		this.$elem.data("widget", this);
 
 		this.fire_event('postrender');
+	},
+
+	get_render_html: function() {
+		return ui_template[this.template](this);
 	},
 
 	get_client_rect: function(name) {
@@ -1006,5 +1013,111 @@ Dialog.prototype = {
 };
 
 inherits(Dialog, Widget, Draggable);
+
+Popup = VUI.Popup = function(options) {
+	this.initialize(options);
+};
+
+Popup._current = null;
+
+Popup.clear = function(el) {
+	var curr = Popup._current;
+	if (curr && !curr.hidden() && curr.should_hide(el)) {
+		curr.hide();
+		Popup._current = null;
+	}
+};
+
+$(document).on("mousedown", function(evt) {
+	var el = evt.target || evt.srcElement;
+	Popup.clear(el);
+});
+
+$(window).on("scroll", function(evt) {
+	Popup.clear();
+});
+
+Popup.prototype = {
+	name: 'popup',
+	template: 'vui_popup',
+	shadow_radius: 5,
+	content: null,
+
+	on_postrender: function() {
+		var content = this.content;
+		var box = this.get_dom("content");
+		if (content) {
+			if (utils.is_string(content)) {
+				$(box).append(content);
+			} else {
+				content.render(box);
+			}
+		}
+		this.hide();
+		this.fire_event("after_post_render");
+	},
+
+	content_rect: function() {
+		return helpers.get_client_rect(this.get_dom("content"));
+	},
+
+	show: function(x, y) {
+		var box = this.get_dom();
+		if (this.hidden()) {
+			Popup.clear();
+			if (!box) {
+				this.render();
+				box = this.get_dom();
+			}
+			$(box).show();
+			Popup._current = this;
+			helpers.set_viewport_offset(box, {
+				left: x,
+				top: y
+			});
+			this.fire_event("show");
+		} else {
+			helpers.set_viewport_offset(box, {
+				left: x,
+				top: y
+			});
+		}
+	},
+
+	hide: function() {
+		if (!this.hidden()) {
+			$(this.get_dom()).hide();
+			this.fire_event("hide");
+		}
+	},
+
+	hidden: function() {
+		var dom = this.get_dom();
+		if (!dom)
+			return true;
+		return !$(dom).is(":visible");
+	},
+
+	should_hide: function(el) {
+		return !(el && $.contains(this.get_dom(), el));
+	}
+};
+
+inherits(Popup, Widget);
+
+Window = VUI.Window = function(options) {
+	this.initialize(options);
+};
+
+Window.prototype = {
+	name: 'window',
+	template: 'vui_window',
+	title: null,
+	toolbar: null,
+	menu: null,
+
+	initialize: function(options) {
+	}
+};
 
 });

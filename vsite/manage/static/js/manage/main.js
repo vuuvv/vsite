@@ -147,10 +147,14 @@ define(function(require, exports, module) {
 			});
 			win.open();
 			*/
-			var w = new VUI.Dialog({
-				drag_handle: "drag_handle"
+			var w = new VUI.Popup({
+				content:"abcdefg"
 			});
-			w.render();
+			w.show();
+			$(document).bind('contextmenu', function(evt) {
+				w.show(evt.clientX, evt.clientY);
+				return false;
+			});
 		}
 	});
 
