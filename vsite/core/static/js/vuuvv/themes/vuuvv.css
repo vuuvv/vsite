@@ -1,3 +1,216 @@
+.vui-box {
+	border: none;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+a.vui-box {
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+
+a.vui-box:hover {
+	text-decoration: none;
+}
+
+a.vui-box:active {
+	text-decoration: none;
+}
+
+table.vui-box {
+	border-collapse: collapse;
+}
+
+ul.vui-box {
+	list-style-type: none;
+}
+
+div.vui-box {
+	position: relative;
+	display: -moz-inline-box!important;
+	display: inline-block!important;
+	vertical-align: top;
+}
+
+.vui-clearfix {
+	zoom: 1;
+}
+
+.vui-clearfix:after {
+	content: '\20';
+	display: block;
+	clear: both;
+}
+
+* html div.vui-box {
+	display: inline!important;
+}
+
+*:first-child+html div.vui-box {
+	display: inline!important;
+}
+
+.vui-button-body, .vui-splitbutton-body, .vui-menubutton-body, .vui-combox-body {
+	position: relative;
+}
+
 .vui-popup {
 	position: absolute;
+	-webkit-user-select: none;
+	-moz-user-select: none;
 }
+
+.vui-popup .vui-shadow {
+	position: absolute;
+	z-index: -1;
+}
+
+.vui-popup .vui-bordereraser {
+	position: absolute;
+	overflow: hidden;
+}
+
+.vui-tablepicker .vui-canvas {
+	position: relative;
+}
+
+.vui-tablepicker .vui-canvas .vui-overlay {
+	position: absolute;
+}
+
+.vui-dialog-modalmask, .vui-dialog-dragmask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.vui-toolbar {
+	position: relative;
+}
+
+
+.vui-label {
+	cursor: default;
+}
+
+.edui-unclickable {
+	color: gray;
+	cursor: default;
+}
+
+/* popup */
+.vui-popup {
+	z-index: 3000;
+}
+
+.vui-popup .vui-shadow {
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	box-shadow: 3px 3px 5px #818181;
+	-webkit-box-shadow: 3px 3px 5px #818181;
+	-moz-box-shadow: 3px 3px 5px #818181;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Blur(PixelRadius='3', MakeShadow='true', ShadowOpacity='0.5')';
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3', MakeShadow='true', ShadowOpacity='0.5');
+}
+
+.vui-popup-content {
+	border: 1px solid gray;
+	background-color: white;
+	padding: 5px;
+}
+
+/* menu */
+.vui-menu {
+	z-index: 3000;
+}
+
+.vui-menu .vui-popup-content {
+	background-color: #fff;
+	padding: 3px;
+}
+
+.vui-menu-body {
+	_width: 150px;
+	min-width: 150px;
+	background: url(img/menu/separator_v.png) repeat-y 25px;
+}
+
+.vui-menuitem {
+	height: 22px;
+	cursor: default;
+	vertical-align: top;
+}
+
+.vui-menuitem .vui-icon {
+	width: 20px !important;
+	height: 20px !important;
+	background: url(img/icons.png) 0 -40px;
+	_background: url(img/icons.gif) 0 -40px;
+}
+
+.vui-menuitem .vui-label {
+	font-size: 12px;
+	line-height: 20px;
+	height: 20px;
+	padding-left: 10px;
+	padding-right: 20px;
+}
+
+.vui-menu-body .vui-menuitem-state {
+	zoom: 1;
+	padding: 1px;
+}
+
+.vui-state-checked .vui-menuitem-body {
+	background: url(img/icons-all.gif) no-repeat 6px -205px;
+}
+
+.vui-state-disabled .edui-emnuitem-label {
+	color: gray;
+}
+
+.vui-state-disable .vui-icon {
+	opacity: 0.3;
+	-ms-filter: 'alpha(opacity=30)';
+	filter: alpha(opacity=30);
+}
+
+.vui-state-disable .vui-label {
+	color: gray;
+}
+
+.edui-hassubmenu .edui-arrow {
+	height: 20px;
+	width: 20px;
+	float: right;
+	background: url(img/icons-all.gif) no-repeat 10px -233px;
+}
+
+.vui-menuseparator {
+	margin: 2px 0;
+	height: 1px;
+	padding: 1px;
+	overflow: hidden;
+}
+
+.vui-menuseparator-inner {
+	border-bottom: 1px solid #e2e3e3;
+	margin-left: 29px;
+	margin-right: 1px;
+}
+
+.vui-menu-body .vui-state-hover {
+	padding: 0 !important;
+	background-color: #fff5d4;
+	border: 1px solid #dcac6c;
+}
+

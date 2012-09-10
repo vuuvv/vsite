@@ -583,8 +583,10 @@ var helpers = VUI.helpers = {
 		var rect;
 		var fixed = helpers.get_fixed_layer();
 		if (elem.parentNode === fixed) {
-			elem.style.left = offset.left + 'px';
-			elem.style.top = offset.top + 'px';
+			$(elem).css({
+				left: offset.left,
+				top: offset.top
+			});
 		} else {
 			var left = parseInt(elem.style.left) | 0;
 			var top = parseInt(elem.style.top) | 0;
@@ -654,6 +656,7 @@ var helpers = VUI.helpers = {
 			layer.style.top = '0';
 			layer.style.width = '0';
 			layer.style.height = '0';
+			layer.style.zIndex = '1000';
 		}
 		return layer;
 	},
@@ -705,7 +708,7 @@ var inherits = function(cls, pcls) {
 
 var state_prefix = 'vui-state-';
 
-Stateful = VUI.Stateful = {
+var Stateful = VUI.Stateful = {
 	stateful: true,
 
 	initialize: function(options) {
@@ -757,12 +760,12 @@ Stateful = VUI.Stateful = {
 			layer = this.get_dom("state");
 		}
 		var self = this;
-		$(layer).hover(function() {
+		$(layer).mouseover(function() {
 			if (self.enable()) {
 				self.add_state("hover");
 				self.fire_event("hover");
 			}
-		}, function() {
+		}).mouseout(function() {
 			if (self.enable()) {
 				self.remove_state("hover");
 				self.remove_state("active");
@@ -780,7 +783,7 @@ Stateful = VUI.Stateful = {
 	}
 };
 
-Draggable = VUI.Draggable = {
+var Draggable = VUI.Draggable = {
 	draggable: true,
 	drag_handle: '',
 
@@ -872,7 +875,7 @@ Draggable = VUI.Draggable = {
 /* UI part */
 var ui_template = utils.template(require('text!vuuvv/templates/ui.html'));
 
-Widget = VUI.Widget = function() {};
+var Widget = VUI.Widget = function() {};
 
 Widget.prototype = {
 	name: '',
@@ -910,6 +913,14 @@ Widget.prototype = {
 		this.fire_event('postrender');
 	},
 
+	move_to: function(x, y) {
+		var box = this.get_dom();
+		helpers.set_viewport_offset(box, {
+			left: x,
+			top: y
+		});
+	},
+
 	get_render_html: function() {
 		return ui_template[this.template](this);
 	},
@@ -943,6 +954,7 @@ var Mask = VUI.Mask = function(options) {
 
 Mask.prototype = {
 	name: 'mask',
+	template: "vui_mask",
 
 	on_postrender: function() {
 		var self = this;
@@ -981,12 +993,13 @@ Mask.prototype = {
 
 utils.inherits(Mask, Widget);
 
-Button = VUI.Button = function(options) {
+var Button = VUI.Button = function(options) {
 	this.initialize(options);
 };
 
 Button.prototype = {
 	name: 'button',
+	template: "vui_button",
 	label: '',
 	title: '',
 	show_icon: true,
@@ -1004,7 +1017,7 @@ Button.prototype = {
 
 inherits(Button, Widget, Stateful);
 
-Dialog = VUI.Dialog = function(options) {
+var Dialog = VUI.Dialog = function(options) {
 	this.initialize(options);
 };
 
@@ -1014,7 +1027,7 @@ Dialog.prototype = {
 
 inherits(Dialog, Widget, Draggable);
 
-Popup = VUI.Popup = function(options) {
+var Popup = VUI.Popup = function(options) {
 	this.initialize(options);
 };
 
@@ -1044,7 +1057,12 @@ Popup.prototype = {
 	content: null,
 
 	on_postrender: function() {
-		var content = this.content;
+		this.set_content(this.content);
+		this.hide();
+		this.fire_event("after_post_render");
+	},
+
+	set_content: function(content) {
 		var box = this.get_dom("content");
 		if (content) {
 			if (utils.is_string(content)) {
@@ -1053,8 +1071,7 @@ Popup.prototype = {
 				content.render(box);
 			}
 		}
-		this.hide();
-		this.fire_event("after_post_render");
+		this.content = content;
 	},
 
 	content_rect: function() {
@@ -1070,18 +1087,18 @@ Popup.prototype = {
 				box = this.get_dom();
 			}
 			$(box).show();
+
 			Popup._current = this;
-			helpers.set_viewport_offset(box, {
-				left: x,
-				top: y
-			});
+			this.move_to(x, y);
 			this.fire_event("show");
 		} else {
-			helpers.set_viewport_offset(box, {
-				left: x,
-				top: y
-			});
+			this.move_to(x, y);
 		}
+		// fix ie6 bug
+		var body = $(this.get_dom());
+		var shadow = $(this.get_dom("shadow"));
+		shadow.width(body.width());
+		shadow.height(body.height());
 	},
 
 	hide: function() {
@@ -1105,7 +1122,96 @@ Popup.prototype = {
 
 inherits(Popup, Widget);
 
-Window = VUI.Window = function(options) {
+var MenuItem = VUI.Menu = function(options) {
+	this.initialize(options);
+};
+
+MenuItem.prototype = {
+	name: "menuitem",
+	template: "vui_menuitem",
+	icon: null,
+	label: '',
+	sub_menu: null,
+	menu: null,
+
+	on_postrender: function() {
+		var self = this;
+		this.add_listener("hover", function() {
+			this.menu.fire_event("submenuover", self);
+			if (self.sub_menu) {
+				self.show_sub_menu();
+			}
+		});
+		this.$elem.click(function() {
+			self.fire_event("click");
+		});
+		if (this.sub_menu) {
+			this.$elem.addClass('vui-hassubmenu');
+			this.sub_menu.render();
+			this.add_listener("out", function() {
+				self.hide_sub_menu();
+			});
+			this.sub_menu.add_listener("over", function() {
+			});
+		}
+	},
+
+	on_click: function() {
+		if (!this.enable()) return;
+			alert("click");
+	}
+};
+
+inherits(MenuItem, Popup, Stateful);
+
+var MenuSeparator = VUI.MenuSeparator = function(options) {
+	this.initialize(options);
+};
+
+MenuSeparator.prototype = {
+	name: "menu_separator",
+	template: "vui_menu_separator"
+};
+
+inherits(MenuSeparator, Widget);
+
+var Menu = VUI.Menu = function(options) {
+	this.initialize(options);
+};
+
+Menu.prototype = {
+	name: "menu",
+	items: [],
+
+	initialize: function(options) {
+		var items = this.items;
+		for (var i = 0, len = items.length; i < len; i++) {
+			var item = items[i];
+			if (item == '-') {
+				items[i] = new MenuSeparator();
+			} else {
+				item.menu = this;
+				items[i] = new MenuItem(item);
+			}
+		}
+	},
+
+	set_content: function() {
+		var $content = $(this.get_dom("content"));
+		var $body = $('<div class="vui-menu-body"></div>');
+		var items = this.items;
+		for (var i = 0, len = items.length; i < len; i++) {
+			var item = items[i];
+			item.render();
+			$body.append(item.$elem);
+		}
+		$content.append($body);
+	}
+};
+
+inherits(Menu, Popup);
+
+var Window = VUI.Window = function(options) {
 	this.initialize(options);
 };
 

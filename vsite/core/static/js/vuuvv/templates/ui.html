@@ -3,7 +3,7 @@
 {% end define %}
 
 {% define vui_state %}
-<div id="{{ id }}_state"></div>
+<div id="{{ id }}_state" class="vui-{{ name }}-state"></div>
 {% end define %}
 
 {% define vui_button %}
@@ -28,10 +28,24 @@
 <div id="{{ id }}" class="vui-popup vui-{{ name }} {{ class_name }}" >
 	<div id="{{ id }}_body" class="vui-popup-body">
 		<iframe style="position:absolute;z-index:-1;left:0;top:0;background-color: white;" frameborder="0" width="100%" height="100%" src="javascript:"></iframe>
-		<div class="vui-shadow"></div>
+		<div id="{{ id }}_shadow" class="vui-shadow"></div>
 		<div id="{{ id }}_content" class="vui-popup-content">
 		</div>
 	</div>
+</div>
+{% end define %}
+
+{% define vui_menuitem %}
+<div id="{{ id }}" class="vui-{{ name }} {{ class_name }}" unselectable="on">
+	<div class="vui-arrow" unselectable="on"></div>
+	<div class="vui-box vui-icon" unselectable="on"></div>
+	<div class="vui-box vui-label" unselectable="on">{{ label || '' }}</div>
+</div>
+{% end define %}
+
+{% define vui_menu_separator %}
+<div id="{{ id }}" class="vui-menuitem vui-menuseparator">
+	<div class="vui-menuseparator-inner"></div>
 </div>
 {% end define %}
 

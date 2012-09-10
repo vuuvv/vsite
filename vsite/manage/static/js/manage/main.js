@@ -146,12 +146,35 @@ define(function(require, exports, module) {
 				resizable: true
 			});
 			win.open();
+			var w = new VUI.Popup({content: "abcdefg"});
+			w.show(100, 100);
+			$("#vui_fixedlayer").append("<div id='test' class='vui-popup vui-popup' style='left: 300px'><div class='vui-shadow' style=''></div><div class='vui-popup-content'>1234</div></div>");
+			$(document).click(function(evt) {
+				$(".vui-shadow").each(function() {
+					$(this).height(260);
+					$(this).width(100);
+
+					//alert($(this).width() + "," + $(this).height());
+				});
+				w.move_to(evt.clientX, evt.clientY);
+				$("#test").css({
+					left: evt.clientX,
+					top: evt.clientY
+				});
+				alert(document.getElementById("test").clientHeight);
+			});
 			*/
-			var w = new VUI.Popup({
-				content:"abcdefg"
+			var w = new VUI.Menu({
+				items: [
+					{label: "全选"},
+					{label: "清空文档"},
+					{label: "段落"},
+					"-",
+					{label: "Clear"}
+				]
 			});
 			w.show();
-			$(document).bind('contextmenu', function(evt) {
+			$(document).on('contextmenu', function(evt) {
 				w.show(evt.clientX, evt.clientY);
 				return false;
 			});
