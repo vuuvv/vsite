@@ -706,6 +706,8 @@ var inherits = function(cls, pcls) {
 	}
 };
 
+vuuvv.inherits = inherits;
+
 var state_prefix = 'vui-state-';
 
 var Stateful = VUI.Stateful = {
@@ -780,6 +782,30 @@ var Stateful = VUI.Stateful = {
 				self.remove_state("active");
 			}
 		});
+	}
+};
+
+var empty = function(){};
+
+var Action = VUI.Action = {
+	action: empty,
+
+	initialize: function(options) {
+		this.do_action = utils.bind(this.do_action, this);
+		this.add_listener('postrender', this.make_action);
+	},
+
+	do_action: function() {
+		var action = this.action;
+		if (utils.is_function(action)) {
+			action();
+		} else if (utils.is_string(action)) {
+			VUI.App.navigate(action);
+		}
+	},
+
+	make_action: function() {
+		this.$elem.click(this.do_action);
 	}
 };
 
@@ -1015,7 +1041,7 @@ Button.prototype = {
 	}
 };
 
-inherits(Button, Widget, Stateful);
+inherits(Button, Widget, Stateful, Action);
 
 var Dialog = VUI.Dialog = function(options) {
 	this.initialize(options);
@@ -1142,9 +1168,6 @@ MenuItem.prototype = {
 				self.show_sub_menu();
 			}
 		});
-		this.$elem.click(function() {
-			self.fire_event("click");
-		});
 		if (this.sub_menu) {
 			this.$elem.addClass('vui-hassubmenu');
 			this.sub_menu.render();
@@ -1154,15 +1177,10 @@ MenuItem.prototype = {
 			this.sub_menu.add_listener("over", function() {
 			});
 		}
-	},
-
-	on_click: function() {
-		if (!this.enable()) return;
-			alert("click");
 	}
 };
 
-inherits(MenuItem, Popup, Stateful);
+inherits(MenuItem, Popup, Stateful, Action);
 
 var MenuSeparator = VUI.MenuSeparator = function(options) {
 	this.initialize(options);

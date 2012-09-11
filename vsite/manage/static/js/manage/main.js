@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-	require('vuuvv/vuuvv');
+	require('vuuvv/manage');
 	/*
 	require('vuuvv/util');
 	require('vuuvv/window');
@@ -31,6 +31,8 @@ define(function(require, exports, module) {
 		csrf_token: null,
 
 		initialize: function(options) {
+			var d = new VUI.Dashboard();
+			d.render($("body")[0]);
 		},
 
 		log: function(msg) {
@@ -163,7 +165,6 @@ define(function(require, exports, module) {
 				});
 				alert(document.getElementById("test").clientHeight);
 			});
-			*/
 			var w = new VUI.Menu({
 				items: [
 					{label: "全选"},
@@ -178,6 +179,7 @@ define(function(require, exports, module) {
 				w.show(evt.clientX, evt.clientY);
 				return false;
 			});
+			*/
 		}
 	});
 

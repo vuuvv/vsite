@@ -261,3 +261,76 @@ a:hover .dm-app, li.focus .dm-app { background-position:-300px -50px; }
 	text-overflow:ellipsis;
 }
 
+
+.vui-dashboard {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.vui-dashboard-header {
+	height: 66px;
+	overflow: hidden;
+}
+
+.vui-dashboard-body {
+	position: absolute;
+	left: 8px;
+	right: 0;
+	top: 66px;
+	bottom: 13px;
+	_height: expression(document.body.clientHeight-79);
+}
+
+.vui-dashboard-top-sep {
+	height: 11px;
+}
+
+.vui-dashboard-top-left {
+	background: url(img/dashboard_nav_bg.gif) repeat-x scroll 0 -112px ;
+	height: 11px;
+	width: auto;
+}
+
+.vui-dashboard-top-bg {
+	background: url(img/dashboard_topline.gif) repeat scroll -179px 0;
+	height: 22px;
+	width: 184px;
+}
+
+.vui-dashboard-leftpanel {
+	position: absolute;
+	top: 13px;
+	width: 179px;
+	height: 100%;
+}
+
+.vui-dashboard-leftpanel-content {
+	background: url(img/dashboard_topline.gif) repeat-y scroll 0 0;
+	overflow: hidden;
+	height: 100%;
+}
+
+.vui-dashboard-leftpanel-bottom {
+	background: url(img/dashboard_topline.gif) no-repeat scroll -179px -11px;
+	position: absolute;
+	left: 8px;
+	bottom: 0;
+	height: 13px;
+	width: 179px;
+	overflow: hidden;
+	_bottom: -1px;
+}
+
+.vui-dashboard-main-container {
+	zoom: 1;
+	position: absolute;
+	top: 11px;
+	left: 184px;
+	right: 0;
+	bottom: 0;
+	_height: expression(document.body.clientHeight-77);
+	_width: expression(document.body.clientWidth-200);
+	overflow: auto;
+}
+
