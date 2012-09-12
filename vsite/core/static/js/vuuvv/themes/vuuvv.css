@@ -31,6 +31,8 @@ div.vui-box {
 	position: relative;
 	display: -moz-inline-box!important;
 	display: inline-block!important;
+	zoom: 1;
+	*display: inline;
 	vertical-align: top;
 }
 
@@ -193,8 +195,8 @@ div.vui-box {
 .vui-icon {
 	background-image: url("img/icons.png");
 	_background-image: url("img/icons.gif");
-	height: 17px !important;
-	width: 17px !important;
+	height: 17px;
+	width: 17px;
 }
 
 .vui-label {
@@ -219,13 +221,13 @@ div.vui-box {
 .vui-button {
 	display: inline-block;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 }
 
 .vui-button-state {
 	display: inline-block;
 	zoom: 1;
-	_display: inline;
+	*display: inline;
 	padding: 7px 10px;
 	text-align: center;
 	text-decoration: none;

@@ -44,28 +44,7 @@ SideBar.prototype = {
 		action: "document",
 		label: "文档列表"
 	}],
-
-	on_postrender: function() {
-		var header = this.get_dom("header");
-		var btns = this.header_btns; 
-		for (var i = 0, len = btns.length; i < len; i++) {
-			var btn = new Button(btns[i]);
-			btn.render(header);
-		}
-		var tree = new SideBarTree();
-		tree.render(this.get_dom("body"));
-	}
-};
-
-inherits(SideBar, VUI.Widget, ManageWidget);
-
-var SideBarTree = VUI.SideBarTree = function(options) {
-	this.initialize(options);
-};
-
-SideBarTree.prototype = {
-	name: "sidebartree",
-	items: [{
+	nav_items: [{
 		label: "会员管理",
 		action: "",
 		children: [{
@@ -97,6 +76,40 @@ SideBarTree.prototype = {
 	}],
 
 	on_postrender: function() {
+		var header = this.get_dom("header");
+		var btns = this.header_btns; 
+		for (var i = 0, len = btns.length; i < len; i++) {
+			var btn = new Button(btns[i]);
+			btn.render(header);
+		}
+		var tree = new SideBarTree({items: this.nav_items});
+		tree.render(this.get_dom("body"));
+	}
+};
+
+inherits(SideBar, VUI.Widget, ManageWidget);
+
+var SideBarTree = VUI.SideBarTree = function(options) {
+	this.initialize(options);
+};
+
+SideBarTree.prototype = {
+	name: "sidebartree",
+
+	on_postrender: function() {
+		var self = this;
+		$(".vui-sidebartree-root-label").click(function(evt) {
+			self.trigger($(this).parent());
+		});
+	},
+
+	trigger: function(jdom) {
+		if (jdom.hasClass("expanded")) {
+			jdom.removeClass("expanded");
+		} else {
+			jdom.addClass("expanded");
+		}
+		return false;
 	}
 };
 

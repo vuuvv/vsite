@@ -22,9 +22,9 @@
 <div id="{{ id }}" class="vui-sidebartree {{ class_name }}">
 	{% for (var i = 0, len = items.length; i< len; i++) { %}
 	<div class="vui-sidebartree-root">
-		<div class="vui-icon icon-arrow-right"></div>
 		<a href="#{{ items[i].action }}" class="vui-sidebartree-root-label">
-			{{ items[i].label }}
+			<div class="vui-icon icon-arrow-right"></div>
+			<span>{{ items[i].label }}</span>
 		</a>
 		{% if (items[i].children) { %}
 			<ul>

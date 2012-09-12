@@ -104,15 +104,19 @@ body {
 	cursor: pointer;
 	display: block;
 	line-height: 22px;
-	padding: 0 30px 0 35px;
 	transition: all 0.5s ease-in-out 0s;
 }
 
 .vui-sidebartree-root-label {
-	padding: 5px 15px 5px 20px;
+	height: 32px;
+	line-height: 32px;
 	border-bottom: 1px solid #efefef;
 	box-shadow: 0 1px 0 #fff;
 	font-weight: bold;
+}
+
+.vui-sidebartree-root-label span {
+	padding: 5px 15px 5px 35px;
 }
 
 .vui-sidebartree-label {
@@ -122,26 +126,47 @@ body {
 .vui-sidebartree ul {
 	border-bottom: 1px solid #efefef;
 	box-shadow: 0 1px 0 #fff;
+	display: none;
+}
+
+.expanded ul {
+	display: block;
 }
 
 .vui-sidebartree .vui-icon {
 	position: absolute;
 	display: block;
-	left: 1px;
+	left: 16px;
 	top: 5px;
 	_top: 0;
 }
 
-.icon-arrow-right {
+.vui-sidebartree .icon-arrow-right {
+	cursor: pointer;
 	background-position: -63px -30px;
 	height: 22px;
 	width: 15px;
-	transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-o-transition:all 0.3s ease-in-out;
 }
 
-.expended .icon-arrow-right {
-	transform: rotate(45deg);
-	transform-origin: 50% 50%;
-	transition: all 0.3s ease-in-out 0s;
+.expanded .icon-arrow-right {
+	transition:all 0.3s ease-in-out;
+	transform:rotate(45deg);
+	transform-origin:50% 50%;
+	-webkit-transition:all 0.3s ease-in-out;
+	-webkit-transform:rotate(45deg);
+	-webkit-transform-origin:50% 50%;
+	-moz-transition:all 0.3s ease-in-out;
+	-moz-transform:rotate(45deg);
+	-moz-transform-origin:50% 50%;
+	-o-transition:all 0.3s ease-in-out;
+	-o-transform:rotate(45deg);
+	-o-transform-origin:50% 50%;
+	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.707,M12=-0.707,M21=0.707,M22=0.707,SizingMethod='auto expand');
+	left: 13px;
+	top: 2px;
 }
 
