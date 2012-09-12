@@ -52,9 +52,11 @@ div.vui-box {
 	display: inline!important;
 }
 
+/*
 .vui-button-body, .vui-splitbutton-body, .vui-menubutton-body, .vui-combox-body {
 	position: relative;
 }
+	*/
 
 .vui-popup {
 	position: absolute;
@@ -188,7 +190,126 @@ div.vui-box {
 	color: gray;
 }
 
-.edui-hassubmenu .edui-arrow {
+.vui-icon {
+	background-image: url("img/icons.png");
+	_background-image: url("img/icons.gif");
+	height: 17px !important;
+	width: 17px !important;
+}
+
+.vui-label {
+	height: 17px;
+	line-height: 17px;
+	_padding-left: 3px;
+	_line-height: 20px;
+}
+
+.vui-new-doc .vui-icon {
+	background-position: -454px -34px;
+}
+
+.vui-doc-list .vui-icon {
+	background-position: -426px -34px;
+}
+
+.vui-button .vui-label, .vui-button .vui-icon {
+	cursor: pointer;
+}
+
+.vui-button {
+	display: inline-block;
+	zoom: 1;
+	display: inline;
+}
+
+.vui-button-state {
+	display: inline-block;
+	zoom: 1;
+	_display: inline;
+	padding: 7px 10px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	color: #3a3a3a;
+	background: #fff;
+	border: 1px solid #d2d2d2;
+	text-shadow: 1px 1px 0 #fff;
+	transition: all 0.3s ease-in-out;
+	border-radius: 2px;
+	box-shadow: 1px 1px 0 #f5f5f5;
+	-webkit-transition:all 0.3s ease-in-out;
+	background:-webkit-linear-gradient(top, #ffffff, #f5f5f5);
+	-moz-transition:all 0.3s ease-in-out;
+	background:-moz-linear-gradient(top, #ffffff, #f5f5f5 100%);
+	-o-transition:all 0.3s ease-in-out;
+}
+
+.vui-button .vui-state-hover {
+	color: #2a2a2a;
+	border-color: #999;
+	background: #f2f2f2;
+	box-shadow: 1px 1px 2px #d5d5d5;
+	background: -webkit-linear-gradient(top, #fff, #f2f2f2);
+	background: -moz-linear-gradient(top, #fff, #f2f2f2, 100%);
+}
+
+.vui-button .vui-state-active {
+	background:-webkit-linear-gradient(top, #f2f2f2, #ffffff);
+	background:-moz-linear-gradient(top, #f2f2f2, #ffffff 100%);
+	box-shadow:1px 1px 2px #d5d5d5 inset;
+}
+
+.vui-big-button .vui-button-state {
+	height: 40px;
+	padding: 0 30px;
+	line-height: 40px;
+	font-size: 18px;
+}
+
+.vui-red-button .vui-button-state {
+	color: #fff;
+	background: #d93041;
+	border-color: #d41326;
+	text-shadow: 1px 1px 0 #cc0911;
+	background:-webkit-linear-gradient(top, #e32d40, #e83345);
+	background:-moz-linear-gradient(top, #e32d40, #e83345 100%);
+}
+
+.vui-red-button .vui-state-hover {
+	background:#d21528;
+	border-color:#cc1427;
+	background:-webkit-linear-gradient(top, #f22439, #cc0a1e);
+	background:-moz-linear-gradient(top, #f22439, #cc0a1e 100%);
+}
+
+.vui-red-button .vui-state-active {
+	background:-webkit-linear-gradient(top, #cc0a1e, #f22439);
+	background:-moz-linear-gradient(top, #cc0a1e, #f22439 100%);
+}
+
+.vui-blue-button .vui-button-state {
+	color: #fff;
+	background: #29a7e5;
+	border-color: #148fd4;
+	text-shadow: 1px 1px 0 #148fd4;
+	background:-webkit-linear-gradient(top, #32ade8, #249fe3);
+	background:-moz-linear-gradient(top, #32ade8, #249fe3 100%);
+}
+
+.vui-blue-button .vui-state-hover {
+	background:#009ae2;
+	border-color:#148fd4;
+	background:-webkit-linear-gradient(top, #00a3e5, #008edd);
+	background:-moz-linear-gradient(top, #00a3e5, #008edd 100%);
+}
+
+.vui-blue-button .vui-state-active {
+	box-shadow:1px 1px 2px #0077b9 inset;
+	background:-webkit-linear-gradient(top, #008edd, #00a3e5);
+	background:-moz-linear-gradient(top, #008edd, #00a3e5 100%);
+}
+
+.vui-hassubmenu .vui-arrow {
 	height: 20px;
 	width: 20px;
 	float: right;

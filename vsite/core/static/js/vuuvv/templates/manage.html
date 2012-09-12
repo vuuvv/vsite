@@ -2,18 +2,40 @@
 <div id="{{ id }}" class="vui-dashboard {{ class_name }}" >
 	<div id="{{ id }}_header" class="vui-dashboard-header"></div>
 	<div class="vui-dashboard-body">
-		<div class="vui-dashboard-top-sep">
-			<div class="vui-dashboard-top-left">
-				<div class="vui-dashboard-top-bg"></div>
-			</div>
+		<div id="{{ id }}_sidebar" class="vui-dashboard-sidebar">
 		</div>
-		<div class="vui-dashboard-leftpanel">
-			<div  id="{{ id }}_leftpanel" class="vui-dashboard-leftpanel-content"></div>
-		</div>
-		<div id="{{ id }}_main_container" class="vui-dashboard-main-container">
-			<div style="height: 100px;background: red;"></div>
+		<div id="{{ id }}_content" class="vui-dashboard-content">
 		</div>
 	</div>
 	<div class="vui-dashboard-leftpanel-bottom"></div>
+</div>
+{% end define %}
+
+{% define vui_sidebar %}
+<div id="{{ id }}" class="vui-sidebar {{ class_name }}">
+	<div id="{{ id }}_header" class="vui-sidebar-header"></div>
+	<div id="{{ id }}_body" class="vui-sidebar-body"></div>
+</div>
+{% end define %}
+
+{% define vui_sidebartree %}
+<div id="{{ id }}" class="vui-sidebartree {{ class_name }}">
+	{% for (var i = 0, len = items.length; i< len; i++) { %}
+	<div class="vui-sidebartree-root">
+		<div class="vui-icon icon-arrow-right"></div>
+		<a href="#{{ items[i].action }}" class="vui-sidebartree-root-label">
+			{{ items[i].label }}
+		</a>
+		{% if (items[i].children) { %}
+			<ul>
+				{% for (var j = 0, len1 = items[i].children.length; j < len1; j++) { %}
+				<li>
+				<a href="#{{ items[i].children[j].action }}" class="vui-sidebartree-label">{{ items[i].children[j].label }}</a>
+				</li>
+				{% } %}
+			</ul>
+		{% } %}
+	</div>
+	{% } %}
 </div>
 {% end define %}

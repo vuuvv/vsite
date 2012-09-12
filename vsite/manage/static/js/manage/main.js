@@ -1,9 +1,5 @@
 define(function(require, exports, module) {
 	require('vuuvv/manage');
-	/*
-	require('vuuvv/util');
-	require('vuuvv/window');
-	*/
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -183,6 +179,6 @@ define(function(require, exports, module) {
 		}
 	});
 
-	app = new ManageApp;
+	VUI.App = new ManageApp;
 	Backbone.history.start();
 });

@@ -1229,6 +1229,37 @@ Menu.prototype = {
 
 inherits(Menu, Popup);
 
+/*
+var Tree = VUI.Tree = function(options) {
+	this.initialize(options);
+};
+
+Tree.prototype = {
+	name: 'tree',
+	nodes: [],
+
+	on_postrender: function() {
+	}
+};
+
+inherits(Tree, VUI.Widget);
+
+var TreeNode = VUI.TreeNode = function(options) {
+	this.initialize(options);
+};
+
+TreeNode.prototype = {
+	name: 'treenode',
+	widget: null,
+	children: [],
+
+	on_postrender: function() {
+	}
+};
+
+inherits(TreeNode, VUI.Widget);
+*/
+
 var Window = VUI.Window = function(options) {
 	this.initialize(options);
 };

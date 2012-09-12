@@ -7,7 +7,7 @@
 {% end define %}
 
 {% define vui_button %}
-<div id="{{ id }}" class="vui-box vui-{{ name }} {{ class_name }}">
+<div id="{{ id }}" class="vui-{{ name }} {{ class_name }}">
 	<div class="vui-{{ name }}-wrap">
 		<div id="{{ id }}_body" class="vui-{{ name }}-body" unselectable="on" {% if (title) { %} title="{{ title }}" {% } %}>
 			{% if (show_icon) { %} <div class="vui-box vui-icon"></div> {% } %}
@@ -46,6 +46,16 @@
 {% define vui_menu_separator %}
 <div id="{{ id }}" class="vui-menuitem vui-menuseparator">
 	<div class="vui-menuseparator-inner"></div>
+</div>
+{% end define %}
+
+{% define vui_tree %}
+<div id="{{ id }}" class="vui-tree {{ class_name }}"></div>
+{% end define %}
+
+{% define vui_treenode %}
+<div id="{{ id }}" class="vui-treenode {{ class_name }}">
+
 </div>
 {% end define %}
 
