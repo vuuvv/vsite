@@ -59,3 +59,35 @@
 </div>
 {% end define %}
 
+{% define vui_tabview %}
+<div id="{{ id }}" class="vui-tabview {{ class_name }}">
+	<div id="{{ id }}_bar" class="vui-tabbar"></div>
+	<div id="{{ id }}_container" class="vui-tabview-container">
+	</div>
+</div>
+{% end define %}
+
+{% define vui_tabbutton %}
+<div id="{{ id }}" class="vui-tabbutton {{ class_name }}" title="{{ title }}">
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="left"></td>
+			<td class="label"><span>{{ title }}</span></td>
+			{% if (show_close) { %}
+			<td class="close">
+				<a id="{{ id }}_close" href="#" title="关闭" class="tabclose no-outline"></a>
+			</td>
+			{% } %}
+			<td class="right"></td>
+		</tr>
+	</table>
+</div>
+{% end define %}
+
+{% define vui_tabpage %}
+<div id="{{ id }}" class="vui-tabpage {{ class_name }}">
+	<div id="{{ id }}_toolbar" class="vui-tabpage-toolbar"></div>
+	<div id="{{ id }}_content" class="vui-tabpage-content"></div>
+</div>
+{% end define %}
+

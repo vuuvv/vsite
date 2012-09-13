@@ -1,3 +1,9 @@
+.no-outline {
+	outline: none;
+	star:expression(this.onFocus=this.blur()); 
+	outline-style: none;
+}
+
 .vui-box {
 	border: none;
 	padding: 0;
@@ -335,5 +341,102 @@ div.vui-box {
 	padding: 0 !important;
 	background-color: #fff5d4;
 	border: 1px solid #dcac6c;
+}
+
+.vui-tabbar {
+	height: 26px;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+
+.vui-tabbutton {
+	float: left;
+	margin-left: -1px;
+}
+
+.vui-tabbar .first-tab {
+	margin-left: 0;
+}
+
+.vui-tabbutton table {
+	width: 125px;
+	table-layout: fixed;
+}
+
+.vui-tabbutton td {
+	height: 26px;
+	vertical-align: middle;
+	background-image: url(img/bg_tablist.png);
+	background-position: 0 -26px;
+	background-repeat: repeat-x;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.vui-tabbutton .vui-state-selected td {
+	background-position: 0 -104px;
+}
+
+.vui-tabbutton td span {
+	color: #636261;
+	padding-left: 7px;
+	cursor: default;
+}
+
+.vui-tabbutton td.left {
+	width: 4px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+
+.vui-tabbutton .vui-state-selected td.left {
+	background-position: 0 -78px;
+}
+
+.first-tab .vui-state-selected td.left {
+	background-position: 0 -156px;
+}
+
+.vui-tabbutton td.close {
+	width: 17px;
+}
+
+.vui-tabbutton td.right {
+	width: 4px;
+	background-position: 0 -52px;
+	background-repeat: no-repeat;
+}
+
+.vui-tabbutton .vui-state-selected td.right {
+	background-position: 0 -130px;
+}
+
+.vui-tabbutton .tabclose {
+	background: url(img/tab_icon.gif) no-repeat -135px -60px;
+	display: block;
+	font-size: 0;
+	height: 8px;
+	margin: 2px 3px 0 5px;
+	width: 8px;
+}
+
+.vui-tabbutton .tabclose:hover {
+	background-position: -150px -60px;
+}
+
+.vui-tabview-container {
+	border-left: 1px solid #c9c9c9;
+	background-color: #fff;
+	margin-top: -2px;
+	overflow: hidden;
+	position: relative;
+}
+
+.vui-tabpage .vui-tabpage-toolbar {
+	background: url(img/tab_toolbar_bg.gif) repeat-x 0 top;
+	height: 5px;
+	overflow: hidden;
 }
 

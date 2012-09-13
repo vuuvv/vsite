@@ -72,7 +72,6 @@ body {
 	left: 201px;
 	right: 0;
 	height: 100%;
-	_height: expression(document.body.clientHeight - 201);
 }
 
 .vui-sidebar-header {
@@ -104,7 +103,7 @@ body {
 	cursor: pointer;
 	display: block;
 	line-height: 22px;
-	transition: all 0.5s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
 }
 
 .vui-sidebartree-root-label {
@@ -121,6 +120,13 @@ body {
 
 .vui-sidebartree-label {
 	padding-left: 47px;
+	height: 25px;
+	line-height: 25px;
+}
+
+.vui-sidebartree-label:hover {
+	background: #e5effa;
+	color: #2a2a2a;
 }
 
 .vui-sidebartree ul {
@@ -138,7 +144,6 @@ body {
 	display: block;
 	left: 16px;
 	top: 5px;
-	_top: 0;
 }
 
 .vui-sidebartree .icon-arrow-right {
@@ -165,8 +170,13 @@ body {
 	-o-transition:all 0.3s ease-in-out;
 	-o-transform:rotate(45deg);
 	-o-transform-origin:50% 50%;
-	filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.707,M12=-0.707,M21=0.707,M22=0.707,SizingMethod='auto expand');
-	left: 13px;
-	top: 2px;
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.707, M12=-0.707, M21=0.707, M22=0.707, SizingMethod='auto expand');
+	left: 13px\0;
+	top: 2px\0;
 }
+
+.vui-dashboard-content .vui-tabview {
+	margin: 6px 0 0 6px;
+}
+
 

@@ -24,6 +24,15 @@ Dashboard.prototype = {
 	on_postrender: function() {
 		var sidebar = new VUI.SideBar();
 		sidebar.render(this.get_dom("sidebar"));
+		var tabview = new VUI.TabView();
+		tabview.render(this.get_dom("content"));
+		tabview.append("新建文档1", new VUI.TabPage());
+		tabview.append("新建文档2", new VUI.TabPage());
+		tabview.append("新建文档3", new VUI.TabPage());
+		tabview.insert(1, "新建文档4", new VUI.TabPage());
+		tabview.insert(1, "新建文档5", new VUI.TabPage());
+		tabview.insert(0, "新建文档6", new VUI.TabPage());
+		tabview.select(2);
 	}
 };
 
@@ -48,7 +57,7 @@ SideBar.prototype = {
 		label: "会员管理",
 		action: "",
 		children: [{
-			label: "会员用户",
+			label: "会员",
 			action: ""
 		}, {
 			label: "会员分组",
@@ -106,7 +115,7 @@ SideBarTree.prototype = {
 	trigger: function(jdom) {
 		if (jdom.hasClass("expanded")) {
 			jdom.removeClass("expanded");
-		} else {
+		} else if (jdom.find("ul").length) {
 			jdom.addClass("expanded");
 		}
 		return false;

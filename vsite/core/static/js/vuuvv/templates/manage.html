@@ -22,15 +22,15 @@
 <div id="{{ id }}" class="vui-sidebartree {{ class_name }}">
 	{% for (var i = 0, len = items.length; i< len; i++) { %}
 	<div class="vui-sidebartree-root">
-		<a href="#{{ items[i].action }}" class="vui-sidebartree-root-label">
+		<a href="#{{ items[i].action }}" class="vui-sidebartree-root-label no-outline">
 			<div class="vui-icon icon-arrow-right"></div>
 			<span>{{ items[i].label }}</span>
 		</a>
-		{% if (items[i].children) { %}
+		{% if (items[i].children.length) { %}
 			<ul>
 				{% for (var j = 0, len1 = items[i].children.length; j < len1; j++) { %}
 				<li>
-				<a href="#{{ items[i].children[j].action }}" class="vui-sidebartree-label">{{ items[i].children[j].label }}</a>
+				<a href="#{{ items[i].children[j].action }}" class="vui-sidebartree-label no-outline">{{ items[i].children[j].label }}</a>
 				</li>
 				{% } %}
 			</ul>

@@ -475,14 +475,14 @@ Event.prototype = {
 	 */
 	fire_event: function(type) {
 		var listeners = get_listener(this, type), r, fn;
+		var args = slice.call(arguments, 1);
 		if (listeners) {
 			for (var i = listeners.length - 1; i >= 0; i--) {
-				r = listeners[i].apply(this, arguments);
+				r = listeners[i].apply(this, args);
 			}
 		}
 		fn = this['on_' + type.toLowerCase()];
 		if (fn) {
-			args = slice.call(arguments, 1);
 			r = fn.apply(this, args);
 		}
 		return r;
@@ -1259,6 +1259,191 @@ TreeNode.prototype = {
 
 inherits(TreeNode, VUI.Widget);
 */
+
+var TabView = VUI.TabView = function(options) {
+	this.initialize(options);
+};
+
+TabView.prototype = {
+	name: "tabview",
+	index: -1,
+
+	initialize: function() {
+		this.tabs = [];
+	},
+
+	on_postrender: function() {
+		var elem = this.$elem;
+		var parent = elem.parent();
+		var rect = helpers.get_client_rect(parent[0]);
+		var margin = parseInt(elem.css("margin-top"));
+		elem.height(rect.height - margin);
+		var bar_rect = helpers.get_client_rect(this.get_dom("bar"));
+		$(this.get_dom("container")).height(rect.height - margin - bar_rect.height + 2);
+	},
+
+	select: function(index) {
+		if (this.index === index) 
+			return;
+		var tabs = this.tabs
+		if (this.index >= 0) {
+			tabs[this.index].btn.unselect();
+			tabs[this.index].page.hide();
+		}
+		this.index = index;
+		tabs[index].btn.select();
+		tabs[index].page.show();
+	},
+
+	close: function(index) {
+		var tabs = this.tabs;
+		var len = tabs.length;
+		if (index < 0 || index >= len || len === 0)
+			return;
+		var tab = tabs[index];
+		/* 判断tabpage是否直接关闭，dirty page */
+		if (!tab.page.close()) {
+			return;
+		}
+		tab.btn.dispose();
+		for (var i = index; i < len; i++) {
+			var tab = tabs[i];
+			tab.btn.set_index(i - 1);
+			tab.page.set_index(i - 1);
+		}
+		tabs.splice(index, 1);
+		if (index < this.index)
+			this.index--;
+	},
+
+	insert: function(index, title, page) {
+		var tabs = this.tabs;
+		var len = tabs.length;
+		var bar = $(this.get_dom("bar"));
+		var container = $(this.get_dom("container"));
+		index = Math.min(index, len);
+		var btn = new VUI.TabButton({
+			title: title,
+			index: index
+		});
+		var tab = {
+			btn: btn,
+			page: page
+		};
+		btn.render();
+		page.render();
+		if (index === 0) {
+			btn.set_first();
+			if (len > 0) {
+				tabs[0].btn.set_first(false);
+			}
+		}
+		if (index === len) {
+			bar.append(btn.$elem);
+		} else {
+			var pos = tabs[index].btn.$elem;
+			for (var i = index; i < len; i++) {
+				tabs[i].btn.set_index(i+1);
+				tabs[i].page.set_index(i+1);
+			}
+			btn.$elem.insertBefore(pos);
+		}
+		container.append(page.$elem);
+		page.hide();
+		tabs.splice(index, 0, tab);
+		btn.add_listener("selected", utils.bind(this.select, this));
+		btn.add_listener("close", utils.bind(this.close, this));
+	},
+
+	append: function(title, page) {
+		this.insert(this.tabs.length, title, page);
+	}
+};
+
+inherits(TabView, VUI.Widget);
+
+var TabPage = VUI.TabPage = function(options) {
+	this.initialize(options);
+};
+
+TabPage.prototype = {
+	name: "tabpage",
+	index: 0,
+
+	set_content: function(content) {
+		var dom = this.get_dom("content");
+	},
+
+	add_btn: function(btn) {
+	},
+
+	close: function() {
+		this.dispose();
+		return true;
+	},
+
+	show: function() {
+		this.$elem.show();
+	},
+
+	hide: function() {
+		this.$elem.hide();
+	},
+
+	set_index: function(index) {
+		this.index = index;
+	}
+};
+
+inherits(TabPage, VUI.Widget);
+
+var TabButton = VUI.TabButton = function(options) {
+	this.initialize(options);
+};
+
+TabButton.prototype = {
+	name: "tabbutton",
+	title: '',
+	index: 0,
+	show_close: true,
+
+	on_postrender: function() {
+		var self = this;
+		this.$elem.click(function() {
+			self.fire_event("selected", self.index);
+		});
+		$(this.get_dom("close")).click(function() {
+			self.fire_event("close", self.index);
+		});
+	},
+
+	set_index: function(index) {
+		this.index = index;
+	},
+
+	select: function() {
+		this.add_state("selected");
+	},
+
+	unselect: function() {
+		this.remove_state("selected");
+		this.fire_event("unselected");
+	},
+
+	set_first: function() {
+		var flag = true;
+		if (arguments.length > 0) {
+			flag = arguments[0];
+		} 
+		if (flag) {
+			$(this.get_dom()).addClass("first-tab");
+		} else {
+			$(this.get_dom()).removeClass("first-tab");
+		}
+	}
+};
+
+inherits(TabButton, VUI.Widget, VUI.Stateful);
 
 var Window = VUI.Window = function(options) {
 	this.initialize(options);
