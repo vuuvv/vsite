@@ -10,10 +10,11 @@ define(function(require, exports, module) {
 
 		routes: {
 			"": "index",
+			"*path": "dispatch"
+			/*
 			"logout": "logout",
 			"filemanage": "filemanage",
 			"apps": "apps"
-			/*
 			"m/:app/:model/add": "add",
 			"m/:app/:model/:id": "update",
 			"m/:app/:model": "list",
@@ -24,11 +25,15 @@ define(function(require, exports, module) {
 			*/
 		},
 
+		dispatch: function(path) {
+			this.dashboard.open_page(path);
+		},
+
 		csrf_token: null,
 
 		initialize: function(options) {
-			var d = new VUI.Dashboard();
-			d.render($("body")[0]);
+			var dashboard = this.dashboard = new VUI.Dashboard();
+			dashboard.render($("body")[0]);
 		},
 
 		log: function(msg) {

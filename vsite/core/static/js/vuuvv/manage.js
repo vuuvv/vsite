@@ -24,15 +24,14 @@ Dashboard.prototype = {
 	on_postrender: function() {
 		var sidebar = new VUI.SideBar();
 		sidebar.render(this.get_dom("sidebar"));
-		var tabview = new VUI.TabView();
+		var tabview = this.tabview = new VUI.TabView();
 		tabview.render(this.get_dom("content"));
-		tabview.append("新建文档1", new VUI.TabPage());
-		tabview.append("新建文档2", new VUI.TabPage());
-		tabview.append("新建文档3", new VUI.TabPage());
-		tabview.insert(1, "新建文档4", new VUI.TabPage());
-		tabview.insert(1, "新建文档5", new VUI.TabPage());
-		tabview.insert(0, "新建文档6", new VUI.TabPage());
-		tabview.select(2);
+	},
+
+	open_page: function(title) {
+		var page = new VUI.TabPage();
+		this.tabview.append(title, page);
+		this.tabview.select(page);
 	}
 };
 
@@ -58,13 +57,13 @@ SideBar.prototype = {
 		action: "",
 		children: [{
 			label: "会员",
-			action: ""
+			action: "user"
 		}, {
 			label: "会员分组",
-			action: ""
+			action: "user_group"
 		}, {
 			label: "会员授权",
-			action: ""
+			action: "auth"
 		}]
 	}, {
 		label: "页面管理",

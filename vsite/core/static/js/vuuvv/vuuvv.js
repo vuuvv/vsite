@@ -934,7 +934,7 @@ Widget.prototype = {
 			where = where || helpers.get_fixed_layer();
 			where.appendChild(el);
 		}
-		this.$elem.data("widget", this);
+		this.$elem.data("obj", this);
 
 		this.fire_event('postrender');
 	},
@@ -966,7 +966,7 @@ Widget.prototype = {
 	dispose: function() {
 		var box = this.$elem;
 		if (box) {
-			box.data("widget", null);
+			box.data("obj", null);
 			box.remove();
 		}
 	}
@@ -1283,6 +1283,9 @@ TabView.prototype = {
 	},
 
 	select: function(index) {
+		if (!_.isNumber(index)) {
+			index = index.index;
+		}
 		if (this.index === index) 
 			return;
 		var tabs = this.tabs
@@ -1306,6 +1309,8 @@ TabView.prototype = {
 			return;
 		}
 		tab.btn.dispose();
+		if (index === 0 && len > 1)
+			tabs[1].btn.set_first();
 		for (var i = index; i < len; i++) {
 			var tab = tabs[i];
 			tab.btn.set_index(i - 1);
@@ -1326,6 +1331,7 @@ TabView.prototype = {
 			title: title,
 			index: index
 		});
+		page.index = index;
 		var tab = {
 			btn: btn,
 			page: page
@@ -1353,10 +1359,11 @@ TabView.prototype = {
 		tabs.splice(index, 0, tab);
 		btn.add_listener("selected", utils.bind(this.select, this));
 		btn.add_listener("close", utils.bind(this.close, this));
+		return index;
 	},
 
 	append: function(title, page) {
-		this.insert(this.tabs.length, title, page);
+		return this.insert(this.tabs.length, title, page);
 	}
 };
 
