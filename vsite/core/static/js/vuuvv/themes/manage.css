@@ -182,13 +182,11 @@ body {
 .vui-notify {
 	position: absolute;
 	top: 5px;
-	left: 35%;
 	text-align: center;
 
 	font-weight: bold;
 	display: none;
-	padding: 8px 35px 8px 14px;
-	margin-bottom: 18px;
+	padding: 6px 35px 6px 14px;
 	color: #c09853;
 	text-shadow: 0 1px 0 rgba(255,255,255,0.5)
 	background-color: #fcf8e3;
@@ -204,25 +202,25 @@ body {
 
 .vui-notify .close {
 	position: absolute;
-	top: 5px;
+	top: 3px;
 	right: 10px;
 	line-height: 18px;
 }
 
-.vui-notify-success {
+.notify-success {
 	color: #468847;
 	background-color: #dff0d8;
 	border-color: #d6e9c6;
 }
 
-.vui-notify-danger,
-.vui-notify-error {
+.notify-danger,
+.notify-error {
 	color: #b94a48;
 	background-color: #f2dede;
 	border-color: #eed3d7;
 }
 
-.vui-notify-info {
+.notify-info {
 	color: #3a87ad;
 	background-color: #d9edf7;
 	border-color: #bce8f1;
@@ -231,6 +229,10 @@ body {
 .vui-notify-block {
 	padding-top: 14px;
 	padding-bottom: 14px;
+}
+
+.vui-notify-text {
+	white-space: nowrap;
 }
 
 .vui-notify button.close {

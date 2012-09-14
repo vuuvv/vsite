@@ -37,16 +37,37 @@ Dashboard.prototype = {
 		if (id) {
 			page = this.tabview.find_page_by_id(id);
 			if (page) {
-				this.tabview.select(page);
+				this.select_page(page);
 				return;
 			} else
 				path = parts[0];
 		}
+		$.ajax(path, {
+			dataType: "json",
+			success: utils.bind(this.on_success, this),
+			error: utils.bind(this.on_fail, this)
+		});
+		this.info("加载数据");
+	},
+
+	on_success: function(data) {
 		page = new VUI.TabPage({
 			action: path
 		});
+		this.add_page(path, page);
+	},
+
+	on_fail: function(data) {
+		this.error(data.statusText);
+	},
+
+	add_page: function(path, page) {
 		this.tabview.append(path, page);
 		this.tabview.select(page, true);
+	},
+
+	select_page: function(page) {
+		this.tabview.select(page);
 	},
 
 	info: function(msg, is_flash) {
@@ -54,7 +75,7 @@ Dashboard.prototype = {
 	},
 
 	error: function(msg, is_flash) {
-		this.notify.erro(msg, is_flash);
+		this.notify.error(msg, is_flash);
 	},
 
 	warning: function(msg, is_flash) {
@@ -161,6 +182,14 @@ var Notify = VUI.Notify = function(options) {
 Notify.prototype = {
 	name: "notify",
 	fade: true,
+	duration: 2000,
+
+	on_postrender: function() {
+		var self = this;
+		$(this.get_dom("close")).click(function() {
+			self.hide();
+		});
+	},
 
 	show: function(duration) {
 		var self = this;
@@ -172,24 +201,24 @@ Notify.prototype = {
 
 		if (_.isNumber(duration)) {
 			this.timer = setTimeout(function() {
-				self.close();
+				self.hide();
 			}, duration);
 		}
 	},
 
-	close: function() {
+	hide: function() {
 		var box = this.$elem;
 		clearTimeout(this.timer);
 		box.hide();
 	},
 
-	msg: function(msg, type, duration) {
+	msg: function(msg, type, is_flash) {
 		type = type || "info";
 		var box = this.$elem;
-		box.text(msg);
+		$(this.get_dom("text")).text(msg);
 		box.removeClass("notify-info notify-error notify-success notify-warning");
 		box.addClass("notify-" + type);
-		this.show(duration);
+		this.show(is_flash ? this.duration : null);
 	},
 
 	info: function(msg, is_flash) {
