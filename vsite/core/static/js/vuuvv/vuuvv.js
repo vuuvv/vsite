@@ -800,7 +800,7 @@ var Action = VUI.Action = {
 		if (utils.is_function(action)) {
 			action();
 		} else if (utils.is_string(action)) {
-			VUI.App.navigate(action);
+			VUI.App.navigate(action, {trigger: true});
 		}
 	},
 
@@ -937,6 +937,19 @@ Widget.prototype = {
 		this.$elem.data("obj", this);
 
 		this.fire_event('postrender');
+	},
+
+	center_pos: function(container) {
+		var pos = {left: 0, top: 0};
+		var box = this.$elem;
+		if (box) {
+			var pbox = container || box.parent();
+			var rect = helpers.get_client_rect(box[0]);
+			var prect = helpers.get_client_rect(pbox[0]);
+			pos.left = (prect.width - rect.width) / 2;
+			pos.top = (prect.height - rect.height) / 2;
+		}
+		return pos;
 	},
 
 	move_to: function(x, y) {
@@ -1282,20 +1295,27 @@ TabView.prototype = {
 		$(this.get_dom("container")).height(rect.height - margin - bar_rect.height + 2);
 	},
 
-	select: function(index) {
+	select: function(index, is_new) {
 		if (!_.isNumber(index)) {
 			index = index.index;
 		}
 		if (this.index === index) 
 			return;
 		var tabs = this.tabs
-		if (this.index >= 0) {
+		if (this.index >= 0 && this.index >= 0 && this.index < tabs.length) {
 			tabs[this.index].btn.unselect();
 			tabs[this.index].page.hide();
 		}
 		this.index = index;
 		tabs[index].btn.select();
-		tabs[index].page.show();
+		var page = tabs[index].page;
+		page.show();
+		if (page.action) {
+			// not trigger the route function
+			VUI.App.navigate(page.action + "~" + page.pageid, {
+				replace: !!is_new
+			});
+		}
 	},
 
 	close: function(index) {
@@ -1317,8 +1337,13 @@ TabView.prototype = {
 			tab.page.set_index(i - 1);
 		}
 		tabs.splice(index, 1);
-		if (index < this.index)
+
+		if (index === this.index) {
+			this.index = -1
+			index === len - 1 ? this.select(index - 1) : this.select(index);
+		} else {
 			this.index--;
+		}
 	},
 
 	insert: function(index, title, page) {
@@ -1364,6 +1389,16 @@ TabView.prototype = {
 
 	append: function(title, page) {
 		return this.insert(this.tabs.length, title, page);
+	},
+
+	find_page_by_id: function(id) {
+		id = parseInt(id);
+		var tabs = this.tabs;
+		for (var i = 0, len = tabs.length; i < len; i++) {
+			var page = tabs[i].page;
+			if (id === page.pageid)
+				return page;
+		}
 	}
 };
 
@@ -1373,9 +1408,20 @@ var TabPage = VUI.TabPage = function(options) {
 	this.initialize(options);
 };
 
+TabPage.__pageid = 0;
+
+TabPage.pageid = function() {
+	return TabPage.__pageid++;
+};
+
 TabPage.prototype = {
+	url: '',
 	name: "tabpage",
 	index: 0,
+
+	initialize: function() {
+		this.pageid = TabPage.pageid();
+	},
 
 	set_content: function(content) {
 		var dom = this.get_dom("content");

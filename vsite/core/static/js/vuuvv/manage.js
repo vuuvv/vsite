@@ -26,12 +26,43 @@ Dashboard.prototype = {
 		sidebar.render(this.get_dom("sidebar"));
 		var tabview = this.tabview = new VUI.TabView();
 		tabview.render(this.get_dom("content"));
+		var notify = this.notify = new VUI.Notify();
+		notify.render();
 	},
 
-	open_page: function(title) {
-		var page = new VUI.TabPage();
-		this.tabview.append(title, page);
-		this.tabview.select(page);
+	open_page: function(path) {
+		var page;
+		var parts = path.split("~");
+		var id = parts[1];
+		if (id) {
+			page = this.tabview.find_page_by_id(id);
+			if (page) {
+				this.tabview.select(page);
+				return;
+			} else
+				path = parts[0];
+		}
+		page = new VUI.TabPage({
+			action: path
+		});
+		this.tabview.append(path, page);
+		this.tabview.select(page, true);
+	},
+
+	info: function(msg, is_flash) {
+		this.notify.info(msg, is_flash);
+	},
+
+	error: function(msg, is_flash) {
+		this.notify.erro(msg, is_flash);
+	},
+
+	warning: function(msg, is_flash) {
+		this.notify.warning(msg, is_flash);
+	},
+
+	success: function(msg, is_flash) {
+		this.notify.success(msg, is_flash);
 	}
 };
 
@@ -108,6 +139,7 @@ SideBarTree.prototype = {
 		var self = this;
 		$(".vui-sidebartree-root-label").click(function(evt) {
 			self.trigger($(this).parent());
+			return false;
 		});
 	},
 
@@ -117,10 +149,66 @@ SideBarTree.prototype = {
 		} else if (jdom.find("ul").length) {
 			jdom.addClass("expanded");
 		}
-		return false;
 	}
 };
 
 inherits(SideBarTree, VUI.Widget, ManageWidget);
+
+var Notify = VUI.Notify = function(options) {
+	this.initialize(options);
+};
+
+Notify.prototype = {
+	name: "notify",
+	fade: true,
+
+	show: function(duration) {
+		var self = this;
+		var box = this.$elem;
+		clearTimeout(this.timer);
+		box.show();
+		var pos = this.center_pos($("body"));
+		box.css({left: pos.left});
+
+		if (_.isNumber(duration)) {
+			this.timer = setTimeout(function() {
+				self.close();
+			}, duration);
+		}
+	},
+
+	close: function() {
+		var box = this.$elem;
+		clearTimeout(this.timer);
+		box.hide();
+	},
+
+	msg: function(msg, type, duration) {
+		type = type || "info";
+		var box = this.$elem;
+		box.text(msg);
+		box.removeClass("notify-info notify-error notify-success notify-warning");
+		box.addClass("notify-" + type);
+		this.show(duration);
+	},
+
+	info: function(msg, is_flash) {
+		this.msg(msg, "info", is_flash);
+	},
+
+	error: function(msg, is_flash) {
+		this.msg(msg, "error", is_flash);
+	},
+
+	warning: function(msg, is_flash) {
+		this.msg(msg, "warning", is_flash);
+	},
+
+	success: function(msg, is_flash) {
+		this.msg(msg, "success", is_flash);
+	}
+};
+
+inherits(Notify, VUI.Widget, ManageWidget);
 
 });

@@ -179,4 +179,85 @@ body {
 	margin: 6px 0 0 6px;
 }
 
+.vui-notify {
+	position: absolute;
+	top: 5px;
+	left: 35%;
+	text-align: center;
+
+	font-weight: bold;
+	display: none;
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 18px;
+	color: #c09853;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5)
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+		 -moz-border-radius: 4px;
+			  border-radius: 4px;
+}
+
+.vui-notify-heading {
+	color: inherit;
+}
+
+.vui-notify .close {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	line-height: 18px;
+}
+
+.vui-notify-success {
+	color: #468847;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+}
+
+.vui-notify-danger,
+.vui-notify-error {
+	color: #b94a48;
+	background-color: #f2dede;
+	border-color: #eed3d7;
+}
+
+.vui-notify-info {
+	color: #3a87ad;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+.vui-notify-block {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.vui-notify button.close {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+}
+
+.vui-notify .close {
+	display: block;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 18px;
+	color: #000000;
+	text-shadow: 0 1px 0 #ffffff;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+
+.vui-notify .close:hover {
+	color: #000000;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+}
 

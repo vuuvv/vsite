@@ -1,5 +1,6 @@
 define(function(require, exports, module) {
 	require('vuuvv/manage');
+	var utils = vuuvv.utils
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -29,6 +30,14 @@ define(function(require, exports, module) {
 			this.dashboard.open_page(path);
 		},
 
+		on_success: function(data) {
+			this.notify.show();
+		},
+
+		on_fail: function(data) {
+			this.notify.show();
+		},
+
 		csrf_token: null,
 
 		initialize: function(options) {
@@ -44,30 +53,20 @@ define(function(require, exports, module) {
 			alert(msg);
 		},
 
-		msg: function(msg, type, is_flash) {
-			type = type || "info";
-			var cls = "notify-" + type,
-				duration = null,
-				$notify = $(".notify").notify();
-			if (is_flash) 
-				duration = 2000;
-			$notify.notify(type, msg, duration);
-		},
-
 		info: function(msg, is_flash) {
-			this.msg(msg, "info", is_flash);
+			this.dashboard.info(msg, is_flash);
 		},
 
 		error: function(msg, is_flash) {
-			this.msg(msg, "error", is_flash);
+			this.dashboard.error(msg, is_flash);
 		},
 
 		warning: function(msg, is_flash) {
-			this.msg(msg, "warning", is_flash);
+			this.dashboard.warning(msg, is_flash);
 		},
 
 		success: function(msg, is_flash) {
-			this.msg(msg, "success", is_flash);
+			this.dashboard.success(msg, is_flash);
 		},
 
 		logout: function() {
