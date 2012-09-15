@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'vsite.joyou',
     'mptt',
     'vsite.core',
+    'vsite.users',
     'vsite.filemanage',
     'vsite.manage',
     'vsite.pages',
