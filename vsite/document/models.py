@@ -1,5 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.models import Site
+from django.utils import timezone
+
+from vsite.users.models import User
+from vsite.core.fields import RichTextField
+from vsite.core.models import MetaData
 
 class Article(models.Model):
 	site = models.ForeignKey(Site, related_name="articles", verbose_name=_("Site"))
@@ -15,9 +21,10 @@ class Article(models.Model):
 from vsite.manage.sites import site, ModelManage
 
 class ArticleManage(ModelManage):
+	label = _("Article")
 	fields = ("site", "title", "sub_title", "author", "_from", "content")
 	list_display = ("title", "author", "date_created")
 	readonly_fields = ()
 
-site.register(Article, UserManage)
+site.register(Article, ArticleManage)
 

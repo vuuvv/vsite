@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'mptt',
     'vsite.core',
     'vsite.users',
+    'vsite.document',
     'vsite.filemanage',
     'vsite.manage',
     'vsite.pages',
@@ -149,6 +150,7 @@ INSTALLED_APPS = (
 )
 DEBUG = True
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
+USE_TZ=False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -42,19 +42,31 @@ Dashboard.prototype = {
 			} else
 				path = parts[0];
 		}
+		var self = this;
 		$.ajax(path, {
 			dataType: "json",
-			success: utils.bind(this.on_success, this),
+			success: function(data) {
+				self.on_success(path, data);
+			},
 			error: utils.bind(this.on_fail, this)
 		});
-		this.info("加载数据");
+		this.info("载入数据...");
 	},
 
-	on_success: function(data) {
-		page = new VUI.TabPage({
-			action: path
-		});
-		this.add_page(path, page);
+	on_success: function(path, data) {
+		var page;
+		if (data.find_tab) {
+			page = this.tabview.find_page_by_action(path);
+		}
+		if (page) {
+			this.select_page(page);
+		} else {
+			page = new VUI.TabPage({
+				action: path
+			});
+			this.add_page(data.label, page);
+		}
+		this.success("数据载入完毕", true);
 	},
 
 	on_fail: function(data) {
@@ -97,11 +109,11 @@ SideBar.prototype = {
 	name: "sidebar",
 	header_btns: [{
 		class_name: "vui-new-doc vui-blue-button",
-		action: "document/add",
+		action: "document/article/add/",
 		label: "新建文档"
 	}, {
 		class_name: "vui-doc-list vui-blue-button",
-		action: "document",
+		action: "document/article/",
 		label: "文档列表"
 	}],
 	nav_items: [{
@@ -239,5 +251,12 @@ Notify.prototype = {
 };
 
 inherits(Notify, VUI.Widget, ManageWidget);
+
+var Table = VUI.Table = function(options) {
+	this.initialize(options);
+};
+
+Table.prototype = {
+};
 
 });

@@ -1399,6 +1399,15 @@ TabView.prototype = {
 			if (id === page.pageid)
 				return page;
 		}
+	},
+
+	find_page_by_action: function(action) {
+		var tabs = this.tabs;
+		for (var i = 0, len = tabs.length; i < len; i++) {
+			var page = tabs[i].page;
+			if (action === page.action)
+				return page;
+		}
 	}
 };
 
