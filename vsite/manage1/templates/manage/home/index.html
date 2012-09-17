@@ -1,0 +1,31 @@
+{% extends "manage/layout.html" %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Dashboard
+{% endblock %} 
+
+{% block tpl %}
+{% sri manage/yui/login.html %} 
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+#main-nav {
+	line-height: 39px;
+}
+.yui3-loading #main-nav {
+	display: none;
+}
+</style>
+<script>
+</script>
+{% endblock %}

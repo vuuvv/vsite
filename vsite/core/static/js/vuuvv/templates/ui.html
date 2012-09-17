@@ -99,7 +99,7 @@
 {% define vui_select %}
 <select id="{{ id }}" name="{{ fieldname }}">
 	{% _.each(choices, function(choice) { %}
-	<option value="{{ choice.value }}" {% if (value != null && value == choice.value) %} selected {% } %}>{{choice.title}}</option>
+	<option value="{{ choice.value }}" {% if (value != null && value == choice.value) { %} selected {% } %}>{{choice.title}}</option>
 	{% }); %}
 </select>
 {% end define %}

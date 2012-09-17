@@ -1,0 +1,17 @@
+<% _.each(accordions, function(accordion) { %>
+<div class="accordion-group">
+	<div class="accordion-heading" data-toggle="accordion">
+		<div class="openclose"></div>
+		<div class="accordion-label"><%= accordion.name %></div>
+	</div>
+	<div class="accordion-body">
+		<% _.each(accordion.children, function(child) { %>
+		<div class="accordion-item">
+			<div class="arrow"></div>
+			<div class="accordion-label"><%= child %></div>
+		</div>
+		<% }) %>
+	</div>
+</div>
+<% }) %>
+

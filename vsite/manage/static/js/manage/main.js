@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
-	require('vuuvv/manage');
-	var utils = vuuvv.utils
+	var config = require('manage/config');
+	require('plugins');
 
 	var norm_model = function(model) {
 		return unescape(model).toLowerCase().replace(/[ -]+/g, "_");
@@ -11,72 +11,62 @@ define(function(require, exports, module) {
 
 		routes: {
 			"": "index",
-			"*path": "dispatch"
-			/*
 			"logout": "logout",
-			"filemanage": "filemanage",
-			"apps": "apps"
-			"m/:app/:model/add": "add",
-			"m/:app/:model/:id": "update",
-			"m/:app/:model": "list",
-			"m/:app/:model/p/:page": "list",
-			"m/:app/:model/add/:pid": "tree_add",
-			"m/:app/:model/:pid/": "tree_list",
-			"m/:app/:model/:pid/p/:page": "tree_list"
-			*/
-		},
-
-		dispatch: function(path) {
-			this.dashboard.open_page(path);
-		},
-
-		on_success: function(data) {
-			this.notify.show();
-		},
-
-		on_fail: function(data) {
-			this.notify.show();
+			":app/:model/add": "add",
+			":app/:model/:id": "update",
+			":app/:model": "list",
+			":app/:model/p/:page": "list",
+			":app/:model/add/:pid": "tree_add",
+			":app/:model/:pid/": "tree_list",
+			":app/:model/:pid/p/:page": "tree_list"
 		},
 
 		csrf_token: null,
 
 		initialize: function(options) {
-			var dashboard = this.dashboard = new VUI.Dashboard();
-			dashboard.render($("body")[0]);
 		},
 
 		log: function(msg) {
-			console.log(msg);
+			if (window.console && window.console.log) {
+				window.console.log(msg);
+			}
 		},
 
 		alert: function(msg) {
 			alert(msg);
 		},
 
+		msg: function(msg, type, is_flash) {
+			type = type || "info";
+			var cls = "notify-" + type,
+				duration = null,
+				$notify = $(".notify").notify();
+			if (is_flash) 
+				duration = 2000;
+			$notify.notify(type, msg, duration);
+		},
+
 		info: function(msg, is_flash) {
-			this.dashboard.info(msg, is_flash);
+			this.msg(msg, "info", is_flash);
 		},
 
 		error: function(msg, is_flash) {
-			this.dashboard.error(msg, is_flash);
+			this.msg(msg, "error", is_flash);
 		},
 
 		warning: function(msg, is_flash) {
-			this.dashboard.warning(msg, is_flash);
+			this.msg(msg, "warning", is_flash);
 		},
 
 		success: function(msg, is_flash) {
-			this.dashboard.success(msg, is_flash);
+			this.msg(msg, "success", is_flash);
 		},
 
 		logout: function() {
 		},
 
 		index: function() {
-			//this.list("pages", "page");
-		},
-
-		apps: function() {
+			this.list("pages", "page");
 		},
 
 		list: function(app, model, page) {
@@ -139,50 +129,40 @@ define(function(require, exports, module) {
 			});
 		},
 
-		filemanage: function() {
-			/*
-			var win = vuuvv.window({
-				title: "Hello World",
-				content: "<h1>Hello World</h1><h1>Hello World</h1><h1>Hello World</h1>",
-				minable: false,
-				resizable: true
-			});
-			win.open();
-			var w = new VUI.Popup({content: "abcdefg"});
-			w.show(100, 100);
-			$("#vui_fixedlayer").append("<div id='test' class='vui-popup vui-popup' style='left: 300px'><div class='vui-shadow' style=''></div><div class='vui-popup-content'>1234</div></div>");
-			$(document).click(function(evt) {
-				$(".vui-shadow").each(function() {
-					$(this).height(260);
-					$(this).width(100);
+		file_manage: function(path, callback) {
+			var self = this;
+			if (this.filebrowser === null) {
+				require.async("manage/views/filedialog", function(Dialog) {
+					if (_.isFunction(path)) {
+						callback = path;
+						path = "";
+					} else {
+						path = path || "";
+					}
 
-					//alert($(this).width() + "," + $(this).height());
+					var dialog = new Dialog({
+						current_path: path,
+						select_callback: callback
+					});
+					dialog.render();
+					self.filebrowser = dialog;
 				});
-				w.move_to(evt.clientX, evt.clientY);
-				$("#test").css({
-					left: evt.clientX,
-					top: evt.clientY
-				});
-				alert(document.getElementById("test").clientHeight);
-			});
-			var w = new VUI.Menu({
-				items: [
-					{label: "全选"},
-					{label: "清空文档"},
-					{label: "段落"},
-					"-",
-					{label: "Clear"}
-				]
-			});
-			w.show();
-			$(document).on('contextmenu', function(evt) {
-				w.show(evt.clientX, evt.clientY);
-				return false;
-			});
-			*/
+			} else {
+				this.filebrowser.show(path, callback);
+			}
 		}
 	});
 
-	VUI.App = new ManageApp;
+	app = new ManageApp;
 	Backbone.history.start();
+
+	$("#global-header").width($("#main-body").width());
+	$("#global-header .menu li.menu-item").hover(function() {
+		$(this).addClass("current");
+	}, function(){
+		$(this).removeClass("current");
+	});
+	$("a.cmd").click(function() {
+		app[$(this).attr("cmd")]();
+	});
 });

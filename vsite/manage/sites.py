@@ -124,8 +124,6 @@ class ModelManage(object):
 		models = self.get_models(request, **kwargs)
 		resp["columns"] = self.list_display
 		resp["models"] = self.get_models_list(request, models=models, **kwargs)
-		resp["label"] = unicode(self.label)
-		resp["find_tab"] = True
 
 		return render_to_json(resp, "success", "Data Loaded")
 

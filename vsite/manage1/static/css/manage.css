@@ -1,0 +1,336 @@
+@charset "UTF-8";
+
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+}
+
+.frame-contents {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 100px;
+	_position: relative;
+	_left: 0;
+	_height: 100%;
+	_margin-left: 100px;
+	overflow: hidden;
+}
+
+.frame-side {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 9;
+	width: 98px;
+	border-left: 1px solid #dae2ed;
+	border-right: 1px solid #afb7c3;
+	background: #eef2f7;
+	_height: 100%;
+}
+
+.user-nav {
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	margin-bottom: 15px;
+	padding-top: 10px;
+	border-bottom: 1px solid #d2d9e2;
+	cursor: pointer;
+	_zoom: 1;
+}
+
+.user-nav .arrow {
+	position: absolute;
+	top: 30px;
+	right: 1px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border: 7px solid;
+	border-color: transparent transparent transparent #ced4dd;
+	_border-color: pink pink pink #ced4dd;
+	_filter: chroma(color=pink)
+}
+
+.user-nav-focus .arrow {
+	border-color: transparent transparent transparent #9abae8;
+	_border-color: pink pink pink #9abae8;
+}
+
+.user-head {
+	width: 48px;
+	height: 48px;
+	margin: auto;
+	padding: 3px;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.user-head img {
+	display: block;
+	width: 48px;
+	height: 48px;
+	border-radius: 4px;
+}
+
+.user-name {
+	width: 80px;
+	height: 24px;
+	margin: -2px auto 0;
+	line-height: 24px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #9499a3;
+}
+
+.nav-menu {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 98px;
+	width: 150px;
+	border: 1px solid #c5c5c5;
+	background: #fff;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+	cursor: default;
+}
+
+.nav-menu dt {
+	height: 34px;
+	padding: 0 10px;
+	line-height: 34px;
+	text-align: right;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+.nav-menu dt span {
+	float: left;
+	font-weight: bold;
+}
+
+.nav-menu dd {
+	padding: 5px 0;
+}
+
+.nav-menu li {
+	vertical-align: middle;
+}
+
+.nav-menu li a {
+	position: relative;
+	display: block;
+	height: 44px;
+	padding: 0 10px 0 42px;
+	line-height: 44px;
+	font-size: 14px;
+	color: #515b65;
+}
+
+.nav-menu li a:hover {
+	text-decoration: none;
+	background: #eee;
+}
+
+.icon-user {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	width: 24px;
+	height: 24px;
+	overflow: hidden;
+	background-image: url(img/icon_user.png);
+	background-repeat: no-repeat;
+	_background-image: url(img/icon_user.gif);
+}
+
+.iu-info { background-position:0 0; }
+.iu-setting { background-position:-30px 0; }
+.iu-friend { background-position:-60px 0; }
+.iu-safe { background-position:-90px 0; }
+.iu-app { background-position:-120px 0; }
+.iu-game { background-position:-150px 0; }
+.iu-money { background-position:-180px 0; }
+.iu-vip { background-position:-210px 0; }
+.iu-wo { background-position:-240px 0; }
+a:hover .iu-info { background-position:0 -30px; }
+a:hover .iu-setting { background-position:-30px -30px; }
+a:hover .iu-friend { background-position:-60px -30px; }
+a:hover .iu-safe { background-position:-90px -30px; }
+a:hover .iu-app { background-position:-120px -30px; }
+a:hover .iu-game { background-position:-150px -30px; }
+a:hover .iu-money { background-position:-180px -30px; }
+a:hover .iu-vip { background-position:-210px -30px; }
+a:hover .iu-wo { background-position:-240px -30px; }
+
+.icon-dm {
+	display:block;
+	width:48px;
+	height:48px;
+	margin:auto;
+	overflow:hidden;
+	background-image:url(img/icon_directory_menu.png);
+	_background-image:url(img/icon_directory_menu.gif);
+	background-repeat:no-repeat;
+}
+
+.dm-cloud { background-position:0 0; }
+.dm-notebook { background-position:-50px 0; }
+.dm-circle { background-position:-100px 0; }
+.dm-message { background-position:-150px 0; }
+.dm-app { background-position:-300px 0; }
+a:hover .dm-cloud, li.focus .dm-cloud { background-position:0 -50px; }
+a:hover .dm-notebook, li.focus .dm-notebook { background-position:-50px -50px; }
+a:hover .dm-circle, li.focus .dm-circle { background-position:-100px -50px; }
+a:hover .dm-message, li.focus .dm-message { background-position:-150px -50px; }
+a:hover .dm-app, li.focus .dm-app { background-position:-300px -50px; }
+
+.directory-menu {
+	position:absolute;
+	left:-1px;
+	width:100px;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+}
+
+.directory-menu li {
+	position:relative;
+	margin-bottom:20px;
+	padding:10px 5px 5px 0;
+	border-left:5px solid;
+	border-color:transparent;
+	_border-color:#EEF2F7;
+}
+
+.directory-menu li.focus {
+	border-color:#4783D3;
+	background:#D6E0ED url(img/directory_menu_focus.png) no-repeat right -10px;
+}
+
+.directory-menu li a {
+	position:relative;
+	display:block;
+	width:60px;
+	margin:auto;
+	color:#9499A3;
+	cursor:pointer;
+}
+
+.directory-menu li a:hover {
+	text-decoration:none;
+	color:#515B65;
+}
+
+.directory-menu li.focus a {
+	font-weight:bold;
+	color:#515B65;
+	cursor:default;
+}
+
+.directory-menu li em {
+	position:absolute;
+	top:-5px;
+	right:0;
+	height:16px;
+	padding:0 5px;
+	line-height:16px;
+	font-weight:normal;
+	color:#FFF;
+	border-radius:8px;
+	background:#ED4116;
+	background:-webkit-linear-gradient(top, #F26522, #ED4116 100%);
+	background:-moz-linear-gradient(top, #F26522, #ED4116 100%);
+	background:-o-linear-gradient(top, #F26522, #ED4116 100%);
+	box-shadow:1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.directory-menu li span {
+	display:block;
+	width:60px;
+	height:22px;
+	padding:5px 0 0;
+	line-height:22px;
+	text-align:center;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+
+.vui-dashboard {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.vui-dashboard-header {
+	height: 66px;
+	overflow: hidden;
+}
+
+.vui-dashboard-body {
+	position: absolute;
+	left: 8px;
+	right: 0;
+	top: 66px;
+	bottom: 13px;
+	_height: expression(document.body.clientHeight-79);
+}
+
+.vui-dashboard-top-sep {
+	height: 11px;
+}
+
+.vui-dashboard-top-left {
+	background: url(img/dashboard_nav_bg.gif) repeat-x scroll 0 -112px ;
+	height: 11px;
+	width: auto;
+}
+
+.vui-dashboard-top-bg {
+	background: url(img/dashboard_topline.gif) repeat scroll -179px 0;
+	height: 22px;
+	width: 184px;
+}
+
+.vui-dashboard-leftpanel {
+	position: absolute;
+	top: 13px;
+	width: 179px;
+	height: 100%;
+}
+
+.vui-dashboard-leftpanel-content {
+	background: url(img/dashboard_topline.gif) repeat-y scroll 0 0;
+	overflow: hidden;
+	height: 100%;
+}
+
+.vui-dashboard-leftpanel-bottom {
+	background: url(img/dashboard_topline.gif) no-repeat scroll -179px -11px;
+	position: absolute;
+	left: 8px;
+	bottom: 0;
+	height: 13px;
+	width: 179px;
+	overflow: hidden;
+	_bottom: -1px;
+}
+
+.vui-dashboard-main-container {
+	zoom: 1;
+	position: absolute;
+	top: 11px;
+	left: 184px;
+	right: 0;
+	bottom: 0;
+	_height: expression(document.body.clientHeight-77);
+	_width: expression(document.body.clientWidth-200);
+	overflow: auto;
+}
+
