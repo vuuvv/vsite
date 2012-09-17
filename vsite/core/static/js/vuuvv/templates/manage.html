@@ -46,3 +46,30 @@
 	<button id="{{ id }}_close" class="close no-outline" type="button">×</button>
 </div>
 {% end define %}
+
+{% define vui_table %}
+<div id="{{ id }}" class="vui-table {{ class_name }}">
+	<table class="vui-table-header">
+		<thead>
+			<td class="vui-table-check">
+				<span><input type="checkbox" class="select-all"/></span>
+			</td>
+			{% _.each(columns, function(col, index) { %}
+				{% if (index === 0) { %}
+			<td class="vui-table-col-main">
+				<span>{{ col }}</span>
+			</td>
+				{% } else { %}
+			<td class="vui-table-col-{{ col }}">
+				<span>{{ col }}</span>
+			</td>
+				{% } %}
+			{% }); %}
+		</thead>
+	</table>
+	<div class="vui-table-body-wrap">
+		<table class="vui-table-body">
+		</table>
+	</div>
+</div>
+{% end define %}

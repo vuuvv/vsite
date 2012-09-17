@@ -90,6 +90,7 @@ from vsite.manage.sites import site, ModelManage, TreeModelManage
 from mptt.forms import MPTTAdminForm
 
 class PageManage(TreeModelManage):
+	label = _("Page")
 	fields = ("site", "parent", "title", "slug", "is_link", "content", "publish_date", "status")
 	list_display = ('title', "site", "slug", "publish_date")
 	readonly_fields = ()

@@ -1434,6 +1434,7 @@ TabPage.prototype = {
 
 	set_content: function(content) {
 		var dom = this.get_dom("content");
+		content.render(dom);
 	},
 
 	add_btn: function(btn) {
@@ -1521,5 +1522,66 @@ Window.prototype = {
 	initialize: function(options) {
 	}
 };
+
+var Form = VUI.Form = function(options) {
+	this.initialize(options);
+};
+
+Form.prototype = {
+	name: "form",
+	action: null,
+	fields: null,
+
+	on_postrender: function() {
+	},
+
+	append: function(fields) {
+	}
+};
+
+inherits(Form, VUI.Widget);
+
+var Field = VUI.Field = function(options) {
+};
+
+Field.prototype = {
+	name: "field",
+	fieldname: '',
+	value: null,
+	label: ''
+};
+
+inherits(Field, VUI.Widget);
+
+var Select = VUI.Select = function(options) {
+	this.initialize(options);
+};
+
+Select.prototype = {
+	name: "select",
+	choice: null
+};
+
+inherits(Select, VUI.Widget);
+
+var TextInput = VUI.TextInput = function(options) {
+	this.initialize(options);
+};
+
+TextInput.prototype = {
+	name: "textinput"
+};
+
+inherits(TextInput, VUI.Widget);
+
+var Editor = VUI.Editor = function(options) {
+	this.initialize(options);
+};
+
+Editor.prototype = {
+	name: "editor"
+};
+
+inherits(Editor, VUI.Widget);
 
 });

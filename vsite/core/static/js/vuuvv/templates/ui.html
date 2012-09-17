@@ -91,3 +91,24 @@
 </div>
 {% end define %}
 
+{% define vui_form %}
+<div id="{{ id }}" class="vui-form">
+</div>
+{% end define %}
+
+{% define vui_select %}
+<select id="{{ id }}" name="{{ fieldname }}">
+	{% _.each(choices, function(choice) { %}
+	<option value="{{ choice.value }}" {% if (value != null && value == choice.value) %} selected {% } %}>{{choice.title}}</option>
+	{% }); %}
+</select>
+{% end define %}
+
+{% define vui_textinput %}
+<input id="{{ id }}" name="{{ fieldname }}" type="text" class="text" {% if (value == null) { %} value="{{ value }}" {% } %}/>
+{% end define %}
+
+{% define vui_editor %}
+<textarea id="{{ id }}" name="{{ fieldname }}" class="editor text">{% if (value == null) { %} {{ value }} {% } %}</textarea>
+{% end define %}
+

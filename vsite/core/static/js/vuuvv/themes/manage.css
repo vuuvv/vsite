@@ -264,3 +264,29 @@ body {
 	filter: alpha(opacity=40);
 }
 
+.vui-table-header {
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+	width: 100%;
+	border-bottom: 1px solid #cdcccd;
+}
+
+.vui-table-header td {
+	background: url(img/table_header_bg.png) no-repeat 0 0 #eff1f4;
+	cursor: pointer;
+	height: 22px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.vui-table-header .vui-table-check {
+	background-position: -4px 0;
+	width: 25px;
+}
+
+.vui-table-header td span {
+	line-height: 22px;
+	padding: 0 5px;
+}
+

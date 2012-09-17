@@ -61,12 +61,25 @@ Dashboard.prototype = {
 		if (page) {
 			this.select_page(page);
 		} else {
-			page = new VUI.TabPage({
-				action: path
-			});
-			this.add_page(data.label, page);
+			data.action = path;
+			page = this.create_list_page(data);
 		}
 		this.success("数据载入完毕", true);
+	},
+
+	create_list_page: function(data) {
+		var page = new VUI.TabPage({
+			action: data.action
+		});
+		this.add_page(data.label, page);
+		var table = new VUI.Table({
+			columns: data.columns,
+			items: data.items
+		});
+		page.set_content(table);
+	},
+
+	create_form_page: function(data) {
 	},
 
 	on_fail: function(data) {
@@ -257,6 +270,17 @@ var Table = VUI.Table = function(options) {
 };
 
 Table.prototype = {
+	name: "table",
+	columns: null,
+	items: null,
+
+	on_postrender: function() {
+	},
+
+	set_data: function(data) {
+	}
 };
+
+inherits(Table, VUI.Widget, ManageWidget);
 
 });
