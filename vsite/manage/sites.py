@@ -389,7 +389,7 @@ manage_menus = [
 			{
 				"title": _("Sites"),
 				"attrs": {
-					"href": "#sites",
+					"href": "#sites/site",
 				}
 			}
 		],
@@ -400,19 +400,19 @@ manage_menus = [
 			{
 				"title": _("User"), 
 				"attrs": {
-					"href": "#user",
+					"href": "#users/user",
 				}
 			},
 			{
 				"title": _("Role"), 
 				"attrs": {
-					"href": "#role",
+					"href": "#users/role",
 				}
 			},
 			{
 				"title": _("Permission"),
 				"attrs": {
-					"href": "#permission",
+					"href": "#users/permission",
 				}
 			}
 		],
@@ -421,9 +421,9 @@ manage_menus = [
 		"title": _("Content"),
 		"children": [
 			{
-				"title": _("URL"), 
+				"title": _("Article"), 
 				"attrs": {
-					"href": "#pages/url",
+					"href": "#document/article",
 				}
 			},
 			{
@@ -444,4 +444,12 @@ manage_menus = [
 ]
 
 site = ManageSite()
+
+from django.contrib.sites.models import Site
+
+class SiteManage(ModelManage):
+	fields = ("domain", "name")
+	list_display = ("domain", "name")
+
+site.register(Site, SiteManage)
 

@@ -67,7 +67,7 @@ class User(models.Model):
 	is_active = models.BooleanField(_('active'), default=True,
 		help_text=_('Designates whether this user should be treated as '
 					'active. Unselect this instead of deleting accounts.'))
-	is_superuser = models.BooleanField(_('active'), default=True,
+	is_superuser = models.BooleanField(_('superuser'), default=False,
 		help_text=_('Designates whether the user has all permissions without '
 			'explicityly assigning them'))
 	last_login = models.DateTimeField(_('last login'), default=timezone.now)
@@ -121,7 +121,7 @@ class AnonymousUser(object):
 from vsite.manage.sites import site, ModelManage
 
 class UserManage(ModelManage):
-	fields = ("username", "email")
+	fields = ("username", "email", "is_active", "is_superuser")
 	list_display = ("username", "email", "date_joined")
 	readonly_fields = ()
 

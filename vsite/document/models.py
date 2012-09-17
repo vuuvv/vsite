@@ -7,13 +7,13 @@ from vsite.users.models import User
 from vsite.core.fields import RichTextField
 from vsite.core.models import MetaData
 
-class Article(models.Model):
+class Article(MetaData):
 	site = models.ForeignKey(Site, related_name="articles", verbose_name=_("Site"))
 	user = models.ForeignKey(User, related_name="articles", verbose_name=_("User"))
 	title = models.CharField(_("Title"), max_length=100)
-	sub_title = models.CharField(_("Sub Title"), max_length=100)
-	_from = models.CharField(_("From"), max_length=100)
-	author = models.CharField(_("Author"), max_length=50)
+	sub_title = models.CharField(_("Sub Title"), null=True, blank=True, max_length=100)
+	_from = models.CharField(_("From"), null=True, blank=True, max_length=100)
+	author = models.CharField(_("Author"), null=True, blank=True, max_length=50)
 	is_draft = models.BooleanField(_("Is Draft"), default=True)
 	content = RichTextField(_("Content"))
 	date_created = models.DateTimeField(_('Date Created'), default=timezone.now)
