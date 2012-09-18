@@ -1,7 +1,7 @@
 <div class="left-nav">
 	<div class="left-header">{{ current.title }}</div>
 	{% for page in left_nav %}
-	<div class="box {% if forloop.counter0 != 0 %}box-follow{% endif %} {{ current.id }} {{page.id}} {% if left_current != page %}box-closed{% endif %}">
+	<div class="box {% if forloop.counter0 != 0 %}box-follow{% endif %} {% if left_current != page or not page.cached_children %}box-closed{% endif %}">
 			<div class="box-title">
 				<a href="{{ page.get_absolute_url}}" class="box-title-inner sl-linear">
 					<h3>{{ page.title }}</h3>

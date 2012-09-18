@@ -7,7 +7,6 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('vsite.joyou.views',
     # Examples:
     #url(r'^$', 'index', name="vsite_home"),
-    url(r'^about/$', 'about', name=""),
     url(r'^news/$', 'news', name=""),
     url(r'^news/company/$', 'company', name=""),
     url(r'^news/company/1$', 'article', name=""),
