@@ -1,43 +1,19 @@
 # Create your views here.
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.template.response import TemplateResponse
 
-from mptt.templatetags.mptt_tags import cache_tree_children
 
 from vsite.pages.models import Page
 from vsite.utils import generate_tree_nav
 
-def page(request, slug=""):
-	if slug == "":
-		url = u'/'
+def page(request, slug="", template="pages/page.html", extra_context=None):
+	if slug == "" or slug == "/":
+		slug = '/'
 	else:
-		url = u'/%s/' % slug
-	page = Page.objects.get(_cached_url=url)
-	#pages = cache_tree_children(Page.objects.all())
-	pages = Page.objects.all()
+		slug = '/%s/' % slug.strip("/")
 
-	children = []
-	ancestors = []
+	template_name = unicode(slug) if slug != "/" else u"index"
+	templates = [u"pages/%s.html" % template_name]
+	templates.append(template)
 
-	for p in pages:
-		if p.is_ancestor_of(page, True):
-			ancestors.append(p)
-		elif p.is_descendant_of(page):
-			children.append(p)
-
-	main_current = ancestors[0]
-	main_nav = [p for p in pages if p.level < 2]
-
-	left_current = ancestors[1] if len(ancestors) > 1 else []
-	left_nav = [p for p in children if p.level < 4]
-
-	for p in pages:
-		if p in ancestors:
-			print p._cached_url
-	return render_to_response('pages/page.html', {
-		"page": page,
-		"pages": pages,
-		"main_nav": main_nav,
-		"main_current": main_current,
-		"ancestors": ancestors,
-	})
+	return TemplateResponse(request, templates, extra_context)

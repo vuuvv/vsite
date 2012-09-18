@@ -173,11 +173,11 @@ body {
 	cursor: pointer;
 }
 
-.main_menu_item_last {
+.main_menu_item_vip {
 	border-right: none;
 }
 
-.main_menu_item_last a.main_menu_item_link {
+.main_menu_item_vip a.main_menu_item_link {
 	width: 64px;
 	border-right: none;
 }

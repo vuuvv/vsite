@@ -1,11 +1,13 @@
 define(function(require, exports) {
 
 var views = {
-	tree: ["list"]
+	tree: ["list"],
+	article: ["edit"]
 };
 
 var lookup_dict = {
-	"pages.page": "tree"
+	"pages.page": "tree",
+	"document.article": "article"
 };
 
 var file_types = {

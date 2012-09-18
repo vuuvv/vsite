@@ -1,0 +1,29 @@
+<div class="left-nav">
+	<div class="left-header">{{ current.title }}</div>
+	{% for page in left_nav %}
+	<div class="box {% if forloop.counter0 != 0 %}box-follow{% endif %} {{ current.id }} {{page.id}} {% if left_current != page %}box-closed{% endif %}">
+			<div class="box-title">
+				<a href="{{ page.get_absolute_url}}" class="box-title-inner sl-linear">
+					<h3>{{ page.title }}</h3>
+					{% if page.cached_children %}
+					<div class="box-toggle no-outline"></div>
+					{% endif %}
+				</a>
+			</div>
+			{% if page.cached_children %}
+			<div class="box-container">
+				<ul>
+					{% for sub in page.cached_children %}
+					<li class="box-item">
+						<a href="{{ sub.get_absolute_url }}">
+							<span class="box-item-name">{{ sub.title }}</span>
+							<span class="box-item-arrow arrow arrow-right"></span>
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+</div>

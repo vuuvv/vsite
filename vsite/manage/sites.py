@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import _get_queryset
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
+from django.db.models.fields import FieldDoesNotExist
 
 from mptt.models import TreeForeignKey
 
@@ -310,7 +311,7 @@ class TreeModelManage(ModelManage):
 			)[min_index:max_index]
 		else: 
 			obj = manager.get(pk=object_id)
-			resp["ancestors"] = [(o.id, o.title) for o in obj.get_ancestors()]
+			resp["ancestors"] = [(o.id, getattr(o, "_cached_url")) for o in obj.get_ancestors()]
 			return manager.select_related(*list_related).filter(
 				tree_id = obj.tree_id,
 				parent_id = obj.id,

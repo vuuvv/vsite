@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
@@ -8,18 +9,22 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from vsite.core.models import Publishable
 from vsite.core.fields import RichTextField
+from vsite.document.models import Article
 
 from .managers import PageManager
 
-class Page(MPTTModel, Publishable):
+class Page(MPTTModel):
 	site = models.ForeignKey(Site, related_name="pages", verbose_name=_("Site"))
-	title = models.CharField(_("Title"), max_length=100)
-	slug = models.CharField(_('Slug'), max_length=100, blank=True, null=True)
+	article = models.ForeignKey(Article, related_name="pages", verbose_name=_("Article"), blank=True, null=True)
 	parent = TreeForeignKey('self', null=True, blank=True, verbose_name=_("Parent"), related_name='children')
+	title = models.CharField(_('Title'), max_length=100)
+	slug = models.CharField(_('Slug'), max_length=100, blank=True, null=True)
 	in_navigation = models.BooleanField(_('In Navigation'), default=True)
+	publish_date = models.DateTimeField(_("Published from"),
+		help_text=_("With published checked, won't be shown until this time"),
+			  blank=True, null=True)
+	_is_active = models.BooleanField(_("Is Active"), default=True)
 	_cached_url = models.CharField(_('URL'), max_length=300, blank=True, editable=False, default='', db_index=True)
-	is_link = models.BooleanField(_('Is Link'), default=False)
-	content = RichTextField(_("Content"))
 
 	class Meta:
 		verbose_name = _("Page")
@@ -54,6 +59,9 @@ class Page(MPTTModel, Publishable):
 				self._cached_url = u'/'
 		else:
 			self._cached_url = u'%s%s/' % (self.parent._cached_url, self.slug)
+
+		if self.publish_date is None:
+			self.publish_date = datetime.now()
 		super(Page, self).save(*args, **kwargs)
 
 		if self.is_leaf_node() or self._cached_url == self._original_cached_url:
@@ -91,8 +99,9 @@ from mptt.forms import MPTTAdminForm
 
 class PageManage(TreeModelManage):
 	label = _("Page")
-	fields = ("site", "parent", "title", "slug", "is_link", "content", "publish_date", "status")
-	list_display = ('title', "site", "slug", "publish_date")
+	title = "title"
+	fields = ("site", "parent", "title", "slug", "_is_active", "in_navigation", "publish_date")
+	list_display = ("title", "site", "publish_date")
 	readonly_fields = ()
 
 	form = MPTTAdminForm

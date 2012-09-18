@@ -111,6 +111,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'vsite.pages.middleware.PageMiddleware',
 )
 
 ROOT_URLCONF = 'site_demo.urls'

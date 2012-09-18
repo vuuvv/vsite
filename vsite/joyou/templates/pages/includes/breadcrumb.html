@@ -1,0 +1,9 @@
+<a href="/">首页</a>
+{% for item in ancestors %}
+{% if forloop.last %}
+<em>{{ item.title }}</em>
+{% else %}
+<a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+{% endif %}
+{% endfor %}
+

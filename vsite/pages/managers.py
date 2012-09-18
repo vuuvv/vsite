@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from vsite.core.managers import ActiveAwareContentManagerMixin
 
-class PageManager(models.Manager, ActiveAwareContentManagerMixin):
+class PageManager(models.Manager):
 
 	def page_for_path(self, path, raise404=False):
 		"""
@@ -26,4 +26,7 @@ class PageManager(models.Manager, ActiveAwareContentManagerMixin):
 	def top_level_navigation(self):
 		return self.in_navigation().filter(parent__isnull=True)
 
-PageManager.add_to_active_filters(Q(active=True))
+	def active(self):
+		return self.filter(_is_active=True)
+
+#PageManager.add_to_active_filters(Q(active=True))
