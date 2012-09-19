@@ -92,16 +92,30 @@
 			<a href="" class="page-num-btn"><span>60</span></a>
 			<a href="" class="page-num-btn"><span>100</span></a>
 		</div>
+		<% if (model.pages.length > 1) { %>
 		<div class="paginator">
 			<div class="pager">
+				<% if (model.pages[0] > 1) { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/1" class="btn page_btn">首页</a>
+				<% } %>
 				<% if (model.paginator.has_previous) { %>
 				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%= model.paginator.number - 1 %>" class="btn page_btn">上一页</a>
 				<% } %>
-				<span><%= model.paginator.number %></span>
+				<% for (var i = 0; i < model.pages.length; i++) { %>
+					<% if (model.pages[i] === model.paginator.number) { %>
+				<span><%= model.pages[i] %></span>
+					<% } else { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%= model.pages[i] %>"><%= model.pages[i] %></a>
+					<% } %>
+				<% } %>
 				<% if (model.paginator.has_next) { %>
 				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%= model.paginator.number + 1 %>" class="btn page_btn">下一页</a>
 				<% } %>
+				<% if (model.pages[model.pages.length - 1] < model.paginator.num_pages) { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%=model.paginator.num_pages%>" class="btn page_btn">末页</a>
+				<% } %>
 			</div>
 		</div>
+		<% } %>
 	</div>
 </div

@@ -9,7 +9,6 @@ def fetch(db, table, columns):
 	conn.Open()
 	rs = win32com.client.Dispatch('ADODB.Recordset')
 	sql = "SELECT %s FROM %s" % (",".join(columns), table) 
-	print sql
 	rs.Open(sql, conn, 1, 3)
 	result = []
 	while not rs.EOF:

@@ -9,13 +9,50 @@ define(function(require, exports, modlue) {
 		},
 
 		_render: function(model) {
+			this._parse_pagination(model);
+			console.log(model.pages);
 			this.render_template(model, "left", "#main-left",
 				{model: model},
 				_.bind(this.left_part_event, this)
 			);
 		},
 
+		_parse_pagination: function(model) {
+			var paginator = model.paginator;
+			var num_pages = paginator.num_pages;
+			var number = paginator.number
+			var size = 10;
+			var after = num_pages - number;
+			var pages = [];
+			var min, max;
+			if (num_pages <= size) {
+				min = 1;
+				max = num_pages;
+			} else if (number < 5) {
+				min = 1;
+				max = size;
+			} else if (after < 5) {
+				min = num_pages - size + 1;
+				max = num_pages;
+			} else {
+				min = number - 4;
+				max = number + 5;
+			}
+			for (var i = min; i <= max; i++)
+				pages.push(i);
+			model.pages = pages;
+		},
+
+		_tune_name_intro: function() {
+			$(".name-intro").each(function() {
+				$this = $(this);
+				parent = $(this).parent();
+				$this.width(parent.width() - 39 - 10);
+			});
+		},
+
 		left_part_event: function(model) {
+			this._tune_name_intro();
 			$(".fileviewer tr").hover(function() {
 				$(this).addClass("file-row-hovered");
 			}, function() {

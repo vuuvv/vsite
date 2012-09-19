@@ -57,12 +57,9 @@ class ModelManage(object):
 
 		return urlpatterns
 
-	def get_models(self, request, **kwargs):
-		#min_index, max_index = self.get_page_slices(request, **kwargs)
-		list_related = self.get_list_related_fields(request)
-		item_list = self.model_cls.objects.select_related(*list_related).all()
+	def pagination(self, request, qs, **kwargs):
 		page = kwargs.get("page")
-		paginator = Paginator(item_list, self.get_page_size(request))
+		paginator = Paginator(qs, self.get_page_size(request))
 		try:
 			items = paginator.page(page)
 		except PageNotAnInteger:
@@ -72,6 +69,12 @@ class ModelManage(object):
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			items = paginator.page(paginator.num_pages)
 		return items
+
+	def get_models(self, request, **kwargs):
+		#min_index, max_index = self.get_page_slices(request, **kwargs)
+		list_related = self.get_list_related_fields(request)
+		item_list = self.model_cls.objects.select_related(*list_related).all()
+		return self.pagination(request, item_list, **kwargs)
 
 	def get_column(self, model, attr):
 		value = getattr(model, attr)
@@ -334,16 +337,17 @@ class TreeModelManage(ModelManage):
 		resp = kwargs["resp"]
 		if object_id is None:
 			resp["ancestors"] = []
-			return manager.select_related(*list_related).filter(
+			items = manager.select_related(*list_related).filter(
 				parent_id = None
-			)[min_index:max_index]
+			)
 		else: 
 			obj = manager.get(pk=object_id)
 			resp["ancestors"] = [(o.id, getattr(o, "_cached_url")) for o in obj.get_ancestors()]
-			return manager.select_related(*list_related).filter(
+			items = manager.select_related(*list_related).filter(
 				tree_id = obj.tree_id,
 				parent_id = obj.id,
-			)[min_index:max_index]
+			)
+		return self.pagination(request, items, **kwargs)
 
 class ManageSite(object):
 

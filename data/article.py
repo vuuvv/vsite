@@ -14,7 +14,6 @@ options = {
 columns = ["Topic", "Updatatimes", "Keywords", "DefaultPic", "Sort_ID", "Content"]
 mycolumns = ["title", "publish_date", "summary", "thumbnail", "category_id", "content"]
 data = fetch("Joyou&Data.asa", "35_News", columns)
-print data[1].keys()
 
 from vsite.press.models import Press, PressCategory
 
@@ -23,6 +22,7 @@ def parse_time(time):
 
 for item in data:
 	if int(item["Sort_ID"]) in [1,2]:
+		print item["Topic"]
 		press = Press()
 		press.title = item["Topic"]
 		press.publish_date = parse_time(item["Updatatimes"])

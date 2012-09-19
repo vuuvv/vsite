@@ -568,6 +568,10 @@ li.current .arrow-down em {
 }
 
 .file-row .name-text a {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
 	height: 14px;
 	line-height: 14px;
 	overflow:hidden;
@@ -717,6 +721,23 @@ li.current .arrow-down em {
 	line-height: 25px;
 	text-align: center;
 	width: 57px;
+}
+
+.paginator .pager .page_btn {
+	margin: 0 1px;
+}
+
+.paginator .pager a, .paginator .pager span {
+	margin: 0 10px;
+}
+
+.paginator .pager a {
+	color: #3185c7;
+}
+
+.paginator .pager a:hover {
+	color: #07436b;
+	text-decoration: underline;
 }
 
 /* fieldset */
