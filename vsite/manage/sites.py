@@ -433,6 +433,18 @@ manage_menus = [
 					"href": "#pages/page",
 				}
 			},
+			{
+				"title": _("Press Category"), 
+				"attrs": {
+					"href": "#press/press_catetory",
+				}
+			},
+			{
+				"title": _("Press"), 
+				"attrs": {
+					"href": "#press/press",
+				}
+			},
 		],
 	},
 	{

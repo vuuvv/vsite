@@ -1,0 +1,51 @@
+{% extends "press/layout.html" %}
+
+{% block content %}
+<div class="news-list">
+	<ul>
+		{% for article in articles %}
+		<li class="clearfix">
+			<a href="{{ article.id }}/" class="news-thumb">
+				<img src="{{ article.thumbnail }}" alt="{{ article.title }}" title="{{ article.title }}"/>
+			</a>
+			<div class="news-info">
+				<a href="{{ article.id }}/" alt="{{ article.title }}" title="{{ article.title }}" class="news-title">{{ article.title }}</a>
+				<div class="news-desc">
+					<dl class="clearfix">
+						<dd>来源：<i>{{ article.press_from }}</i></dd>
+						<dd>作者：<i>{{ article.author }}</i></dd>
+						<dd>日期：<i>{{ article.publish_date|date:"Y-m-d H:i" }}</i></dd>
+					</dl>
+				</div>
+				<div class="news-tag clearfix">
+					<span>标签：</span>
+					{% for tag in article.tag_list %}
+						<a href="/tags/{{ tag }}">
+							<i class="icon icon-gray icon-tag"></i>
+							{{ tag }}
+						</a>
+					{% endfor %}
+				</div>
+				<div class="news-intro">
+					{% autoescape off %}
+					{{ article.summary }}
+					{% endautoescape %}
+				</div>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+<div class="pagination clearfix"><!--Page -->
+	<a href="#" class="pager pager-first">首页</a>
+	<a href="#" class="pager">上一页</a>
+	<a href="#" class="pager">1</a>
+	<a class="pager pager-active">2</a>
+	<a href="#" class="pager">3</a>
+	<a href="#" class="pager">4</a>
+	<a href="#" class="pager">5</a>
+	<a href="#" class="pager">6</a>
+	<a href="#" class="pager">下一页</a>
+	<a href="#" class="pager">末页</a>
+</div>
+{% endblock %}

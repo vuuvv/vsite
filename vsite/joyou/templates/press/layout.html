@@ -1,0 +1,39 @@
+{% extends "normal.html" %}
+
+{% load static %}
+
+{% block meta_keywords %}
+{{ page.article.keywords }}
+{% endblock %}
+
+{% block meta_description %}
+{{ page.article.description }}
+{% endblock %}
+
+{% block extra_css %}
+<link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img width="952" height="176" src="{% static "img/banner_1.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+{% include "pages/includes/left_nav.html" %}
+{% endblock %}
+
+{% block column_2 %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		{% include "pages/includes/breadcrumb.html" %}
+	</div>
+</div>
+<div class="content">
+	{% block content %}
+	{% endblock %}
+</div>
+{% endblock %}

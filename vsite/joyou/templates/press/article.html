@@ -1,0 +1,29 @@
+{% extends "press/layout.html" %}
+
+{% block content %}
+<div class="article-container">
+	<div class="article-title">
+		<h1>{{ article.title }}</h1>
+		<h2>{{ article.sub_title }}</h2>
+	</div>
+	<div class="article-info">
+		<span>来源：<i>{{ article.press_from }}</i></span>
+		<span>作者：<i>{{ article.author }}</i></span>
+		<span>日期：<i>{{ article.publish_date }}</i></span>
+		<span>分享到：</span>
+		<a href="#" class="sns-icon sns-tsina" title="分享至新浪微博"></a>
+		<a href="#" class="sns-icon sns-tqq" title="分享至腾讯微博"></a>
+		<a href="#" class="sns-icon sns-t163" title="分享至网易微博"></a>
+		<a href="#" class="sns-icon sns-tsohu" title="分享至搜狐微博"></a>
+		<a href="#" class="sns-icon sns-qzone" title="分享到QQ空间"></a>
+	</div>
+	<div class="separator"></div>
+	<div class="news-content">
+		<div class="article">
+			{% autoescape off %}
+			{{ article.content }}
+			{% endautoescape %}
+		</div>
+	</div>
+</div>
+{% endblock %}

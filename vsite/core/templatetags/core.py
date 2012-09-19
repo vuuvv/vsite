@@ -15,3 +15,4 @@ class SriNode(Node):
 
 	def render(self, context):
 		return self.raw
+

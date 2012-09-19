@@ -78,6 +78,15 @@ p.tmpl = '<input type="checkbox" name="<%= field.name %>" <% if (field.value) { 
 Widgets.CheckboxInput = CheckboxInput;
 /* </CheckboxInput> */
 
+/* <Image> */
+var Image = function(options) {
+	this.options = options;
+};
+p = Image.prototype = new Widget;
+p.tmpl = '<input field="<%= field.type %>" id="<%= app_label %>-<%= module_name%>-<%= field.name %>" type="text" name="<%= field.name %>" class="text input-xxlarge" <% if(field.readonly) { %>readonly<% } %> <% if(type == "update" && !_.isNull(field.value)) { %> value="<%= field.value %>" <% } %>/>';
+Widgets.Image = Image;
+/* </Image> */
+
 return Widgets;
 
 });

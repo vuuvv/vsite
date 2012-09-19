@@ -30,7 +30,7 @@ class PageMiddleware(object):
 
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		url = request.path
-		if url.startswith("manage/"):
+		if url.startswith("/manage/"):
 			return view_func(request, *view_args, **view_kwargs)
 		extra_context = view_kwargs.setdefault("extra_context", {})
 		extra_context.update(get_page_context(url))
@@ -76,17 +76,21 @@ Returns a list of top-level nodes.
 			current_path.append(obj)
 	return top_nodes
 
+def get_navigate_pages():
+	root = Page.objects.get(_cached_url="/")
+	return root.get_descendants().filter(_is_active=True, in_navigation=True)
+
 def get_page_context(url):
 	if url != "/":
 		url = "/%s/" % url.strip("/")
 	try:
 		page = Page.objects.get(_cached_url=url)
 	except Page.DoesNotExist:
-		pass
+		return {}
 	if not page._is_active:
 		raise Http404
-	root = Page.objects.get(_cached_url="/")
-	pages = root.get_descendants().filter(_is_active=True, in_navigation=True)
+
+	pages = get_navigate_pages()
 	ancestors = []
 	descendants = []
 	current = None

@@ -15,7 +15,7 @@
 				<% } else { %>
 				<a href="#<%= model.app_label %>/<%= model.module_name %>" title="up" class="btn return"></a>
 				<% } %>
-				<a href="#<%= model.url_prefix %>/add<% if (!_.isUndefined(model.__pid) && !_.isNull(model.__pid)) { %>/<%= model.__pid %><% } %>" class="btn btn-emphasis">New <%= model.model_name %></a>
+				<a href="#<%= model.url_prefix %>/add<% if (!_.isUndefined(model.__pid) && !_.isNull(model.__pid)) { %>/<%= model.__pid %><% } %>" class="btn btn-emphasis">New</a>
 				<a id="refresh-items" href="javascript:void(0)" class="btn btn-normal">Refresh</a>
 			</div>
 			<div id="main-content-search">
