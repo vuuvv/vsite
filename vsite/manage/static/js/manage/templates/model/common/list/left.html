@@ -92,5 +92,16 @@
 			<a href="" class="page-num-btn"><span>60</span></a>
 			<a href="" class="page-num-btn"><span>100</span></a>
 		</div>
+		<div class="paginator">
+			<div class="pager">
+				<% if (model.paginator.has_previous) { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%= model.paginator.number - 1 %>" class="btn page_btn">上一页</a>
+				<% } %>
+				<span><%= model.paginator.number %></span>
+				<% if (model.paginator.has_next) { %>
+				<a href="#<%= model.app_label %>/<%= model.module_name %>/p/<%= model.paginator.number + 1 %>" class="btn page_btn">下一页</a>
+				<% } %>
+			</div>
+		</div>
 	</div>
 </div

@@ -44,7 +44,7 @@ class Press(MetaData):
 	class Meta:
 		verbose_name = _("Press")
 		verbose_name_plural = _("Press")
-		ordering = ('publish_date', )
+		ordering = ('-publish_date', )
 
 	def __unicode__(self):
 		return self.title
@@ -77,7 +77,7 @@ class PressManage(ModelManage):
 	label = _("Press")
 	title = "title"
 	fields = ("title", "sub_title", "author", "press_from", "category", "is_active", "publish_date", "summary", "content", "tags", "thumbnail")
-	list_display = ("title", "category", "is_active", "publish_date")
+	list_display = ("title", "category", "publish_date")
 	readonly_fields = ()
 
 site.register(Press, PressManage)

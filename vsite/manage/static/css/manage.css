@@ -700,7 +700,24 @@ li.current .arrow-down em {
 	background: url(img/num_bg_an.png) no-repeat scroll right -20px transparent;
 }
 
+.paginator .pager {
+	color: #717171;
+	padding: 60px;
+	text-align: center;
+}
 
+.paginator .pager .page_btn {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	padding: 0;
+	background-position: 0 -175px;
+	color: #717171;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	width: 57px;
+}
 
 /* fieldset */
 fieldset {

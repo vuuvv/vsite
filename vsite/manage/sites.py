@@ -1,3 +1,5 @@
+from types import MethodType 
+
 from django import forms
 from django.shortcuts import render_to_response
 from django.conf.urls import patterns, url, include
@@ -9,6 +11,7 @@ from django.shortcuts import _get_queryset
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
 from django.db.models.fields import FieldDoesNotExist
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mptt.models import TreeForeignKey
 
@@ -55,9 +58,20 @@ class ModelManage(object):
 		return urlpatterns
 
 	def get_models(self, request, **kwargs):
-		min_index, max_index = self.get_page_slices(request, **kwargs)
+		#min_index, max_index = self.get_page_slices(request, **kwargs)
 		list_related = self.get_list_related_fields(request)
-		return self.model_cls.objects.select_related(*list_related).all()[min_index:max_index]
+		item_list = self.model_cls.objects.select_related(*list_related).all()
+		page = kwargs.get("page")
+		paginator = Paginator(item_list, self.get_page_size(request))
+		try:
+			items = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			items = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			items = paginator.page(paginator.num_pages)
+		return items
 
 	def get_column(self, model, attr):
 		value = getattr(model, attr)
@@ -114,6 +128,19 @@ class ModelManage(object):
 			"module_name": opts.module_name,
 		}
 
+	def get_paginator(self, models):
+		obj = {}
+		for key in ['end_index', 'has_next', 'has_other_pages', 'has_previous',
+				'next_page_number', 'number', 'start_index', 'previous_page_number']:
+			v = getattr(models, key)
+			if isinstance(v, MethodType):
+				obj[key] = v()
+			elif isinstance(v, (str, int)):
+				obj[key] = v
+
+		obj["num_pages"] = models.paginator.num_pages
+		return obj
+
 	def index(self, request, **kwargs):
 		return self.list_view(request, **kwargs)
 
@@ -125,6 +152,7 @@ class ModelManage(object):
 		models = self.get_models(request, **kwargs)
 		resp["columns"] = self.list_display
 		resp["models"] = self.get_models_list(request, models=models, **kwargs)
+		resp["paginator"] = self.get_paginator(models)
 
 		return render_to_json(resp, "success", "Data Loaded")
 

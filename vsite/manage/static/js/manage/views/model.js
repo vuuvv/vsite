@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 
 		get_list_url: function() {
 			var opts = this.options;
-			return this.timestamp(opts.url_prefix + "/");
+			return this.timestamp(opts.url_prefix + "/p/" + opts.page + "/");
 		},
 
 		get_add_url: function() {
