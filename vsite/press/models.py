@@ -31,8 +31,8 @@ class Press(MetaData):
 	category = models.ForeignKey(PressCategory, related_name="press", verbose_name=_("Category"))
 	sub_title = models.CharField(_("Sub Title"), null=True, blank=True, max_length=100)
 	author = models.CharField(_("Author"), null=True, blank=True, max_length=50)
-	press_from = models.TextField(_("From"), null=True, blank=True, max_length=200)
-	summary = models.CharField(_("Summary"), null=True, blank=True, max_length=100)
+	press_from = models.CharField(_("From"), null=True, blank=True, max_length=200)
+	summary = models.TextField(_("Summary"), null=True, blank=True, max_length=100)
 	content = RichTextField(_("Content"), null=True, blank=True)
 	publish_date = models.DateTimeField(_("Published from"),
 		help_text=_("With published checked, won't be shown until this time"),

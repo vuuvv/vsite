@@ -7,8 +7,31 @@ from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
 from .models import PressCategory, Press
 
+def _get_pages(models, size=10):
+	paginator = models.paginator
+	num_pages = paginator.num_pages
+	number = models.number
+	after = num_pages - number
+	pages = []
+	half = size // 2
+	if num_pages <= size:
+		min, max = 1, num_pages
+	elif number < half:
+		min, max = 1, size
+	elif after < half:
+		min, max = num_pages - size + 1, num_pages
+	else:
+		min, max = number - half + 1, number + half
+	paginator.min_page, paginator.max_page, paginator.all_pages = min, max, range(min, max+1)
+
 def index(request, template="press/index.html", extra_context=None):
-	return TemplateResponse(request, templates, extra_context)
+	latest = []
+	categories = PressCategory.objects.all()
+	for cate in categories:
+		articles = Press.objects.filter(category=cate)[:3]
+		latest.append((cate, articles),)
+	extra_context["latest"] = latest
+	return TemplateResponse(request, template, extra_context)
 
 def category(request, category, page=1, template="press/category.html", extra_context=None):
 	category = PressCategory.objects.get(slug=category)
@@ -22,8 +45,10 @@ def category(request, category, page=1, template="press/category.html", extra_co
 		articles = paginator.page(1)
 	except EmptyPage:
 		articles = paginator.page(paginator.num_pages)
+	_get_pages(articles, 6)
 	extra_context.update(context)
 	extra_context["articles"] = articles
+	extra_context["curl"] = curl
 	return TemplateResponse(request, template, extra_context)
 
 def press(request, category, id, template="press/article.html", extra_context=None):

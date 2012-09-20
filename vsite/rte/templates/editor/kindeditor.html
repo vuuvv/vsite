@@ -1,0 +1,13 @@
+<script type="text/javascript">
+KindEditor.ready(function(K) {
+	var options = {
+		cssPath : ('{{STATIC_URL}}js/libs/kindeditor/themes/default/default.css',
+					'{{STATIC_URL}}js/libs/kindeditor//plugins/code/prettify.css'),
+		width : '758px',
+		height : '400px',
+		filterMode : true
+	};
+	var editor = K.create('textarea[name="content"]', options);
+});                    
+</script>
+

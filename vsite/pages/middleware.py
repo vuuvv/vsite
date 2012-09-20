@@ -30,7 +30,7 @@ class PageMiddleware(object):
 
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		url = request.path
-		if url.startswith("/manage/"):
+		if url.startswith("/manage/") or url.startswith("/admin/"):
 			return view_func(request, *view_args, **view_kwargs)
 		extra_context = view_kwargs.setdefault("extra_context", {})
 		extra_context.update(get_page_context(url))

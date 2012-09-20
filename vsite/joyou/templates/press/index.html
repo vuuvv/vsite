@@ -4,92 +4,37 @@
 
 {% block breadcrumb %}
 	<a href="/">首页</a>
-	<em>新闻中心</em>
+	<em>{{ page.title }}</em>
 {% endblock %}
 
 {% block content %}
+{% for cate, articles in latest %}
 <div class="box news-box">
 	<div class="box-title">
 		<div class="box-title-inner sl-linear">
-			<h3>公司新闻</h3>
+			<a href="{{ cate.get_absolute_url }}">
+			<h3>{{ cate.name }}</h3>
+			</a>
 		</div>
 	</div>
 	<div class="box-container">
 		<ul class="box-horizontal clearfix">
+			{% for article in articles %}
 			<li>
-				<a href="#" class="gallery-cell">
+				<a href="{{ cate.get_absolute_url }}{{ article.id }}" class="gallery-cell">
 					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/20112219154237428.jpg" alt="" />
+						<img src="{{ article.thumbnail }}" title="{{ article.title }}" alt="{{ article.title }}" />
 					</div>
 					<div class="gallery-cell-desc">
-						全面发力 亮剑彭州
+						{{ article.title }}
 					</div>
 				</a>
 			</li>
-			<li>
-				<a href="#" class="gallery-cell">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282110112817927.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						精彩中宇 晶动内蒙古
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="gallery-cell no-outline">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282010381442219.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						当红影星张馨予来啦
-					</div>
-				</a>
-			</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>
-<div class="box news-box">
-	<div class="box-title">
-		<div class="box-title-inner sl-linear">
-			<h3>行业新闻</h3>
-		</div>
-	</div>
-	<div class="box-container">
-		<ul class="box-horizontal clearfix">
-			<li>
-				<a href="#" class="gallery-cell">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/20112219154237428.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						全面发力 亮剑彭州
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="gallery-cell">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282110112817927.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						精彩中宇 晶动内蒙古
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="gallery-cell no-outline">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282010381442219.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						当红影星张馨予来啦
-					</div>
-				</a>
-			</li>
-		</ul>
-	</div>
-</div>
+{% endfor %}
 <div class="box news-box">
 	<div class="box-title">
 		<div class="box-title-inner sl-linear">
@@ -145,7 +90,7 @@
 						<img src="http://joyou.com.cn/Upload/20112219154237428.jpg" alt="" />
 					</div>
 					<div class="gallery-cell-desc">
-						全面发力 亮剑彭州
+						2012-09
 					</div>
 				</a>
 			</li>
@@ -155,7 +100,7 @@
 						<img src="http://joyou.com.cn/Upload/201282110112817927.jpg" alt="" />
 					</div>
 					<div class="gallery-cell-desc">
-						精彩中宇 晶动内蒙古
+						2012-08
 					</div>
 				</a>
 			</li>
@@ -165,7 +110,7 @@
 						<img src="http://joyou.com.cn/Upload/201282010381442219.jpg" alt="" />
 					</div>
 					<div class="gallery-cell-desc">
-						当红影星张馨予来啦
+						2012-07
 					</div>
 				</a>
 			</li>

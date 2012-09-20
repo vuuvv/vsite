@@ -5,15 +5,15 @@
 	<ul>
 		{% for article in articles %}
 		<li class="clearfix">
-			<a href="{{ article.id }}/" class="news-thumb">
+			<a href="{{ curl }}{{ article.id }}/" class="news-thumb">
 				<img src="{{ article.thumbnail }}" alt="{{ article.title }}" title="{{ article.title }}"/>
 			</a>
 			<div class="news-info">
-				<a href="{{ article.id }}/" alt="{{ article.title }}" title="{{ article.title }}" class="news-title">{{ article.title }}</a>
+				<a href="{{ curl }}{{ article.id }}/" alt="{{ article.title }}" title="{{ article.title }}" class="news-title">{{ article.title }}</a>
 				<div class="news-desc">
 					<dl class="clearfix">
-						<dd>来源：<i>{{ article.press_from }}</i></dd>
-						<dd>作者：<i>{{ article.author }}</i></dd>
+						<dd>来源：<i>{% if article.press_from %}{{ article.press_from }}{% else %}中宇卫浴{% endif %}</i></dd>
+						<dd>作者：<i>{% if article.author %}{{ article.author }}{% else %}中宇卫浴{% endif %}</i></dd>
 						<dd>日期：<i>{{ article.publish_date|date:"Y-m-d H:i" }}</i></dd>
 					</dl>
 				</div>
@@ -37,15 +37,26 @@
 	</ul>
 </div>
 <div class="pagination clearfix"><!--Page -->
-	<a href="#" class="pager pager-first">首页</a>
-	<a href="#" class="pager">上一页</a>
-	<a href="#" class="pager">1</a>
-	<a class="pager pager-active">2</a>
-	<a href="#" class="pager">3</a>
-	<a href="#" class="pager">4</a>
-	<a href="#" class="pager">5</a>
-	<a href="#" class="pager">6</a>
-	<a href="#" class="pager">下一页</a>
-	<a href="#" class="pager">末页</a>
+	{% if articles.paginator.min_page != articles.paginator.max_page %}
+		{% if articles.paginator.min_page > 1 %}
+	<a href="{{ curl }}p/1" class="pager pager-first">首页</a>
+		{% endif %}
+		{% if articles.number > 1 %}
+	<a href="{{ curl }}p/{{ articles.number|add:"-1" }}" class="pager">上一页</a>
+		{% endif %}
+		{% for p in articles.paginator.all_pages %}
+			{% if p == articles.number %}
+	<a class="pager pager-active">{{ p }}</a>
+			{% else %}
+	<a href="{{ curl }}p/{{ p }}" class="pager">{{ p }}</a>
+			{% endif %}
+		{% endfor %}
+		{% if articles.number < articles.paginator.num_pages %}
+	<a href="{{ curl }}p/{{ articles.number|add:"1" }}" class="pager">下一页</a>
+		{% endif %}
+		{% if articles.paginator.max_page < articles.paginator.num_pages %}
+	<a href="{{ curl }}p/{{ articles.paginator.num_pages }}" class="pager">末页</a>
+		{% endif %}
+	{% endif %}
 </div>
 {% endblock %}
