@@ -98,7 +98,7 @@ SECRET_KEY = '68+xbup+1teyvel-!%t^8hss-an^ibx9r9f2p&amp;#*ga5rl08%nn'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -134,8 +134,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'vsite.rte',
-    'grappelli',
-    'filebrowser',
+    #'grappelli',
+    #'filebrowser',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'vsite.users',
     'vsite.document',
     'vsite.press',
+    'vsite.product',
     'vsite.filemanage',
     'vsite.manage',
     'vsite.pages',
