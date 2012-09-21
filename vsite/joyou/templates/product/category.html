@@ -1,0 +1,15 @@
+{% extends "product/layout.html" %}
+{% load static %}
+
+{% block content %}
+<ul class="serials products list-horizontal">
+	{% for item in items %}
+	<li>
+		<a href="{{ item.get_absolute_url }}">
+			<img width="215" height="143" src="{{ MEDIA_URL }}{{ item.image }}">
+		</a>
+		<h5>{{ item.name }}</h5>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}

@@ -9,19 +9,19 @@
 	</div>
 	<div class="info-box">
 		<div class="detail">
-			<h5>{{ product.sku }}</h5>
+			<h5>{{ item.sku }}</h5>
 			<div class="spu">
 				<ul class="spu-info">
 					<table>
 						<tr>
 							<td>商品名称：</td>
-							<td>{{ product.name }}</td>
+							<td>{{ item.name }}</td>
 						</tr>
 						<tr>
 							<td>型&#12288;&#12288;号：</td>
-							<td>{{ product.sku }}</td>
+							<td>{{ item.sku }}</td>
 						</tr>
-						{% for property in product.properties.all %}
+						{% for property in item.properties.all %}
 						<tr>
 							<td>{{ property.key }}：</td>
 							<td>{{ property.value }}</td>
@@ -59,7 +59,7 @@
 		<div id="summary">
 			<div class="article">
 				{% autoescape off %}
-				{{ product.summary }}
+				{{ item.summary }}
 				{% endautoescape %}
 			</div>
 		</div>

@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
-from .models import Product
+from .models import Product, Category
 
 def _get_pages(models, size=10):
 	paginator = models.paginator
@@ -24,6 +24,22 @@ def _get_pages(models, size=10):
 		min, max = number - half + 1, number + half
 	paginator.min_page, paginator.max_page, paginator.all_pages = min, max, range(min, max+1)
 
+def get_product_context(item, ancestors):
+	context = get_page_context('/product/')
+	items = list(context["ancestors"]) + list(ancestors)
+	items.append(item)
+	context["left_current"] = items[1] if len(items) > 1 else items[0]
+	context["ancestors"] = items
+	context["item"] = item
+	return context
+
+def chunks(arr, n):
+	return [arr[i:i+n] for i in range(0, len(arr), n)]
+
+def chunks_n(arr, n):
+    n = int(math.ceil(len(arr) / float(m)))
+    return [arr[i:i + n] for i in range(0, len(arr), n)]
+
 def index(request, template="product/index.html", extra_context=None):
 	latest = []
 	categories = PressCategory.objects.all()
@@ -35,28 +51,29 @@ def index(request, template="product/index.html", extra_context=None):
 
 def category(request, slug, page=1, template="product/category.html", extra_context=None):
 	category = Category.objects.get(slug=slug)
-	ancestors = category.get_ancestors(include_self=True)
-	if len(ancestors) == 1:
-		# top
-		template = 'product/category_top.html'
-	elif category.is_leaf_node():
-		# show product list
+	ancestors = category.get_ancestors()
+	context = get_product_context(category, ancestors)
+	if category.is_leaf_node():
 		template = 'product/product_list.html'
+		item_list = category.products.all()
 
-	curl = category.get_absolute_url();
-	context = get_page_context(curl);
-	article_list = Press.objects.filter(category=category)
-	paginator = Paginator(article_list, 5)
-	try:
-		articles = paginator.page(page)
-	except PageNotAnInteger:
-		articles = paginator.page(1)
-	except EmptyPage:
-		articles = paginator.page(paginator.num_pages)
-	_get_pages(articles, 6)
+		page_size = 15
+		paginator = Paginator(item_list, page_size)
+		try:
+			items = paginator.page(page)
+		except PageNotAnInteger:
+			items = paginator.page(1)
+		except EmptyPage:
+			items = paginator.page(paginator.num_pages)
+		_get_pages(items, 6)
+		context["chunks"] = chunks(list(items), 3)
+	else:
+		items = category.get_children()
+		if len(ancestors) == 0:
+			template = 'product/category_top.html'
+
+	context["items"] = items
 	extra_context.update(context)
-	extra_context["articles"] = articles
-	extra_context["curl"] = curl
 	return TemplateResponse(request, template, extra_context)
 
 def detail(request, slug, template="product/detail.html", extra_context=None):
@@ -64,10 +81,6 @@ def detail(request, slug, template="product/detail.html", extra_context=None):
 	category = product.categories.all()[0]
 	ancestors = category.get_ancestors(include_self=True)
 
-	context = get_page_context('/product/');
-	context["ancestors"] = list(context["ancestors"]) + list(ancestors)
-	context["ancestors"].append(product)
+	context = get_product_context(product, ancestors)
 	extra_context.update(context)
-	extra_context["product"] = product
-	extra_context["left_current"] = ancestors[0]
 	return TemplateResponse(request, template, extra_context)
