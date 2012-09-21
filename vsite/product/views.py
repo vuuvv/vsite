@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
-from .models import PressCategory, Press
+from .models import Product
 
 def _get_pages(models, size=10):
 	paginator = models.paginator
@@ -24,7 +24,7 @@ def _get_pages(models, size=10):
 		min, max = number - half + 1, number + half
 	paginator.min_page, paginator.max_page, paginator.all_pages = min, max, range(min, max+1)
 
-def index(request, template="press/index.html", extra_context=None):
+def index(request, template="product/index.html", extra_context=None):
 	latest = []
 	categories = PressCategory.objects.all()
 	for cate in categories:
@@ -33,8 +33,16 @@ def index(request, template="press/index.html", extra_context=None):
 	extra_context["latest"] = latest
 	return TemplateResponse(request, template, extra_context)
 
-def category(request, category, page=1, template="press/category.html", extra_context=None):
-	category = PressCategory.objects.get(slug=category)
+def category(request, slug, page=1, template="product/category.html", extra_context=None):
+	category = Category.objects.get(slug=slug)
+	ancestors = category.get_ancestors(include_self=True)
+	if len(ancestors) == 1:
+		# top
+		template = 'product/category_top.html'
+	elif category.is_leaf_node():
+		# show product list
+		template = 'product/product_list.html'
+
 	curl = category.get_absolute_url();
 	context = get_page_context(curl);
 	article_list = Press.objects.filter(category=category)
@@ -51,13 +59,15 @@ def category(request, category, page=1, template="press/category.html", extra_co
 	extra_context["curl"] = curl
 	return TemplateResponse(request, template, extra_context)
 
-def press(request, category, id, template="press/article.html", extra_context=None):
-	category = PressCategory.objects.get(slug=category)
-	article = Press.objects.get(pk=id)
-	curl = category.get_absolute_url();
-	context = get_page_context(curl);
-	context["ancestors"] = context["ancestors"][:]
-	context["ancestors"].append(article)
+def detail(request, slug, template="product/detail.html", extra_context=None):
+	product = Product.objects.get(slug=slug.upper())
+	category = product.categories.all()[0]
+	ancestors = category.get_ancestors(include_self=True)
+
+	context = get_page_context('/product/');
+	context["ancestors"] = list(context["ancestors"]) + list(ancestors)
+	context["ancestors"].append(product)
 	extra_context.update(context)
-	extra_context["article"] = article
+	extra_context["product"] = product
+	extra_context["left_current"] = ancestors[0]
 	return TemplateResponse(request, template, extra_context)

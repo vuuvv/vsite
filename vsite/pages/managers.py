@@ -27,6 +27,6 @@ class PageManager(models.Manager):
 		return self.in_navigation().filter(parent__isnull=True)
 
 	def active(self):
-		return self.filter(_is_active=True)
+		return self.filter(active=True)
 
 #PageManager.add_to_active_filters(Q(active=True))

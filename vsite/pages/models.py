@@ -9,13 +9,11 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from vsite.core.models import Publishable
 from vsite.core.fields import RichTextField
-from vsite.document.models import Article
 
 from .managers import PageManager
 
 class Page(MPTTModel):
 	site = models.ForeignKey(Site, related_name="pages", verbose_name=_("Site"))
-	article = models.ForeignKey(Article, related_name="pages", verbose_name=_("Article"), blank=True, null=True)
 	parent = TreeForeignKey('self', null=True, blank=True, verbose_name=_("Parent"), related_name='children')
 	title = models.CharField(_('Title'), max_length=100)
 	slug = models.CharField(_('Slug'), max_length=100, blank=True, null=True)
@@ -23,8 +21,11 @@ class Page(MPTTModel):
 	publish_date = models.DateTimeField(_("Published from"),
 		help_text=_("With published checked, won't be shown until this time"),
 			  blank=True, null=True)
-	_is_active = models.BooleanField(_("Is Active"), default=True)
-	_cached_url = models.CharField(_('URL'), max_length=300, blank=True, editable=False, default='', db_index=True)
+	active = models.BooleanField(_("Is Active"), default=True)
+	cached_url = models.CharField(_('URL'), max_length=300, blank=True, editable=False, default='', db_index=True)
+	content = RichTextField(_("Content"), blank=True)
+	meta_keywords = models.TextField(_("Meta keywords"), blank=True)
+	meta_description = models.TextField(_("Meta description"), blank=True)
 
 	class Meta:
 		verbose_name = _("Page")
@@ -35,10 +36,10 @@ class Page(MPTTModel):
 
 	def __init__(self, *args, **kwargs):
 		super(Page, self).__init__(*args, **kwargs)
-		self._original_cached_url = self._cached_url
+		self._originalcached_url = self.cached_url
 
 	def __unicode__(self):
-		return self._cached_url
+		return "%s(%s)" % (self.title, self.cached_url)
 
 	def is_active(self):
 		if not self.pk:
@@ -54,17 +55,17 @@ class Page(MPTTModel):
 
 		if self.is_root_node():
 			if self.slug:
-				self._cached_url = u'/%s/' % self.slug
+				self.cached_url = u'/%s/' % self.slug
 			else:
-				self._cached_url = u'/'
+				self.cached_url = u'/'
 		else:
-			self._cached_url = u'%s%s/' % (self.parent._cached_url, self.slug)
+			self.cached_url = u'%s%s/' % (self.parent.cached_url, self.slug)
 
 		if self.publish_date is None:
 			self.publish_date = datetime.now()
 		super(Page, self).save(*args, **kwargs)
 
-		if self.is_leaf_node() or self._cached_url == self._original_cached_url:
+		if self.is_leaf_node() or self.cached_url == self._originalcached_url:
 			return
 
 		descendants = self.get_descendants()
@@ -83,13 +84,13 @@ class Page(MPTTModel):
 					stack.pop()
 					parent = stack[-1]
 
-			page._cached_url = u'%s%s/' % (parent._cached_url, page.slug)
+			page.cached_url = u'%s%s/' % (parent.cached_url, page.slug)
 			super(Page, page).save()
 			last_page = page
 
 	@models.permalink
 	def get_absolute_url(self):
-		url = self._cached_url.strip('/')
+		url = self.cached_url.strip('/')
 		if url:
 			return ('vsite_handler', (url,), {})
 		return ('vsite_home', (), {})
@@ -100,7 +101,7 @@ from mptt.forms import MPTTAdminForm
 class PageManage(TreeModelManage):
 	label = _("Page")
 	title = "title"
-	fields = ("site", "parent", "title", "slug", "_is_active", "in_navigation", "publish_date")
+	fields = ("site", "parent", "title", "slug", "active", "in_navigation", "publish_date")
 	list_display = ("title", "site", "publish_date")
 	readonly_fields = ()
 

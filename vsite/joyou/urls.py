@@ -8,6 +8,7 @@ urlpatterns = patterns('vsite.joyou.views',
     # Examples:
     #url(r'^$', 'index', name="vsite_home"),
     url(r'^news/', include("vsite.press.urls")),
+    url(r'^product/', include("vsite.product.urls")),
     #url(r'^news/company/$', 'company', name=""),
     #url(r'^news/company/1$', 'article', name=""),
     #url(r'^news/magzine/$', 'magzine', name=""),

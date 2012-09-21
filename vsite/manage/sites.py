@@ -342,7 +342,7 @@ class TreeModelManage(ModelManage):
 			)
 		else: 
 			obj = manager.get(pk=object_id)
-			resp["ancestors"] = [(o.id, getattr(o, "_cached_url")) for o in obj.get_ancestors()]
+			resp["ancestors"] = [(o.id, getattr(o, "cached_url")) for o in obj.get_ancestors()]
 			items = manager.select_related(*list_related).filter(
 				tree_id = obj.tree_id,
 				parent_id = obj.id,

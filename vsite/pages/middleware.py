@@ -77,17 +77,17 @@ Returns a list of top-level nodes.
 	return top_nodes
 
 def get_navigate_pages():
-	root = Page.objects.get(_cached_url="/")
-	return root.get_descendants().filter(_is_active=True, in_navigation=True)
+	root = Page.objects.get(cached_url="/")
+	return root.get_descendants().filter(active=True, in_navigation=True)
 
 def get_page_context(url):
 	if url != "/":
 		url = "/%s/" % url.strip("/")
 	try:
-		page = Page.objects.get(_cached_url=url)
+		page = Page.objects.get(cached_url=url)
 	except Page.DoesNotExist:
 		return {}
-	if not page._is_active:
+	if not page.active:
 		raise Http404
 
 	pages = get_navigate_pages()

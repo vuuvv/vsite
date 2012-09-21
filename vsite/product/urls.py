@@ -1,19 +1,8 @@
 from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
-
-urlpatterns = patterns('vsite.press.views',
-	# Examples:
-	url(r'^$', 'index', name="press_home"),
-	url(r'^(?P<category>([^/])*)/$', 'category', name="press_category"),
-	url(r'^(?P<category>([^/])*)/p/(?P<page>\d+)/$', 'category', name="press_category"),
-	url(r'^(?P<category>([^/])*)/(?P<id>\d*)/$', 'press', name="press_article"),
-
-	# Uncomment the admin/doc line below to enable admin documentation:
-	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-	# Uncomment the next line to enable the admin:
-	# url(r'^admin/', include(admin.site.urls)),
+urlpatterns = patterns('vsite.product.views',
+	url(r'^$', 'index', name="product_home"),
+	url(r'^detail/(?P<slug>\w+)/$', 'detail', name="product_detail"),
+	url(r'^(?P<slug>([^/])+)/$', 'category', name="product_category"),
+	url(r'^(?P<slug>([^/])+)/p/(?P<page>\d+)/$', 'category', name="product_category"),
 )
