@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from mptt.admin import MPTTModelAdmin
 
-from .models import Product, Category, Property, PropertyKey, Technology
+from .models import (Product, Category, Property, PropertyKey, Technology,
+		Style, StyleCategory, StyleImage)
 
 class CategoryAdmin(MPTTModelAdmin):
 	list_display = ('name', 'active', 'site')
@@ -41,4 +42,28 @@ admin.site.register(Product, ProductAdmin)
 
 admin.site.register(PropertyKey)
 admin.site.register(Technology)
+
+class StyleCategoryAdmin(admin.ModelAdmin):
+	list_display = ('name', 'slug', 'active')
+	list_filter = ['active']
+	search_fields = ['name']
+	fields = ['name', 'slug', 'active']
+admin.site.register(StyleCategory, StyleCategoryAdmin)
+
+class StyleImageAdmin(admin.TabularInline):
+	model = StyleImage
+	fields = ('image', 'thumbnail')
+
+admin.site.register(StyleImage)
+
+class StyleAdmin(admin.ModelAdmin):
+	list_display = ('name', 'slug', 'active')
+	search_fields = ('name', 'technologies', 'products')
+	fields = (
+		'category', 'name', 'slug', 'active', 'summary', 'introduce', 'technologies', 'products' 
+	)
+	filter_horizontal = ('technologies', 'products')
+	inlines = (StyleImageAdmin,)
+
+admin.site.register(Style, StyleAdmin)
 

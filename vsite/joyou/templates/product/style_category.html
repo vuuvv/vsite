@@ -1,0 +1,16 @@
+{% extends "product/layout.html" %}
+{% load static %}
+
+{% block content %}
+<ul class="serials list-horizontal">
+	{% for style in item.styles.all %}
+	<li>
+		<a href="{{ style.get_absolute_url }}">
+			<img width="215" height="143" src="{{ MEDIA_URL }}{{ style.images.all.0.thumbnail}}">
+		</a>
+		<h5>{{ style.name }}</h5>
+		<p>{{ style.summary }}</p>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}

@@ -5,7 +5,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
-from .models import Product, Category, Style, StyleCategory
 
 def _get_pages(models, size=10):
 	paginator = models.paginator
@@ -98,7 +97,7 @@ def style_detail(request, slug, template="product/style_detail.html", extra_cont
 	extra_context.update(context)
 	return TemplateResponse(request, template, extra_context)
 
-def style_category(request, slug='joyou', template="product/style_category.html", extra_context=None):
+def honor_list(request, slug='joyou', template="product/style_category.html", extra_context=None):
 	category = StyleCategory.objects.get(slug=slug.lower())
 	context = get_page_context("/product/style/")
 	ancestors = context["ancestors"][:]

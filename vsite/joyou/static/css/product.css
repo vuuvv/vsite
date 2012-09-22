@@ -36,6 +36,12 @@
 	height: 400px;
 }
 
+.serial-view .serial-pic img {
+	display: block;
+	width: 600px;
+	height: 400px;
+}
+
 .serial-view .prev-button {
 	background: url(img/btn_prev_atv.png) no-repeat;
 	_background: url(img/btn_prev_atv.gif) no-repeat;
