@@ -103,6 +103,11 @@
 	font-size: 18px;
 }
 
+.article h6 {
+	font-size: 16px;
+	margin-bottom: 8px;
+}
+
 .article h1 {
 	font-size: 48px;
 }
@@ -119,10 +124,6 @@
 	color: #ff6600;
 }
 
-.article a:visited {
-	color: purple;
-}
-
 .article ul,
 .article ol {
 	padding: 0;
@@ -134,9 +135,13 @@
 	list-style: decimal;
 }
 
+.article ul {
+	list-style: disc;
+}
 
 .article li {
 	line-height: 24px;
+	padding-bottom: 15px;
 }
 
 .article li ul,
@@ -201,5 +206,29 @@
 	margin: 0;
 	padding: 0 0 20px;
 	text-indent: 2em;
+}
+
+.article .yahei {
+	font-size: 14px;
+	font-family: "Microsoft Yahei";
+}
+
+.article .indent {
+	padding: 10px 15px 0;
+}
+
+.article .section {
+	padding-bottom: 24px;
+}
+
+.article .title {
+	border-bottom: 1px solid #ccc;
+	color: #5670b6;
+	font-family: "Microsoft Yahei";
+	font-size: 16px;
+	height: 24px;
+	line-height: 24px;
+	margin: 20px 10px 15px;
+	padding: 4px 10px;
 }
 

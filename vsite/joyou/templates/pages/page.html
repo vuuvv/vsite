@@ -33,8 +33,10 @@
 	</div>
 </div>
 <div class="content">
-	{% block content %}
-		{{ page.article.content }}
-	{% endblock %}
+	<div class="article">
+	{% autoescape off %}
+		{{ page.content }}
+	{% endautoescape %}
+	</div>
 </div>
 {% endblock %}

@@ -1,7 +1,10 @@
+import os
+
 from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
+from django.conf import settings
 
 from vsite.core.fields import RichTextField, ImageField
 from vsite.core.models import MetaData
@@ -25,6 +28,9 @@ class PressCategory(models.Model):
 	def get_absolute_url(self):
 		return ('press_category', (self.slug,), {})
 
+def get_press_image_path(model, filename):
+	return "upload/press/%s/%s" % (model.id, filename)
+
 class Press(MetaData):
 	user = models.ForeignKey(User, related_name="press", verbose_name=_("User"), null=True, blank=True)
 	title = models.CharField(_("Title"), max_length=100)
@@ -39,7 +45,7 @@ class Press(MetaData):
 			  blank=True, null=True)
 	is_active = models.BooleanField(_("Is Active"), default=True)
 	tags = models.CharField(_("Tags"), null=True, blank=True, max_length=50)
-	thumbnail = ImageField(_("Thumbnail"), null=True, blank=True)
+	thumbnail = models.ImageField(_("Thumbnail"), upload_to=get_press_image_path, null=True, blank=True)
 
 	class Meta:
 		verbose_name = _("Press")
@@ -61,6 +67,38 @@ class Press(MetaData):
 	@models.permalink
 	def get_absolute_url(self):
 		return ('press_article', (self.id,), {})
+
+def get_magzine_image_path(model, filename):
+	name, ext = os.path.split(filename)
+	return "upload/magzine/%s/%03d.%s" % (model.magzine.slug, model.page, ext)
+
+class Magzine(MetaData):
+	name = models.CharField(_("Magzine"), max_length=50)
+	slug = models.CharField(_("Slug"), max_length=50)
+	ordering = models.IntegerField(_("Ordering"), blank=True)
+	active = models.BooleanField(_("Active"), default=True)
+	thumbnail = models.ImageField(_("Thumbnail"), upload_to="upload/magzine/thumb", blank=True)
+
+	class Meta:
+		ordering = ("ordering", )
+
+	def __unicode__(self):
+		return self.name
+
+class MagzineImage(models.Model):
+	page = models.IntegerField(_("Page"), blank=True)
+	image = models.ImageField(_("Image"), upload_to=get_magzine_image_path)
+	magzine = models.ForeignKey(Magzine, verbose_name=_("Magzine"), related_name="images")
+
+	class Meta:
+		ordering = ("page", )
+
+	def save(self, *args, **kwargs):
+		basename = os.path.basename(self.image.path)
+		if not self.page:
+			self.page = os.path.split(basename)[0]
+
+		super(MagzineImage, self).save(*args, **kwargs)
 
 from vsite.manage.sites import site, ModelManage
 
