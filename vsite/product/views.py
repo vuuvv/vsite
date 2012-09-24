@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
+from vsite.utils import chunks
 from .models import Product, Category, Style, StyleCategory
 
 def _get_pages(models, size=10):
@@ -33,13 +34,6 @@ def get_product_context(item, ancestors):
 	context["item"] = item
 	return context
 
-def chunks(arr, n):
-	return [arr[i:i+n] for i in range(0, len(arr), n)]
-
-def chunks_n(arr, n):
-    n = int(math.ceil(len(arr) / float(m)))
-    return [arr[i:i + n] for i in range(0, len(arr), n)]
-
 def index(request, template="product/index.html", extra_context=None):
 	latest = []
 	categories = PressCategory.objects.all()
@@ -50,7 +44,11 @@ def index(request, template="product/index.html", extra_context=None):
 	return TemplateResponse(request, template, extra_context)
 
 def category(request, slug, page=1, template="product/category.html", extra_context=None):
-	category = Category.objects.get(slug=slug)
+	if slug:
+		slug = "/%s/" % slug.strip("/").lower()
+	else:
+		slug = "/"
+	category = Category.objects.get(cached_url=slug)
 	ancestors = category.get_ancestors()
 	context = get_product_context(category, ancestors)
 	if category.is_leaf_node():

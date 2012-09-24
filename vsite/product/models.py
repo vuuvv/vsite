@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
+from django.db.transaction import commit_on_success
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -39,10 +40,15 @@ class Category(MPTTModel):
 	meta_keywords = models.TextField(_("Meta keywords"), blank=True)
 	meta_description = models.TextField(_("Meta description"), blank=True)
 	active = models.BooleanField(_("Active"), default=True)
+	cached_url = models.CharField(_('URL'), max_length=255, blank=True, editable=False, default='', db_index=True)
 
 	class Meta:
 		verbose_name = _("Category")
 		verbose_name_plural = _("Categories")
+
+	def __init__(self, *args, **kwargs):
+		super(Category, self).__init__(*args, **kwargs)
+		self._originalcached_url = self.cached_url
 
 	def __unicode__(self):
 		return self.name
@@ -50,14 +56,48 @@ class Category(MPTTModel):
 	def __str__(self):
 		return self.name
 
+	@commit_on_success
 	def save(self, *args, **kwargs):
 		if self.slug is None:
 			self.slug = self.name.lower()
+
+		cached_page_urls = {}
+
+		if self.is_root_node():
+			if self.slug:
+				self.cached_url = u'/%s/' % self.slug
+			else:
+				self.cached_url = u'/'
+		else:
+			self.cached_url = u'%s%s/' % (self.parent.cached_url, self.slug)
+
 		super(Category, self).save(*args, **kwargs)
+		if self.is_leaf_node() or self.cached_url == self._originalcached_url:
+			return
+
+		descendants = self.get_descendants()
+
+		stack = [self]
+		last_page = self
+		for node in descendants:
+			parent = stack[-1]
+			# child node
+			if node.rght < last_page.rght:
+				stack.append(last_page)
+				parent = last_page
+			else:
+				# tree up
+				while node.rght > parent.rght:
+					stack.pop()
+					parent = stack[-1]
+
+			node.cached_url = u'%s%s/' % (parent.cached_url, node.slug)
+			super(Category, node).save()
+			last_page = node
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('product_category', (self.slug,), {})
+		return ('product_category', (self.cached_url.strip("/"),), {})
 
 class Technology(models.Model):
 	name = models.CharField(_("Name"), max_length=50)

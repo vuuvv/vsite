@@ -5,7 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from vsite.pages.models import Page
 from vsite.pages.middleware import get_page_context
-from .models import PressCategory, Press
+from vsite.utils import chunks
+from .models import PressCategory, Press, Magzine, MagzineYear
 
 def _get_pages(models, size=10):
 	paginator = models.paginator
@@ -61,3 +62,22 @@ def press(request, category, id, template="press/article.html", extra_context=No
 	extra_context.update(context)
 	extra_context["article"] = article
 	return TemplateResponse(request, template, extra_context)
+
+def brand_index(request, template="pages/page.html", extra_context=None):
+	return TemplateResponse(request, template, extra_context)
+
+def magzine_index(request, template="press/magzine_index.html", extra_context=None):
+	years = MagzineYear.objects.all()
+	year = years[0]
+	magzines = list(year.magzines.all())
+	items = []
+	for i in range(12):
+		if i < len(magzines):
+			items.append(magzines[i])
+		else:
+			items.append(None)
+	context = get_page_context("/news/magzine/")
+	context["chunks"] = chunks(items, 4)
+	extra_context.update(context)
+	return TemplateResponse(request, template, extra_context)
+

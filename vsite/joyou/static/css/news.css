@@ -122,14 +122,14 @@
 .bookshelf-row {
 	background: url("img/bookshelf_bg.jpg") no-repeat;
 	background-position: bottom left;
-	height: 158px;
+	height: 169px;
 	padding-left: 43px;
 }
 
 .bookshelf-cell {
 	float: left;
 	margin-right: 43px;
-	height: 115px;
+	height: 126px;
 	display: block;
 
 	-webkit-box-shadow:2px 2px 5px rgba(0,0,0,0.6);

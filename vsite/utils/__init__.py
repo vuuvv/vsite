@@ -99,3 +99,10 @@ def generate_tree_nav(nodes, label_attr="title",
 #		result.append(node.title)
 #		last_page = node
 
+def chunks(arr, n):
+	return [arr[i:i+n] for i in range(0, len(arr), n)]
+
+def chunks_n(arr, n):
+	n = int(math.ceil(len(arr) / float(m)))
+	return [arr[i:i + n] for i in range(0, len(arr), n)]
+

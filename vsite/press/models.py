@@ -69,18 +69,32 @@ class Press(MetaData):
 		return ('press_article', (self.id,), {})
 
 def get_magzine_image_path(model, filename):
-	name, ext = os.path.split(filename)
+	name, ext = os.path.splitext(filename)
 	return "upload/magzine/%s/%03d.%s" % (model.magzine.slug, model.page, ext)
 
+def get_magzine_thumb_path(model, filename):
+	name, ext = os.path.splitext(filename)
+	return "upload/magzine/%s/thumb%s" % (model.slug, ext)
+
+class MagzineYear(models.Model):
+	year = models.IntegerField(_("Year"))
+
+	class Meta:
+		ordering = ("-year", )
+
+	def __unicode__(self):
+		return u"%s" % self.year
+
 class Magzine(MetaData):
+	year = models.ForeignKey(MagzineYear, verbose_name=_("Year"), related_name="magzines")
 	name = models.CharField(_("Magzine"), max_length=50)
 	slug = models.CharField(_("Slug"), max_length=50)
 	ordering = models.IntegerField(_("Ordering"), blank=True)
 	active = models.BooleanField(_("Active"), default=True)
-	thumbnail = models.ImageField(_("Thumbnail"), upload_to="upload/magzine/thumb", blank=True)
+	thumbnail = models.ImageField(_("Thumbnail"), upload_to=get_magzine_thumb_path, blank=True)
 
 	class Meta:
-		ordering = ("ordering", )
+		ordering = ("slug", )
 
 	def __unicode__(self):
 		return self.name
@@ -92,6 +106,9 @@ class MagzineImage(models.Model):
 
 	class Meta:
 		ordering = ("page", )
+
+	def __unicode__(self):
+		return self.image.url
 
 	def save(self, *args, **kwargs):
 		basename = os.path.basename(self.image.path)

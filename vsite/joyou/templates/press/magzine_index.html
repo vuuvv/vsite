@@ -1,0 +1,19 @@
+{% extends "press/layout.html" %}
+
+{% block content %}
+<div class="bookshelf">
+	{% for magzines in chunks %}
+	<div class="bookshelf-row">
+		<div class="bookshelf-line clearfix">
+			{% for magzine in magzines %}
+				{% if magzine %}
+			<a href="{{ magzine.get_absolut_url }}" alt="{{ magzine.name }}" class="bookshelf-cell">
+				<img src="{{ MEDIA_URL }}{{ magzine.thumbnail }}" alt="{{ magzine.name }}" title="{{ magzine.name }}" />
+			</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}
