@@ -4,9 +4,11 @@ from django.db.models import Q
 from django.http import Http404
 from django.utils.translation import ugettext_lazy as _
 
+from mptt.managers import TreeManager
+
 from vsite.core.managers import ActiveAwareContentManagerMixin
 
-class PageManager(models.Manager):
+class PageManager(TreeManager):
 
 	def page_for_path(self, path, raise404=False):
 		"""

@@ -11,7 +11,7 @@ class Category(models.Model):
 	ordering = models.IntegerField(_("Ordering"), default=1000) 
 
 	class Meta:
-		ordering = ("ordering", )
+		ordering = ("ordering", "-name",)
 
 	def __unicode__(self):
 		return self.name
@@ -31,7 +31,7 @@ class Honor(models.Model):
 	active = models.BooleanField(_("Active"), default=True)
 
 	class Meta:
-		ordering = ("ordering", )
+		ordering = ("-category__slug", )
 
 	def __unicode__(self):
 		return self.name

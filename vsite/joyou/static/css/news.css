@@ -126,6 +126,11 @@
 	padding-left: 43px;
 }
 
+.honor-list .bookshelf-row {
+	padding-left: 30px;
+	height: 259px;
+}
+
 .bookshelf-cell {
 	float: left;
 	margin-right: 43px;
@@ -137,4 +142,18 @@
 	-ms-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
 	-o-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
 	box-shadow:2px 2px 5px rgba(0,0,0,0.6);
+}
+
+.bookshelf-cell img {
+	display: block;
+}
+
+.honor-list .bookshelf-cell {
+	margin-right: 27px;
+	height: 220px;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	-ms-box-shadow:none;
+	-o-box-shadow:none;
+	box-shadow:none;
 }

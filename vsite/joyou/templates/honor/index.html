@@ -1,0 +1,68 @@
+{% extends "normal.html" %}
+
+{% load static %}
+
+{% block meta_keywords %}
+{{ page.article.keywords }}
+{% endblock %}
+
+{% block meta_description %}
+{{ page.article.description }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static "js/jquery.prettyPhoto.js" %}" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		$("a[rel^='prettyPhoto']").prettyPhoto({
+			theme:'facebook',
+			slideshow: 8000,
+			autoplay_slideshow: true
+		});
+	});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "css/prettyPhoto.css" %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+<link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img width="952" height="176" src="{% static "img/banner_1.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+{% include "pages/includes/left_nav.html" %}
+{% endblock %}
+
+{% block column_2 %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		{% include "pages/includes/breadcrumb.html" %}
+	</div>
+</div>
+<div class="content">
+	<div class="bookshelf">
+		<div class="honor-list">
+			{% for honors in chunks %}
+			<div class="bookshelf-row">
+				<div class="bookshelf-line clearfix">
+					{% for honor in honors %}
+						{% if honor %}
+					<a rel="prettyPhoto[pp_gal]" href="{{ MEDIA_URL }}{{ honor.image }}" alt="{{ honor.name }}" class="bookshelf-cell">
+						<img src="{{ MEDIA_URL }}{{ honor.thumbnail }}" alt="{{ honor.name }}" title="{{ honor.name }}" />
+					</a>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
