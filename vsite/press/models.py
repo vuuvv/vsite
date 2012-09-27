@@ -99,6 +99,10 @@ class Magzine(MetaData):
 	def __unicode__(self):
 		return self.name
 
+	@property
+	def swf_url(self):
+		return "%supload/magzine/magzine.swf?xml=%s/pages.xml" % (settings.MEDIA_URL, self.slug)
+
 class MagzineImage(models.Model):
 	page = models.IntegerField(_("Page"), blank=True)
 	image = models.ImageField(_("Image"), upload_to=get_magzine_image_path)

@@ -1,0 +1,63 @@
+{% extends "normal.html" %}
+
+{% load static %}
+
+{% block meta_keywords %}
+{{ page.article.keywords }}
+{% endblock %}
+
+{% block meta_description %}
+{{ page.article.description }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/js/libs/gallery/jquery.ad-gallery.css" />
+<style type="text/css">
+#gallery {
+	width: 600px;
+	margin: 0 auto;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="/static/js/libs/gallery/jquery.ad-gallery.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#gallery").adGallery();
+	});
+</script>
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img width="952" height="176" src="{% static "img/banner_1.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+{% include "pages/includes/left_nav.html" %}
+{% endblock %}
+
+{% block column_2 %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		{% include "pages/includes/breadcrumb.html" %}
+	</div>
+</div>
+<div class="content">
+	<div id="gallery" class="ad-gallery">
+		<div class="ad-image-wrapper"></div>
+		<div class="ad-controls"></div>
+		<div class="ad-nav">
+			<div class="ad-thumbs">
+				{% for item in category.cases.all %}
+				<li>
+				<a href="{{ MEDIA_URL }}{{ item.image }}"> <img src="{{ MEDIA_URL }}{{ item.image }}" title="{{ item.name }}" alt="{{ item.description }}" height="60"/> </a> 
+				</li>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

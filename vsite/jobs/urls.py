@@ -4,13 +4,9 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('vsite.press.views',
+urlpatterns = patterns('vsite.jobs.views',
 	# Examples:
-	url(r'^$', 'index', name="press_home"),
-	url(r'^(?P<category>([^/])*)/$', 'category', name="press_category"),
-	url(r'^(?P<category>([^/])*)/p/(?P<page>\d+)/$', 'category', name="press_category"),
-	url(r'^(?P<category>([^/])*)/(?P<id>\d*)/$', 'press', name="press_article"),
-
+	url(r'^$', 'index', name="jobs_home"),
 	# Uncomment the admin/doc line below to enable admin documentation:
 	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

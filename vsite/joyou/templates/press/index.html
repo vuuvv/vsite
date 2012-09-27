@@ -1,4 +1,4 @@
-{% extends "news/layout.html" %}
+{% extends "press/layout.html" %}
 
 {% load static %}
 
@@ -79,41 +79,25 @@
 <div class="box news-box">
 	<div class="box-title">
 		<div class="box-title-inner sl-linear">
+			<a href="/news/magzine/">
 			<h3>中宇有我</h3>
+			</a>
 		</div>
 	</div>
 	<div class="box-container">
 		<ul class="box-horizontal clearfix">
+			{% for magzine in magzines %}
 			<li>
-				<a href="#" class="gallery-cell">
+				<a href="{{ magzine.swf_url }}" class="gallery-cell magzine-cell" title="{{ magzine.name }}" alt="{{ magzine.name }}">
 					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/20112219154237428.jpg" alt="" />
+						<img src="{{ MEDIA_URL }}{{ magzine.thumbnail }}" alt="{{ magzine.name }}" title="{{ magzine.name }}" />
 					</div>
 					<div class="gallery-cell-desc">
-						2012-09
+						{{ magzine.name }}
 					</div>
 				</a>
 			</li>
-			<li>
-				<a href="#" class="gallery-cell">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282110112817927.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						2012-08
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="gallery-cell no-outline">
-					<div class="gallery-cell-img">
-						<img src="http://joyou.com.cn/Upload/201282010381442219.jpg" alt="" />
-					</div>
-					<div class="gallery-cell-desc">
-						2012-07
-					</div>
-				</a>
-			</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>

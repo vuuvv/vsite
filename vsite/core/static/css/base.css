@@ -266,15 +266,27 @@ ul.list-horizontal li {
 	margin: 0 auto;
 }
 
+.magzine-cell .gallery-cell-img {
+	height: 123px;
+	width: 93px;
+	margin: 0 auto;
+}
+
 .gallery-cell-img img {
 	height: 120px;
 	width: 160px;
+}
+
+.magzine-cell .gallery-cell-img img {
+	height: 123px;
+	width: 93px;
 }
 
 .gallery-cell-desc {
 	color: #333;
 	font-size: 13px;
 	margin-top: 15px;
+	padding: 0 18px;
 	text-align: center;
 }
 

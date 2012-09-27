@@ -32,6 +32,8 @@ def index(request, template="press/index.html", extra_context=None):
 		articles = Press.objects.filter(category=cate)[:3]
 		latest.append((cate, articles),)
 	extra_context["latest"] = latest
+	magzines = Magzine.objects.all()[:3]
+	extra_context["magzines"] = magzines
 	return TemplateResponse(request, template, extra_context)
 
 def category(request, category, page=1, template="press/category.html", extra_context=None):

@@ -1,0 +1,75 @@
+.jobs-list {
+	margin-top: 15px;
+	font-family: "Microsoft Yahei";
+}
+
+.jobs-list th {
+	color: #4f4f4f;
+	border-bottom: 1px solid #e0e0e0;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 180%;
+}
+
+.jobs-list td {
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 12px;
+	padding: 5px 0;
+	text-align: center;
+	line-height: 180%;
+	height: 30px;
+}
+
+.jobs-list td.first {
+	padding-left: 20px;
+	text-align: left;
+}
+
+.jobs-list th.job-name {
+	padding-left: 20px;
+	text-align: left;
+	width: 140px;
+	height: 30px;
+}
+
+.jobs-list th.job-count {
+	width: 100px;
+}
+
+.jobs-list th.job-edu {
+	width: 140px;
+}
+
+.jobs-list th.job-date {
+	width: 200px;
+}
+
+.jobs-list th.job-apply {
+	width: 110px;
+}
+
+.jobs-list .job-more {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #989797;
+    color: #111111;
+    display: block;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    margin-left: 30px;
+    width: 68px;
+}
+
+.job-detail {
+	border-bottom: 1px solid #cecece;
+	border-right: 1px solid #cecece;
+	width: 600px;
+	border-collapse: collapse;
+}
+
+.job-detail td {
+	border-left: 1px solid #cecece;
+	border-top: 1px solid #cecece;
+	padding: 5px 0 3px 10px;
+}
+

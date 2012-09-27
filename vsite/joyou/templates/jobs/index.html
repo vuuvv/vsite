@@ -1,0 +1,98 @@
+{% extends "normal.html" %}
+
+{% load static %}
+
+{% block meta_keywords %}
+{{ page.article.keywords }}
+{% endblock %}
+
+{% block meta_description %}
+{{ page.article.description }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static "js/libs/artdialog/jquery.artDialog.js" %}" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".job-more").click(function() {
+			var target = $("#job_detail_" + $(this).attr("rel"));
+			art.dialog({
+				content: $(target)[0]
+			});
+			return false;
+		});
+	});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link media="all" rel="stylesheet" href="{% static "css/jobs.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "js/libs/artdialog/skins/default.css"%}" type="text/css" />
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img width="952" height="176" src="{% static "img/banner_1.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+{% include "pages/includes/left_nav.html" %}
+{% endblock %}
+
+{% block column_2 %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		{% include "pages/includes/breadcrumb.html" %}
+	</div>
+</div>
+<div class="content">
+	<div class="jobs-list">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<th class="job-name">招聘职位</th>
+				<th class="job-count">招聘人数</th>
+				<th class="job-edu">学历要求</th>
+				<th class="job-date">招聘期限</th>
+				<th class="job-apply">&nbsp;</th>
+			</tr>
+			{% for job in jobs %}
+			<tr class="">
+				<td class="first">{{ job.name }}</td>
+				<td>{{ job.count }}</td>
+				<td>{{ job.education }}</td>
+				<td>{{ job.publish_date|date:"Y-m-d" }}至{% if job.expired_date %}{{ job.expired_date|date:"Y-m-d" }}{% else %}{{ now|date:"Y-m-d" }}{% endif %} </td>
+				<td><a class="job-more" rel="{{ forloop.counter0 }}" href="#">查看详情</a></td>
+			</tr>
+			{% endfor %}
+
+		</table>
+	</div>
+	<div style="display: none">
+	{% for job in jobs %}
+		<table class="job-detail" id="job_detail_{{ forloop.counter0 }}" border="0">
+			<tr>
+				<td width="12%">性别要求：</td>
+				<td width="37%">{{ job.gender|default:"不限" }}</td>
+				<td width="12%">年龄要求：</td>
+				<td width="37%" align="left">{{ job.age|default:"不限" }}</td>
+			</tr>
+			<tr>
+				<td width="12%">学历要求：</td>
+				<td width="37%" align="left">{{ job.education|default:"不限" }}</td>
+				<td width="12%">工作经验：</td>
+				<td width="37%" align="left">{{ job.experience|default:"不限" }}</td>
+			</tr>
+			<tr>
+				<td width="12%">专业技能：</td>
+				<td width="86%" colspan="3" align="left">{{ job.professional|default:"不限" }}</td>
+			</tr>
+			<tr>
+				<td width="12%">职位描述：</td>
+				<td width="86%" colspan="3" align="left">{% autoescape off %}{{ job.description }}{% endautoescape %}</td>
+			</tr>
+		</table>
+	{% endfor %}
+	</div>
+</div>
+{% endblock %}
