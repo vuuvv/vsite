@@ -142,7 +142,7 @@ class Product(MetaData):
 		self.slug = self.slug.lower()
 		# handle thumb
 		super(Product, self).save(*args, **kwargs)
-		if self.image:
+		if self.image and not self.thumbnail:
 			basename = os.path.basename(self.image.path)
 			img = make_thumb(os.path.join(settings.MEDIA_ROOT, self.image.name), 215, 143)
 			path = os.path.join(settings.MEDIA_ROOT, PRODUCT_THUMB_ROOT, basename)

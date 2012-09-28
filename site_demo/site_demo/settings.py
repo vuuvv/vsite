@@ -76,6 +76,8 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, MEDIA_URL.strip("/"))
 
 UPLOAD_ROOT = "upload/"
 
+NO_PIC = STATIC_URL + 'images/nopicture.png'
+
 #ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 # Additional locations of static files
 STATICFILES_DIRS = (

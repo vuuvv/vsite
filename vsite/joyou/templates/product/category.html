@@ -6,7 +6,7 @@
 	{% for item in items %}
 	<li>
 		<a href="{{ item.get_absolute_url }}">
-			<img width="215" height="143" src="{{ MEDIA_URL }}{{ item.image }}">
+			<img width="215" height="143" src="{% if item.image %}{{ MEDIA_URL }}{{ item.image }}{% else %}{{ NO_PIC }}{% endif %}">
 		</a>
 		<h5>{{ item.name }}</h5>
 	</li>

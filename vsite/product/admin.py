@@ -29,7 +29,7 @@ admin.site.register(Property)
 
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ('sku', 'name', 'slug', 'get_categories')
-	search_fields = ('sku', 'name', 'technology')
+	search_fields = ('sku', 'name')
 	fields = (
 		'sku', 'name', 'slug', 'categories', 'image', 'thumbnail', 
 		'summary', 'assembly', 'manual', 'technologies', 'ordering',

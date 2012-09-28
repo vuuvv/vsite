@@ -7,6 +7,9 @@ fieldset,img {
 	border:0
 }
 
+img {
+}
+
 address,caption,cite,code,dfn,em,strong,th,var {
 	font-style: normal;
 	font-weight: normal;

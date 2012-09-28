@@ -21,6 +21,10 @@
 	border: 2px solid #ccc;
 }
 
+.products img, .product-list-row img {
+	display: block;
+}
+
 .serials p {
 	font-size: 12px;
 	color: #9D9D9D;

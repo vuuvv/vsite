@@ -6,5 +6,6 @@ urlpatterns = patterns('vsite.joyou.views',
     url(r'^about/honor/', include("vsite.honor.urls")),
     url(r'^about/jobs/', include("vsite.jobs.urls")),
     url(r'^sales/cases/', include("vsite.case.urls")),
+    url(r'^module/network/map.asp', "map"),
     url(r'^', include("vsite.pages.urls")),
 )

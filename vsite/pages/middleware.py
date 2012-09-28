@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils.http import urlquote
 from django.http import Http404
+from django.conf import settings
 
 from vsite.pages.models import Page
 
@@ -30,10 +31,11 @@ class PageMiddleware(object):
 
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		url = request.path
-		if url.startswith("/manage/") or url.startswith("/admin/"):
+		if url.startswith("/manage/") or url.startswith("/admin/") or url.startswith("/module/"):
 			return view_func(request, *view_args, **view_kwargs)
 		extra_context = view_kwargs.setdefault("extra_context", {})
 		extra_context.update(get_page_context(url))
+		extra_context["NO_PIC"] = settings.NO_PIC
 		return view_func(request, *view_args, **view_kwargs)
 
 def cache_tree_children(queryset):

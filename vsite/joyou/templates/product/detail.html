@@ -5,7 +5,7 @@
 
 <div class="product-show clearfix">
 	<div class="img-box">
-		<img src="{% static "img/jy00221.jpg" %}" alt="" />
+		<img src="{{ MEDIA_URL }}{{ item.image }}" alt="" />
 	</div>
 	<div class="info-box">
 		<div class="detail">
