@@ -53,7 +53,7 @@ def category(request, slug, page=1, template="product/category.html", extra_cont
 	context = get_product_context(category, ancestors)
 	if category.is_leaf_node():
 		template = 'product/product_list.html'
-		item_list = category.products.all()
+		item_list = category.products.filter(active=True)
 
 		page_size = 15
 		paginator = Paginator(item_list, page_size)

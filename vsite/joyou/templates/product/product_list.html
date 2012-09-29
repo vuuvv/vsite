@@ -8,7 +8,7 @@
 		<div class="border-right">
 			<ul class="clearfix">
 				{% for product in chunk %}
-				<li class="first-item">
+				<li class="{% if forloop.counter0 == 0 %} first-item {% else %} border-left {% endif %}">
 					<div class="product-container">
 						<div class="img-box">
 							<a href="{{ product.get_absolute_url }}">

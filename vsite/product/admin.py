@@ -29,6 +29,7 @@ admin.site.register(Property)
 
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ('sku', 'name', 'slug', 'get_categories')
+	list_filter = ['active', 'categories']
 	search_fields = ('sku', 'name')
 	fields = (
 		'sku', 'name', 'slug', 'categories', 'image', 'thumbnail', 

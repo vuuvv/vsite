@@ -66,7 +66,7 @@ class Press(MetaData):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('press_article', (self.id,), {})
+		return ('press_article', (self.category.slug, self.id,), {})
 
 def get_magzine_image_path(model, filename):
 	name, ext = os.path.splitext(filename)
