@@ -7,6 +7,18 @@
 <link rel="stylesheet" type="text/css" href="/static/js/libs/fancybox/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 
 <div class="bookshelf">
-	<div style="width: 732px;height: 646px; background:url(/static/css/img/bookshelf-wood.jpg);"></div>
+	{% for magzines in chunks %}
+	<div class="bookshelf-row">
+		<div class="bookshelf-line clearfix">
+			{% for magzine in magzines %}
+				{% if magzine %}
+			<a href="{{ MEDIA_URL }}upload/magzine/magzine.swf?xml={{ magzine.slug }}/pages.xml" alt="{{ magzine.name }}" class="bookshelf-cell">
+				<img src="{{ MEDIA_URL }}{{ magzine.thumbnail }}" alt="{{ magzine.name }}" title="{{ magzine.name }}" />
+			</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
 </div>
 {% endblock %}
