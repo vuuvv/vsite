@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="gbk"/>
+    <title>kissy-pie demo</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+    <script src="common/package-config.js"></script>
+    <script type="text/javascript">
+        FB.config({
+            path:'.', // 基路径（模块路径寻址的基点）
+            name:'demo', // 页面名（会拼入模块js路径中）
+            version:'1.0', // 源码目录名（fb的目录约定版本号目录即源码目录），也会拼入模块js路径中
+            pub:'20121006' //发布目录即模块打包后目录（当页面中引入的kissy-min.js，会去引用该文件夹的模块js，比如apply-min.js）
+        });
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+    KISSY.use('page/init',function(S,Apply){
+        var msg = Apply();
+        S.log(msg);
+    })
+</script>
+</body>
+</html>
+

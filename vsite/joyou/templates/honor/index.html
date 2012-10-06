@@ -11,9 +11,13 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static "js/libs/masonry/jquery.masonry.js" %}" type="text/javascript"></script>
 <script src="{% static "js/jquery.prettyPhoto.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
+		$('#honor-list').masonry({
+			itemSelector: '.waterfall-box'
+		});
 		$("a[rel^='prettyPhoto']").prettyPhoto({
 			theme:'facebook',
 			slideshow: 8000,
@@ -47,22 +51,20 @@
 	</div>
 </div>
 <div class="content">
-	<div class="bookshelf">
-		<div class="honor-list">
-			{% for honors in chunks %}
-			<div class="bookshelf-row">
-				<div class="bookshelf-line clearfix">
-					{% for honor in honors %}
-						{% if honor %}
-					<a rel="prettyPhoto[pp_gal]" href="{{ MEDIA_URL }}{{ honor.image }}" alt="{{ honor.name }}" class="bookshelf-cell">
-						<img src="{{ MEDIA_URL }}{{ honor.thumbnail }}" alt="{{ honor.name }}" title="{{ honor.name }}" />
-					</a>
-						{% endif %}
-					{% endfor %}
-				</div>
+	<div class="honor-list" id="honor-list">
+		{% for honor in honors %}
+		<div class="waterfall-box waterfall-col1">
+			<a rel="prettyPhoto[pp_gal]" href="{{ MEDIA_URL }}{{ honor.image }}" alt="{{ honor.name }}">
+				<img src="{{ MEDIA_URL }}{{ honor.thumbnail }}" alt="{{ honor.name }}" title="{{ honor.name }}" />
+			</a>
+			<div class="honor-name">
+				{{ honor.name }}
 			</div>
-			{% endfor %}
+			<div class="honor-year">
+				获奖时间：{{ honor.category.name }}
+			</div>
 		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}

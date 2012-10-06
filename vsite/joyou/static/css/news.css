@@ -1,159 +1,157 @@
 .content {
-	margin-top: 15px;
+  margin-top: 15px;
 }
 
 .news-box {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .news-box .box-container li {
-	margin: 15px 0 15px 11px;
-	_margin: 15px 0 15px 7px;
+  margin: 15px 0 15px 11px;
+  _margin: 15px 0 15px 7px;
 }
 
 .news-box .box-horizontal {
-	_height: 224px;
+  _height: 224px;
 }
 
 .news-list li {
-	padding: 15px;
-	margin: 15px 0 15px 0;
-	overflow: hidden;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	-webkit-box-shadow: 0 0 5px #ddd;
-	-moz-box-shadow: 0 0 5px #ddd;
-	box-shadow: 0 0 5px #ddd;
-	height: 131px;
+  padding: 15px;
+  margin: 15px 0 15px 0;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px #ddd;
+  -moz-box-shadow: 0 0 5px #ddd;
+  box-shadow: 0 0 5px #ddd;
+  height: 131px;
 }
 
 .news-list .news-thumb {
-	display: block;
-	float: left;
+  display: block;
+  float: left;
 }
 
 .news-list .news-thumb img {
-	display: block;
-	width: 160px;
-	height: 120px;
-	margin: 0 10px 0 0;
-	border: 1px solid #ddd;
-	padding: 3px;
+  display: block;
+  width: 160px;
+  height: 120px;
+  margin: 0 10px 0 0;
+  border: 1px solid #ddd;
+  padding: 3px;
 }
 
 .news-list .news-info {
-	float: left;
-	width: 522px;
+  float: left;
+  width: 522px;
 }
 
 .news-list .news-title {
-	font-size: 14px;
-	font-weight: bold;
-	color: #00649D;
-	padding-left: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #00649D;
+  padding-left: 5px;
 }
 
 .news-list .news-info i {
-	color: #dd3333;
-	margin: 0 7px 0 0;
-	font-style: normal;
+  color: #dd3333;
+  margin: 0 7px 0 0;
+  font-style: normal;
 }
 
 .news-list dl {
-	margin: 5px 0 5px 5px;
-	word-break: break-all;
-	word-wrap: break-word;
+  margin: 5px 0 5px 5px;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .news-list dd {
-	float: left;
+  float: left;
 }
 
 .news-tag {
-	margin-top: 5px;
-	padding: 5px;
-	border-radius: 5px 5px 0 0;
-	background: #f2f2f2;
-	border-bottom: 1px solid #eee;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+  background: #f2f2f2;
+  border-bottom: 1px solid #eee;
 }
 
 .news-tag a {
-	margin-right: 5px;
+  margin-right: 5px;
 }
 
 .news-tag a:hover {
-	color: #d33;
+  color: #d33;
 }
 
 .news-tag a i {
-	margin-right: 3px;
-	cursor: pointer;
+  margin-right: 3px;
+  cursor: pointer;
 }
 
 .news-tag a:hover i {
-	background-image: url(img/icon.png);
-	_background-image: url(img/icon.gif);
+  background-image: url(img/icon.png);
+  _background-image: url(img/icon.gif);
 }
 
 .news-intro {
-	background: #f6f6f6;
-	border-radius: 0 0 5px 5px;
-	color: #777;
-	font-size: 13px;
-	height: 50px;
-	line-height: 150%;
-	padding: 5px;
-	overflow: hidden;
-	-o-text-overflow: ellipsis;    /* Opera */
-	text-overflow:    ellipsis;    /* IE, Safari (WebKit) */
+  background: #f6f6f6;
+  border-radius: 0 0 5px 5px;
+  color: #777;
+  font-size: 13px;
+  height: 50px;
+  line-height: 150%;
+  padding: 5px;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;    /* Opera */
+  text-overflow:    ellipsis;    /* IE, Safari (WebKit) */
 }
 
 .news-content {
-	margin: 15px 0 20px 0;
-	display: block;
-	padding: 0 30px;
+  margin: 15px 0 20px 0;
+  display: block;
+  padding: 0 30px;
 }
 
 .bookshelf {
-	margin: 30px auto 50px;
-	width: 574px;
+  background: url(img/bookshelf_wood.jpg);
+  padding-top: 59px;
+  margin: 30px 0 50px;
+  width: 732px;
+  height: 532px;
 }
 
 .bookshelf-row {
-	background: url("img/bookshelf_bg.jpg") no-repeat;
-	background-position: bottom left;
-	height: 169px;
-	padding-left: 43px;
+  height: 177px;
+  padding: 25px 0 0 43px;
 }
 
 .honor-list .bookshelf-row {
-	padding-left: 30px;
-	height: 259px;
+  padding-left: 30px;
+  height: 259px;
 }
 
 .bookshelf-cell {
-	float: left;
-	margin-right: 43px;
-	height: 126px;
-	display: block;
-
-	-webkit-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
-	-moz-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
-	-ms-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
-	-o-box-shadow:2px 2px 5px rgba(0,0,0,0.6);
-	box-shadow:2px 2px 5px rgba(0,0,0,0.6);
+  background: url(img/book_shadow.png) no-repeat bottom center;
+  float: left;
+  margin-right: 43px;
+  width: 115px;
+  height: 140px;
+  display: block;
+  position: relative;
+  _background: none;
+  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/css/img/book_shadow.png');
 }
 
 .bookshelf-cell img {
-	display: block;
+  display: block;
+  position: absolute;
+  bottom: 6px;
+  left: 10px;
 }
 
 .honor-list .bookshelf-cell {
-	margin-right: 27px;
-	height: 220px;
-	-webkit-box-shadow:none;
-	-moz-box-shadow:none;
-	-ms-box-shadow:none;
-	-o-box-shadow:none;
-	box-shadow:none;
+  margin-right: 27px;
+  height: 220px;
 }

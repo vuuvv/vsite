@@ -1,0 +1,1 @@
+KISSY.add("page/mods/header",function(a){return function(){alert("header of refund.")}}),KISSY.add("page/init",function(a,b){return function(){return b(),"this is demo page."}},{requires:["./mods/header"]}); 
