@@ -137,6 +137,11 @@ body {
 }
 
 .search_bar_submit {
+	display: block;
+	position: absolute;
+	right: 0;
+	width: 30px;
+	height: 25px;
 }
 
 .search_bar_filter {

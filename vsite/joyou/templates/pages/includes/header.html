@@ -13,8 +13,10 @@
 </div>
 <div class="logobox"></div>
 <div class="header_search_box" id="header_search_box">
-	<input calss="no-outline" type="text" max-length="40" value="" title="搜索文本框" name="q" />
-	<a class="btn" href="javascript:;" title="搜索按钮"></a>
+	<form id="search_form" action="{% url joyou_search %}">
+		<input calss="no-outline" type="text" max-length="40" value="" title="搜索文本框" name="q" />
+		<a class="btn search_bar_submit" id="search_button" href="javascript:;" title="搜索按钮"></a>
+	</form>
 </div>
 <div class="main_nav">
 	<ul class="main_menu clearfix">

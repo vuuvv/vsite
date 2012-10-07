@@ -50,6 +50,27 @@ $(function() {
 		$(this).data("dirty", true);
 	});
 
+	var search_submit = function() {
+		var val = header_search_input.val();
+		if (!header_search_input.data("dirty")) {
+			alert("请输入搜索内容");
+			return;
+		}
+		var form = $("#search_form");
+		window.location.href=form.attr("action") + "/" + header_search_input.val();
+	};
+
+	$("#search_button").click(function() {
+		search_submit();
+		return false;
+	});
+
+	$("#search_form").submit(function() {
+		header_search_input.blur();
+		search_submit();
+		return false;
+	});
+
 	$(".main_menu_item, .main_menu_item_leaf").hover(function() {
 		$(this).addClass("hovered");
 		$(">.dropmenu:not(:animated)", this).slideDown("fast");

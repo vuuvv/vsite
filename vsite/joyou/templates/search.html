@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link media="all" rel="stylesheet" href="{% static "css/product.css"%}" type="text/css" />
+{% endblock %}
+
+{% block page %}
+<div class="toolbox">
+	<div class="breadcrumb">
+		<a href="/">首页</a>
+		<em>搜索结果</em>
+	</div>
+</div>
+
+<div class="page">
+	{% for chunk in chunks %}
+	<div class="product-list-row">
+		<div class="border-left">
+			<div class="border-right">
+				<ul class="clearfix">
+					{% for product in chunk %}
+					<li class="{% if forloop.counter0 == 0 %} first-item {% else %} border-left {% endif %}">
+						<div class="product-container">
+							<div class="img-box">
+								<a href="{{ product.get_absolute_url }}">
+									<img width="215" height="143" src="{{ MEDIA_URL }}{{ product.thumbnail }}">
+								</a>
+							</div>
+							<div class="info-box">
+								<a href="{{ product.get_absolute_url }}" title="{{ product.name }}">
+									<h5>{{ product.sku }}</h5>
+								</a>
+								<a href="{{ product.get_absolute_url }}" title="{{ product.name }}" class="title">{{ product.name }}</a>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+	<div class="product-list-row">
+		<div style="font-size: 18px;padding-bottom: 15px;">没有搜索到相关内容</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}
+
