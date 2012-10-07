@@ -42,7 +42,11 @@
 	</div>
 	{% empty %}
 	<div class="product-list-row">
-		<div style="font-size: 18px;padding-bottom: 15px;">没有搜索到相关内容</div>
+		<div class="border-left">
+			<div class="border-right">
+				<div class="search-no-result">没有搜索到相关内容</div>
+			</div>
+		</div>
 	</div>
 	{% endfor %}
 </div>
