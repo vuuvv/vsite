@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'vsite.press',
     'vsite.product',
     'vsite.honor',
+    'vsite.dealer',
     'vsite.jobs',
     'vsite.case',
     'vsite.filemanage',
