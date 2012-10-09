@@ -7,6 +7,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Area(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=_('Parent'))
     name = models.CharField(_('Title'), max_length=50)
+    boundary = models.TextField(_("Boundary"), blank=True)
 
     def __unicode__(self):
         return self.name

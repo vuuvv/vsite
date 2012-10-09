@@ -10,7 +10,7 @@
 	</div>
 	<div class="article-info">
 		<span>来源：<i>{% if article.press_from %}{{ article.press_from }}{% else %}中宇卫浴{% endif %}</i></span>
-		<span>来源：<i>{% if article.author %}{{ article.author }}{% else %}中宇卫浴{% endif %}</i></span>
+		<span>作者：<i>{% if article.author %}{{ article.author }}{% else %}中宇卫浴{% endif %}</i></span>
 		<span>日期：<i>{{ article.publish_date|date:"Y-m-d H:i" }}</i></span>
 		<span>分享到：</span>
 		<a href="#" class="sns-icon sns-tsina" title="分享至新浪微博"></a>

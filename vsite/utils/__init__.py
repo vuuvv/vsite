@@ -3,6 +3,7 @@ import datetime
 import decimal
 
 from django.http import HttpResponse
+from django.db.models import Model
 
 class DjangoJSONEncoder(json.JSONEncoder):
 	"""
@@ -26,10 +27,29 @@ class DjangoJSONEncoder(json.JSONEncoder):
 def tojson(obj):
 	return json.dumps(obj, cls=DjangoJSONEncoder)
 
-def render_to_json(obj, status, msg):
+def render_to_json(obj, status="OK", msg="Success"):
 	obj["status"] = status
 	obj["msg"] = msg
 	return HttpResponse(tojson(obj))
+
+def get_model_attr(model, attr):
+    value = getattr(model, attr)
+    if isinstance(value, Model):
+        value = unicode(value)
+    elif callable(value):
+        value = value()
+    return value
+
+def models_to_json(models, attrs=None):
+    models = list(models)
+    model_list = []
+    for model in models:
+        if attrs is None:
+            opts = model._meta
+            attrs = [field.name for field in opts.fields + opts.many_to_many]
+        jsonable = dict([(attr, get_model_attr(model, attr)) for attr in attrs])
+        model_list.append(jsonable)
+    return model_list
 
 default_top_nav_pattern = """
 <li class="main_menu_item">

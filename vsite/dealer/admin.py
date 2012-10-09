@@ -9,7 +9,7 @@ class AreaAdmin(MPTTModelAdmin):
     list_display = ('name', 'parent')
     list_filter = ('parent__name', )
     search_fields = ('name', )
-    fields = ('parent', 'name', )
+    fields = ('parent', 'name', 'boundary',)
 
 admin.site.register(Area, AreaAdmin);
 
