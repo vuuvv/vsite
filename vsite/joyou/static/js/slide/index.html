@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link media="all" rel="stylesheet" href="css/slideshow.css" type="text/css" />
+	<script src="js/jquery-debug.js" type="text/javascript"></script>
+	<script src="js/slideshow.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function() {
+				var slide = new SlideShow({element: "#slideshow"});
+				slide.play();
+		});
+	</script>
+</head>
+<body>
+	<div id="slideshow" class="slideshow">
+		<div class="slideshow_wrapper" id="slideshow_wrapper"></div>
+		<div class="slideshow_controls">
+			<a href="" class="slideshow_grid"></a>
+			<a href="" class="slideshow_prev"></a>
+			<a href="" id="slideshow_play_toggle" class="slideshow_pause"></a>
+			<a href="" class="slideshow_next"></a>
+		</div>
+		<div class="slideshow_thumbs">
+			<div class="slideshow_thumbs_wrapper">
+				<a href="images/1.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/1.jpg" alt="" />
+				</a>
+				<a href="images/2.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/2.jpg" alt="" />
+				</a>
+				<a href="images/3.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/3.jpg" alt="" />
+				</a>
+				<a href="images/4.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/4.jpg" alt="" />
+				</a>
+				<a href="images/5.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/5.jpg" alt="" />
+				</a>
+				<a href="images/6.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/6.jpg" alt="" />
+				</a>
+			</div>
+			<div class="slideshow_thumbs_wrapper" style="display: none">
+				<a href="images/7.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/7.jpg" alt="" />
+				</a>
+				<a href="images/8.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/8.jpg" alt="" />
+				</a>
+				<a href="images/9.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/9.jpg" alt="" />
+				</a>
+				<a href="images/10.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/10.jpg" alt="" />
+				</a>
+				<a href="images/11.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/11.jpg" alt="" />
+				</a>
+				<a href="images/12.jpg" class="slideshow_thumb">
+					<img src="images/thumbs/12.jpg" alt="" />
+				</a>
+			</div>
+			<a href="" class="slideshow_thumb_next"></a>
+			<a href="" class="slideshow_thumb_prev"></a>
+			<a href="" class="slideshow_thumb_close"></a>
+			<span class="slideshow_thumb_loading"></span>
+		</div>
+	</div>
+</body>
+</html>

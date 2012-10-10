@@ -117,7 +117,7 @@ $(function() {
 					//create_boundary(key);
 				}
 				for (var i = 0; i < funcs.length; i++) {
-					//setTimeout(funcs[i], 100 * i);
+					setTimeout(funcs[i], 100 * i);
 				};
 			};
 			$.getJSON("/sales/dealer/boundary/", on_response);
