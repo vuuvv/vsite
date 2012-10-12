@@ -17,7 +17,7 @@ SlideShow.prototype = {
 		this.current = 0;
 		this.current_group = 0;
 		this.timer = null;
-		this.pause = true;
+		this.paused = true;
 	},
 
 	bind: function(method) {
@@ -34,12 +34,15 @@ SlideShow.prototype = {
 	arrange: function() {
 		var count = 0;
 		var lookup = this.lookup = [];
-		$(".slideshow_thumbs_wrapper").each(function(index, elem) {
+		var thumbs = $(".slideshow_thumbs_wrapper");
+		thumbs.each(function(index, elem) {
 			$(elem).find(".slideshow_thumb").each(function(i, el) {
 				$(el).attr('index', count++);
 			});
 			lookup.push(count);
 		});
+		this.total = count;
+		this.total_group = thumbs.length;
 	},
 
 	locate_thumb: function(index) {
@@ -48,7 +51,7 @@ SlideShow.prototype = {
 			if (index < lookup[i]) {
 				return {
 					group: i,
-					index: index - lookup[i - 1]
+					index: i == 0 ? index : index - lookup[i - 1]
 				}
 			}
 		}
@@ -62,6 +65,11 @@ SlideShow.prototype = {
 			'.slideshow_next:click': 'on_next',
 			'.slideshow_prev:click': 'on_prev',
 			'.slideshow_grid:click': 'on_show_grid',
+			'.slideshow_thumb:click': 'on_click_thumb',
+			'.slideshow_thumb:mouseenter': 'on_hover_thumb',
+			'.slideshow_thumb:mouseout': 'on_blur_thumb',
+			'.slideshow_thumb_next:click': 'on_next_thumb',
+			'.slideshow_thumb_prev:click': 'on_prev_thumb',
 			'.slideshow_thumb_close:click': 'on_hide_grid'
 		};
 		this.mouse_event();
@@ -79,31 +87,51 @@ SlideShow.prototype = {
 					.bind('mouseleave', this.bind('hide_controls'));
 	},
 
-	play: function() {
+	start: function() {
 		this.show_image(this.current);
-		$('#slideshow_pause_play').addClass('slideshow_pause').removeClass("slideshow_play");
-		this.timer = setInterval(this.bind("next"), this.opts.interval);
+		this.play();
 	},
 
-	pause: function() {
-		$('#slideshow_pause_play').addClass('slideshow_play').removeClass("slideshow_pause");
+	_start_timer: function() {
+		this.timer = setInterval(this.bind("next"), this.options.interval);
+	},
+
+	_clear_timer: function() {
 		this.timer = clearTimeout(this.timer);
 	},
 
+	play: function() {
+		this._clear_timer();
+		this.paused = false
+		$('#slideshow_play_toggle').addClass('slideshow_pause').removeClass("slideshow_play");
+		this._start_timer();
+	},
+
+	pause: function() {
+		this.paused = true;
+		$('#slideshow_play_toggle').addClass('slideshow_play').removeClass("slideshow_pause");
+		this._clear_timer();
+	},
+
+	_tune_index: function(index) {
+		var i = index % this.total;
+		return i < 0 ? this.total + i : i;
+	},
+
 	next: function() {
-		this.show_image(this.current + 1);
+		this.show_image(this._tune_index(this.current + 1));
 	},
 
 	prev: function() {
-		this.show_image(this.current - 1);
+		this.show_image(this._tune_index(this.current - 1));
 	},
 
 	find_group: function(index) {
-		return this.dom(".slideshow_thumbs_wrapper:nth-child(" + index + ")");
+		return this.dom(".slideshow_thumbs_wrapper:nth-child(" + (index + 1) + ")");
 	},
 
 	find_thumb: function(group, index) {
-		return group.find(".slideshow_thumb:nth-child(" + index + ")");
+		return group.find(".slideshow_thumb:nth-child(" + (index + 1) + ")");
 	},
 
 	select_group: function(index) {
@@ -120,8 +148,30 @@ SlideShow.prototype = {
 		var loc = this.locate_thumb(index) || {group: 0, index: 0};
 		var group = this.select_group(loc.group);
 		var thumb = this.find_thumb(group, loc.index);
-		this.current = loc.index;
+		this.current = index;
 		return thumb;
+	},
+
+	_check_prev_next: function(index) {
+		var prev = $("#slideshow_thumb_prev").show();
+		var next = $("#slideshow_thumb_next").show();
+		if (index == 0) {
+			prev.hide();
+		}
+		if (index == this.total_group - 1) {
+			next.hide();
+		}
+	},
+
+	switch_group: function(index) {
+		var now = this.find_group(this.current_group);
+		var target = this.find_group(index);
+		var self = this;
+		now.fadeOut(function() {
+			self.current_group = index;
+			self._check_prev_next(index);
+			target.fadeIn();
+		});
 	},
 
 	load_img: function(src) {
@@ -157,12 +207,16 @@ SlideShow.prototype = {
 	show_image: function(index) {
 		var thumb = this.select_thumb(index);
 		var src = thumb.attr('href');
+		this._show_image(src);
+	},
+
+	_show_image: function(src) {
 		var wrapper = $('#slideshow_wrapper');
 		var img = wrapper.find('img');
 		var self = this;
 		var on_load = function() {
 			var image = $(this);
-			self.resize(image);
+			self.resize_img(image, 400, 400);
 			image.hide();
 			wrapper.empty().append(image.fadeIn());
 		};
@@ -174,16 +228,17 @@ SlideShow.prototype = {
 		} else {
 			$('<img />').load(on_load).attr('src', src);
 		}
+		//this.current = index;
 	},
 
 	show_grid: function() {
 		this.hide_controls();
 		this.element.unbind('mouseenter').unbind('mouseleave');
-		this.pause();
+		this._check_prev_next(this.current_group);
 		this.dom('.slideshow_thumbs').stop().animate({'top': '0'}, 500);
 	},
 
-	hide_grid: function(e) {
+	hide_grid: function() {
 		this.show_controls();
 		this.mouse_event();
 		this.dom('.slideshow_thumbs').stop().animate({'top': '-230px'}, 500);
@@ -198,27 +253,71 @@ SlideShow.prototype = {
 	},
 
 	on_toggle_play: function(e) {
-		if (this.pause) {
+		if (this.paused) {
 			this.play();
-			this.pause = false;
 		} else {
 			this.pause();
-			this.pause = true;
 		}
+		e.preventDefault();
+		return false;
+	},
+
+	on_next: function(e) {
+		this._clear_timer();
+		this.next();
+		this._start_timer();
+		e.preventDefault();
+		return false;
+	},
+
+	on_prev: function(e) {
+		this._clear_timer();
+		this.prev();
+		this._start_timer();
 		e.preventDefault();
 		return false;
 	},
 
 	on_show_grid: function(e) {
 		this.show_grid();
+		this.pause();
 		e.preventDefault();
 		return false;
 	},
 
 	on_hide_grid: function(e) {
 		this.hide_grid();
+		this.play();
 		e.preventDefault();
 		return false;
+	},
+
+	on_next_thumb: function(e) {
+		this.switch_group(this.current_group + 1);
+		e.preventDefault();
+		return false;
+	},
+
+	on_prev_thumb: function(e) {
+		this.switch_group(this.current_group - 1);
+		e.preventDefault();
+		return false;
+	},
+
+	on_click_thumb: function(e) {
+		var thumb = $(e.currentTarget);
+		var src = thumb.attr("href");
+		this.current = thumb.attr("index");
+		this._show_image(src);
+		return this.on_hide_grid(e);
+	},
+
+	on_hover_thumb: function(e) {
+		$(e.currentTarget).stop().animate({'opacity': 1});
+	},
+
+	on_blur_thumb: function(e) {
+		$(e.currentTarget).stop().animate({'opacity': 0.5});
 	}
 };
 

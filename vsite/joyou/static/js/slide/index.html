@@ -9,13 +9,13 @@
 	<script type="text/javascript">
 		$(function() {
 				var slide = new SlideShow({element: "#slideshow"});
-				slide.play();
+				slide.start();
 		});
 	</script>
 </head>
 <body>
 	<div id="slideshow" class="slideshow">
-		<div class="slideshow_wrapper" id="slideshow_wrapper"></div>
+		<a class="slideshow_wrapper" id="slideshow_wrapper"></a>
 		<div class="slideshow_controls">
 			<a href="" class="slideshow_grid"></a>
 			<a href="" class="slideshow_prev"></a>
@@ -63,9 +63,9 @@
 					<img src="images/thumbs/12.jpg" alt="" />
 				</a>
 			</div>
-			<a href="" class="slideshow_thumb_next"></a>
-			<a href="" class="slideshow_thumb_prev"></a>
-			<a href="" class="slideshow_thumb_close"></a>
+			<a href="" id="slideshow_thumb_next" class="slideshow_thumb_next"></a>
+			<a href="" id="slideshow_thumb_prev" class="slideshow_thumb_prev"></a>
+			<a href="" id="slideshow_thumb_close" class="slideshow_thumb_close"></a>
 			<span class="slideshow_thumb_loading"></span>
 		</div>
 	</div>
