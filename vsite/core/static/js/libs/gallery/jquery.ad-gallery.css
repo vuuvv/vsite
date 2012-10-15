@@ -85,8 +85,8 @@
       }
       .ad-gallery .ad-image-wrapper .ad-image .ad-image-description {
 		background: #fff;
-		opacity: 0.7;
-		filter:alpha(opacity=70);
+		opacity: 0.6;
+		filter:alpha(opacity=60);
         position: absolute;
         bottom: 0px;
         left: 0px;
@@ -97,6 +97,7 @@
         color: #000;
       }
         .ad-gallery .ad-image-wrapper .ad-image .ad-image-description .ad-description-title {
+					font-weight: bold;
           display: block;
         }
   .ad-gallery .ad-controls {
@@ -168,11 +169,11 @@
             display: block;
           }
             .ad-gallery .ad-thumbs li a img {
-              border: 3px solid #CCC;
+              border: 3px solid #dcdcdc;
               display: block;
             }
             .ad-gallery .ad-thumbs li a.ad-active img {
-              border: 3px solid #616161;
+              border: 3px solid #0078CB;
             }
 /* Can't do display none, since Opera won't load the images then */
 .ad-preloads {

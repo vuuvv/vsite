@@ -64,6 +64,16 @@ a {
 	clear:both;
 }
 
+.hlist {
+	letter-spacing: -4px;
+}
+
+.hbox {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
 .arrow {
 	display: block;
 	height: 12px;

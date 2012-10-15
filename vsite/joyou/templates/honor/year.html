@@ -11,27 +11,25 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static "js/libs/masonry/jquery.masonry.js" %}" type="text/javascript"></script>
-<script src="{% static "js/jquery.prettyPhoto.js" %}" type="text/javascript"></script>
+<script src="{% static "js/libs/gallery/jquery.ad-gallery.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
-		$('#honor-list').masonry({
-			itemSelector: '.waterfall-box'
-		});
-		$("a[rel^='prettyPhoto']").prettyPhoto({
-			theme:'facebook',
-			slideshow: 8000,
-			autoplay_slideshow: true
-		});
+		$("#gallery").adGallery();
 	});
 </script>
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static "css/prettyPhoto.css" %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="{% static "js/libs/gallery/jquery.ad-gallery.css" %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 <link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+<style type="text/css">
+#gallery {
+	width: 600px;
+	margin: 0 auto;
+}
+</style>
 {% endblock %}
 
 {% block banner %}
@@ -51,20 +49,18 @@
 	</div>
 </div>
 <div class="content">
-	<div class="hlist honor-list">
-		{% for year in years %}
-		<div class="hbox honor {% if forloop.counter|divisibleby:"3" %}last{% endif %}">
-			<div class="honor-bg"></div>
-			<div class="honor-img">
-				<a href="">
-					<img src="{{ MEDIA_URL }}{{ year.image }}" alt="" />
-				</a>
-			</div>
-			<div class="honor-info">
-				{{ year.name }}
+	<div id="gallery" class="ad-gallery">
+		<div class="ad-image-wrapper"></div>
+		<div class="ad-controls"></div>
+		<div class="ad-nav">
+			<div class="ad-thumbs">
+				{% for honor in honors.all %}
+				<li>
+					<a class="no-outline" href="{{ MEDIA_URL }}{{ honor.image }}"> <img src="{{ MEDIA_URL }}{{ honor.thumbnail }}" title="{{ honor.name }}" alt="{{ honor.description }}" height="60"/> </a> 
+				</li>
+				{% endfor %}
 			</div>
 		</div>
-		{% endfor %}
 	</div>
 </div>
 {% endblock %}

@@ -661,6 +661,53 @@ a.main_menu_item_link {
 	filter:progid:DXImageTransform.Microsoft.Shadow(color = #979797,direction = 135,strength = 3);
 }
 
+.honor {
+	overflow: hidden;
+	margin: 0 26px 0 0;
+	position: relative;
+	width: 226px;
+}
+
+.honor-list .last {
+	margin: 0;
+}
+
+.honor-bg {
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	width: 220px;
+	height: 220px;
+	z-index: 1;
+	border: #e1e1e1 solid 1px;
+}
+
+.honor-img {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 175px;
+	width: 220px;
+	height: 220px;
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	border: #e1e1e1 solid 1px;
+	z-index: 2;
+}
+
+.honor-img img {
+	vertical-align: middle;
+}
+
+.honor-info {
+	letter-spacing: 0;
+	padding: 15px 0 12px;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+
 .honor-name {
   width: 200px;
   font-size: 18px;
