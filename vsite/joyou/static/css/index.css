@@ -73,7 +73,7 @@
 	width: 952px;
 	*width: 954px;
 	margin: 0;
-	padding-bottom: 35px;
+	padding-bottom: 10px;
 	_position: relative;
 	_z-index: 1;
 	zoom: 1;
@@ -94,7 +94,7 @@
 	z-index: 1;
 	width: 230px;
 	height: 155px;
-	margin-left: 11px;
+	margin-left: 10px;
 	_margin-left: 8px;
 	border-top: 1px solid #f2f2f2;
 	-webkit-box-shadow:rgba(0,0,0,.15) 0 1px 3px;
@@ -111,12 +111,12 @@
 }
 
 .promos ul li.first-child {
-	margin-left: 0;
+	margin-left: 2px;
 }
 
 .promos ul li.last-child {
-	margin-left: 10px;
-	_margin-left: 8px;
+	margin-left: 8px;
+	_margin-left: 6px;
 }
 
 .promos ul li a {
@@ -191,6 +191,7 @@
 .announ {
 	width: 952px;
 	margin: 5px auto 10px;
+	display: none;
 }
 
 .an-left {

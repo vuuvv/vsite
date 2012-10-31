@@ -1,5 +1,5 @@
 body {
-	background: url(img/body_bg.gif);
+	background: url(img/body_bg.jpg) no-repeat scroll center top #EEF5FB;
 	color: #404040;
 	font-family: Microsoft Yahei,Verdana,Segoe,Tahoma,sans-serif;
 	font-size: 12px;
@@ -37,7 +37,6 @@ body {
 }
 
 .container {
-	background: #fff;
 	width: 980px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -45,7 +44,7 @@ body {
 
 .header {
 	position: relative;
-	height: 158px;
+	height: 130px;
 	z-index: 10;
 }
 
@@ -53,7 +52,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 158px;
+	height: 130px;
 	width: 100%;
 	/*
 	background: url(img/header_bg.png);
@@ -63,10 +62,10 @@ body {
 }
 
 .logobox {
-	top: 15px;
-	left: 15px;
-	width: 330px;
-	height: 70px;
+	top: 20px;
+	left: 25px;
+	width: 202px;
+	height: 29px;
 	position: absolute;
 	background: url("img/logo.png");
 	_background: none;
@@ -76,7 +75,7 @@ body {
 .top_links {
 	position: absolute;
 	right: 25px;
-	top: 5px;
+	top: 35px;
 	color: #1E6FF4;
 }
 
@@ -100,8 +99,8 @@ body {
 	_background: url(img/sprite_bg.gif) no-repeat 0 -60px;
 	width: 200px;
 	height: 25px;
-	right: 25px;
-	top: 55px;
+	right: 235px;
+	top: 30px;
 }
 
 .header_search_box_active {
@@ -157,7 +156,7 @@ body {
 .main_nav {
 	height: 34px;
 	position: relative;
-	top: 100px;
+	top: 75px;
 	width: 950px;
 	margin: 0 auto;
 	border: 1px solid #d9d9d9;
