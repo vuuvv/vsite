@@ -1,6 +1,6 @@
 .slides {
 	background: url(img/slides_bg.png) no-repeat 0 0 \0;
-	*background: url(img/slides_bg.png) no-repeat 0 0;
+	*background: url(img/slides_bg.png) no-repeat left bottom;
 	width: 952px;
 	height: 430px;
 	margin: 0 auto;
@@ -124,7 +124,7 @@
 	height: 100%;
 	display: block;
 	cursor: pointer;
-	background: #f6f6f6;
+	background: #f6f6f6;7款水晶导航设计psd素材
 	background:-webkit-gradient(linear,left top,left bottom,color-stop(50%,rgba(249,249,249,1)),color-stop(100%,rgba(240,240,240,1)));
 	background:-webkit-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
 	background:-moz-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
