@@ -93,7 +93,7 @@
 	position: relative;
 	z-index: 1;
 	width: 230px;
-	height: 155px;
+	height: 123px;
 	margin-left: 10px;
 	_margin-left: 8px;
 	border-top: 1px solid #f2f2f2;
@@ -106,8 +106,8 @@
 	        border-radius:5px;
 	background: url(img/promos_bg.png) no-repeat 0 0 transparent \0;
 	*background: url(img/promos_bg.png) no-repeat 0 0 transparent;
-	height: 160px \0;
-	*height: 160px;
+	height: 123px \0;
+	*height: 123px;
 }
 
 .promos ul li.first-child {
@@ -124,7 +124,7 @@
 	height: 100%;
 	display: block;
 	cursor: pointer;
-	background: #f6f6f6;7款水晶导航设计psd素材
+	background: #f6f6f6;
 	background:-webkit-gradient(linear,left top,left bottom,color-stop(50%,rgba(249,249,249,1)),color-stop(100%,rgba(240,240,240,1)));
 	background:-webkit-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
 	background:-moz-linear-gradient(top,rgba(249,249,249,1) 50%,rgba(240,240,240,1) 100%);
@@ -149,7 +149,7 @@
 	background:-ms-linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
 	background:linear-gradient(top,rgba(249,249,249,1)50%,rgba(224,224,224,1)100%);
 }
-.promos ul li .curve-down { display:inline-block; height:155px; width:100%; _display:inline; _zoom:1; border:1px solid #e0e0e0; border-top-color:#efefef; border-bottom-color:#ccc; }
+.promos ul li .curve-down { display:inline-block; height:123px; width:100%; _display:inline; _zoom:1; border:1px solid #e0e0e0; border-top-color:#efefef; border-bottom-color:#ccc; }
 .promos ul li .curve-down:nth-child(1n) { border:none;
 	-webkit-border-radius:100% / 8px;
 	   -moz-border-radius:100% / 8px;
@@ -171,7 +171,7 @@
 	position:absolute; 
 	z-index:1; 
 	left:95px; 
-	top:66px; 
+	top:40px; 
 	opacity:.8; 
 	background:url(img/video_play_medium.png) 0 0 no-repeat; 
 	background-size:46px 92px;

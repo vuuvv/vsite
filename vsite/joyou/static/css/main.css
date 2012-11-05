@@ -1,5 +1,5 @@
 body {
-	background: url(img/body_bg.jpg) no-repeat scroll center top #EEF5FB;
+	background: url(img/body_bg.jpg) no-repeat scroll center -5px #EEF5FB;
 	color: #404040;
 	font-family: Microsoft Yahei,Verdana,Segoe,Tahoma,sans-serif;
 	font-size: 12px;
@@ -89,7 +89,7 @@ body {
 }
 
 .top_links a:hover {
-	color: #fc3;
+	color: #333;
 	border-bottom: 1px dotted #fc3;
 }
 
