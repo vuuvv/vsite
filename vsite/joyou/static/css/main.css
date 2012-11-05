@@ -1,5 +1,5 @@
 body {
-	background: url(img/body_bg.jpg) no-repeat scroll center -5px #EEF5FB;
+	background: #E3E9F7;
 	color: #404040;
 	font-family: Microsoft Yahei,Verdana,Segoe,Tahoma,sans-serif;
 	font-size: 12px;
@@ -68,6 +68,7 @@ body {
 	height: 29px;
 	position: absolute;
 	background: url("img/logo.png");
+	cursor: pointer;
 	_background: none;
 	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/css/img/logo.png')
 }
@@ -76,7 +77,7 @@ body {
 	position: absolute;
 	right: 25px;
 	top: 25px;
-	color: #1E6FF4;
+	color: #235497;
 }
 
 .links_pipe {
@@ -84,7 +85,7 @@ body {
 }
 
 .top_links a {
-	color: #1E6FF4;
+	color: #235497;
 	text-decoration: none;
 }
 
@@ -155,7 +156,6 @@ body {
 }
 
 .main_nav {
-	background: url(img/header_sp.png) repeat-x 0 -117px;
 	height: 32px;
 	position: relative;
 	top: 75px;
@@ -169,7 +169,7 @@ body {
 }
 
 .main_menu_item_leaf, .main_menu_item {
-	background: url(img/header_sp.png) repeat-x -163px -84px;
+	background: #235497;
 	float: left;
 	height: 32px;
 	line-height: 32px;
@@ -177,17 +177,18 @@ body {
 	position: relative;
 	white-space: nowrap;
 	cursor: pointer;
-	width: 117px;
+	width: 130px;
+	margin-right: 7px;
 }
 
 .main_menu_item_vip {
-	border-right: none;
-	width: 122px;
+	margin: 0;
+	width: 128px;
 }
 
 .main_menu_item_vip a.main_menu_item_link {
 	border-right: none;
-	width: 121px;
+	width: 128px;
 }
 
 a.main_menu_item_link {
@@ -195,7 +196,7 @@ a.main_menu_item_link {
 	color: #fff;
 	display: block;
 	height: 32px;
-	width: 116px;
+	width: 130px;
 	position: relative;
 	text-decoration: none;
 	font-size: 14px;
@@ -213,7 +214,7 @@ a.main_menu_item_link {
 
 .main_menu_item .dropmenu {
 	background: url(img/global_layer_bg.png) repeat scroll 0 0 transparent;
-	width: 140px;
+	width: 128px;
 	padding: 2px 1px 4px;
 	border-left: 1px solid #d9d9d9;
 	border-right: 1px solid #d9d9d9;
@@ -224,7 +225,7 @@ a.main_menu_item_link {
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 	position: absolute;
 	top: 32px;
-	left: -2px;
+	left: -1px;
 	display: none;
 	overflow: visible;
 }
@@ -273,7 +274,7 @@ a.main_menu_item_link {
 
 .main_menu_item ul .dropmenu {
 	top: 0px;
-	left: 132px;
+	left: 120px;
 	border-top: 1px solid #d9d9d9;
 }
 

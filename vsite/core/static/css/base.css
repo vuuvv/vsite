@@ -206,6 +206,7 @@ ul.list-horizontal li {
 }
 
 .box-container ul {
+	background: #fff;
 	overflow: hidden;
 }
 
