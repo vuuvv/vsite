@@ -45,19 +45,19 @@ a {
 	display:block;
 	height:0;
 	clear:both;
-	visibility:hidden
+	visibility:hidden;
 }
 
 .clearfix {
-	display:inline-block
+	display:inline-block;
 }
 
 * html .clearfix {
-	height:1%
+	height:1%;
 }
 
 .clearfix {
-	display:block
+	display:block;
 }
 
 .clear {

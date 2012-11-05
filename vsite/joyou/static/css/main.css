@@ -114,11 +114,10 @@ body {
 	border: none;
 	color: #939393;
 	float: left;
-	width: 156px;
+	width: 234px;
 	height: 22px;
 	line-height: 22px;
-	margin: 2px 0 0;
-	padding: 0 5px 0 10px;
+	padding: 3px 5px 0 10px;
 }
 
 .search_bar {
@@ -141,8 +140,8 @@ body {
 	display: block;
 	position: absolute;
 	right: 0;
-	width: 30px;
-	height: 25px;
+	width: 58px;
+	height: 28px;
 }
 
 .search-no-result {
@@ -200,7 +199,6 @@ a.main_menu_item_link {
 	position: relative;
 	text-decoration: none;
 	font-size: 14px;
-	font-weight: bold;
 }
 
 .hovered a.main_menu_item_link, .current a.main_menu_item_link {
