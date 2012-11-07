@@ -1,7 +1,7 @@
 .slides {
 	background: url(img/slides_bg.png) no-repeat 0 0 \0;
 	*background: url(img/slides_bg.png) no-repeat left bottom;
-	width: 952px;
+	width: 980px;
 	height: 430px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -9,7 +9,7 @@
 }
 
 #slides {
-	width: 952px;
+	width: 980px;
 	height: 404px;
 	position: absolute;
 	left: 0;
@@ -24,7 +24,7 @@
 
 .slide img {
 	height: 404px;
-	width: 952px;
+	width: 980px;
 }
 
 .slides_container {
@@ -62,7 +62,7 @@
 }
 
 .promos {
-	width: 952px;
+	width: 980px;
 	margin: 0 auto;
 	overflow: hidden;
 }
@@ -70,8 +70,8 @@
 .promos ul {
 	overflow: hidden;
 	clear: both;
-	width: 952px;
-	*width: 954px;
+	width: 980px;
+	*width: 980px;
 	margin: 0;
 	padding-bottom: 10px;
 	_position: relative;
@@ -94,8 +94,8 @@
 	z-index: 1;
 	width: 230px;
 	height: 123px;
-	margin-left: 10px;
-	_margin-left: 8px;
+	margin-left: 18px;
+	_margin-left: 16px;
 	border-top: 1px solid #f2f2f2;
 	-webkit-box-shadow:rgba(0,0,0,.15) 0 1px 3px;
 	   -moz-box-shadow:rgba(0,0,0,.15) 0 1px 3px;
@@ -104,19 +104,16 @@
 	-webkit-border-radius:5px;
 	   -moz-border-radius:5px;
 	        border-radius:5px;
+	/*
 	background: url(img/promos_bg.png) no-repeat 0 0 transparent \0;
 	*background: url(img/promos_bg.png) no-repeat 0 0 transparent;
 	height: 123px \0;
 	*height: 123px;
+	*/
 }
 
 .promos ul li.first-child {
 	margin-left: 2px;
-}
-
-.promos ul li.last-child {
-	margin-left: 8px;
-	_margin-left: 6px;
 }
 
 .promos ul li a {
@@ -189,7 +186,7 @@
 .promos ul li a.promo-rotate { position:absolute; z-index:1; top:0; }
 
 .announ {
-	width: 952px;
+	width: 980px;
 	margin: 5px auto 10px;
 	display: none;
 }

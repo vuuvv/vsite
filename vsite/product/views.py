@@ -99,11 +99,7 @@ def style_detail(request, slug, template="product/style_detail.html", extra_cont
 def style_category(request, slug='joyou', template="product/style_category.html", extra_context=None):
     category = StyleCategory.objects.get(slug=slug.lower())
     context = get_page_context("/product/style/")
-    ancestors = context["ancestors"][:]
-    context["left_current"] = ancestors[-1]
-    ancestors.append(category)
     context["item"] = category
-    context["ancestors"] = ancestors
     extra_context.update(context)
     return TemplateResponse(request, template, extra_context)
 
