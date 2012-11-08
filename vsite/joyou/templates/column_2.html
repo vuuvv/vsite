@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block page %}
+
+{% block banner %} {% endblock %}
+<div class="clearfix" style="margin-top: 15px;">
+	<div class="column-1">
+		{% block column_1 %}
+		{% endblock %}
+	</div>
+	<div class="column-2">
+		{% block column_2 %}
+		{% endblock %}
+	</div>
+</div>
+{% endblock %}
+
+

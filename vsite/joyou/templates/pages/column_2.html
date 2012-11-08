@@ -1,19 +1,29 @@
-{% extends "column_1.html" %}
+{% extends "column_2.html" %}
 
 {% load static %}
 
 {% block meta_keywords %}
-{{ product.keywords }}
+{{ page.article.keywords }}
 {% endblock %}
 
 {% block meta_description %}
-{{ product.description }}
+{{ page.article.description }}
 {% endblock %}
 
 {% block extra_css %}
-<link media="all" rel="stylesheet" href="{% static "css/product.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+{% endblock %}
+
+{% block banner %}
+<div class="banner">
+	<img src="{% static "img/banner_1.jpg" %}" alt="" />
+</div>
+{% endblock %}
+
+{% block column_1 %}
+{% include "pages/includes/left_nav.html" %}
 {% endblock %}
 
 {% block column_2 %}
@@ -23,7 +33,8 @@
 	</div>
 </div>
 <div class="content">
-	{% block content %}
-	{% endblock %}
+	{% autoescape off %}
+		{{ page.content }}
+	{% endautoescape %}
 </div>
 {% endblock %}

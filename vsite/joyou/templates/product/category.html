@@ -2,11 +2,13 @@
 {% load static %}
 
 {% block content %}
-<ul class="serials products list-horizontal">
+<ul class="products">
 	{% for item in items %}
-	<li>
+	<li {% if forloop.counter|divisibleby:"4" %}class="last"{% endif %}>
 		<a href="{{ item.get_absolute_url }}">
-			<img width="215" height="143" src="{% if item.image %}{{ MEDIA_URL }}{{ item.image }}{% else %}{{ NO_PIC }}{% endif %}">
+			<div class="img-box">
+				<img src="{% if item.image %}{{ MEDIA_URL }}{{ item.image }}{% else %}{{ NO_PIC }}{% endif %}">
+			</div>
 		</a>
 		<h5>{{ item.name }}</h5>
 	</li>

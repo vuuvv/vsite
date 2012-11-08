@@ -55,7 +55,7 @@
 		{% for year in years %}
 		<div class="hbox honor {% if forloop.counter|divisibleby:"3" %}last{% endif %}">
 			<div class="honor-bg"></div>
-			<div class="honor-img">
+			<div class="img-box">
 				<a href="">
 					<img src="{{ MEDIA_URL }}{{ year.image }}" alt="" />
 				</a>

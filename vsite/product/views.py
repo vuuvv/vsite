@@ -64,7 +64,7 @@ def category(request, slug, page=1, template="product/category.html", extra_cont
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
         _get_pages(items, 6)
-        context["chunks"] = chunks(list(items), 3)
+        context["chunks"] = chunks(list(items), 4)
     else:
         items = category.get_children()
         if len(ancestors) == 0:

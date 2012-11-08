@@ -45,7 +45,7 @@ body {
 
 .header {
 	position: relative;
-	height: 105px;
+	height: 90px;
 	z-index: 10;
 }
 
@@ -154,6 +154,10 @@ body {
 }
 
 .search_bar_filter {
+}
+
+.banner {
+	margin-top: 15px;
 }
 
 .banner img {
@@ -296,9 +300,6 @@ a.main_menu_item_link {
 }
 
 .content {
-	min-height:500px;
-	height:auto !important; 
-	height:500px; 
 	overflow:visible;
 }
 
@@ -683,22 +684,25 @@ a.main_menu_item_link {
 	border: #e1e1e1 solid 1px;
 }
 
-.honor-img {
+.img-box {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
-	font-size: 175px;
-	width: 220px;
-	height: 220px;
 	position: relative;
 	overflow: hidden;
 	background: #fff;
-	border: #e1e1e1 solid 1px;
 	z-index: 2;
 }
 
-.honor-img img {
+.img-box img {
 	vertical-align: middle;
+}
+
+.honor-list .img-box {
+	width: 220px;
+	height: 220px;
+	border: #e1e1e1 solid 1px;
+	font-size: 175px;
 }
 
 .honor-info {

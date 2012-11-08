@@ -2,31 +2,17 @@
 {% load static %}
 
 {% block content %}
-{% for chunk in chunks %}
-<div class="product-list-row">
-	<div class="border-left">
-		<div class="border-right">
-			<ul class="clearfix">
-				{% for product in chunk %}
-				<li class="{% if forloop.counter0 == 0 %} first-item {% else %} border-left {% endif %}">
-					<div class="product-container">
-						<div class="img-box">
-							<a href="{{ product.get_absolute_url }}">
-								<img width="215" height="143" src="{{ MEDIA_URL }}{{ product.thumbnail }}">
-							</a>
-						</div>
-						<div class="info-box">
-							<a href="{{ product.get_absolute_url }}" title="{{ product.name }}">
-								<h5>{{ product.sku }}</h5>
-							</a>
-							<a href="{{ product.get_absolute_url }}" title="{{ product.name }}" class="title">{{ product.name }}</a>
-						</div>
-					</div>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-</div>
-{% endfor %}
+<ul class="products">
+	{% for item in items %}
+	<li {% if forloop.counter|divisibleby:"4" %}class="last"{% endif %}>
+		<a href="{{ item.get_absolute_url }}">
+			<div class="img-box">
+				<img width="215" src="{% if item.image %}{{ MEDIA_URL }}{{ item.image }}{% else %}{{ NO_PIC }}{% endif %}">
+			</div>
+		</a>
+		<h5>{{ item.name }}</h5>
+		<p>{{ item.sku }}</p>
+	</li>
+	{% endfor %}
+</ul>
 {% endblock %}

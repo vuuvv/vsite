@@ -4,9 +4,9 @@
 {% block content %}
 <ul class="serials list-horizontal">
 	{% for style in item.styles.all %}
-	<li>
+	<li {% if forloop.counter|divisibleby:"3" %}class="last"{% endif %}>
 		<a href="{{ style.get_absolute_url }}">
-			<img width="215" height="143" src="{{ MEDIA_URL }}{{ style.images.all.0.thumbnail}}">
+			<img src="{{ MEDIA_URL }}{{ style.images.all.0.thumbnail}}">
 		</a>
 		<h5>{{ style.name }}</h5>
 		<p>{{ style.summary }}</p>

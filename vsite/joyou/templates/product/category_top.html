@@ -4,7 +4,7 @@
 {% block content %}
 <ul class="serials list-horizontal">
 	{% for item in items %}
-	<li>
+	<li {% if forloop.counter|divisibleby:"3" %}class="last"{% endif %}>
 		<a href="{{ item.get_absolute_url }}">
 			<img width="215" height="142" src="{{ MEDIA_URL }}{{ item.image }}">
 		</a>
