@@ -46,7 +46,7 @@ body {
 .header {
 	position: relative;
 	height: 90px;
-	z-index: 10;
+	z-index: 1000;
 }
 
 .header_bg {

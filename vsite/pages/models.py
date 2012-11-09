@@ -27,6 +27,7 @@ class Page(MPTTModel):
     meta_keywords = models.TextField(_("Meta keywords"), blank=True)
     meta_description = models.TextField(_("Meta description"), blank=True)
     col = models.IntegerField(_("Page layout column"), default=2)
+    banner = models.BooleanField(_("Has Banner"), default=False)
 
     class Meta:
         verbose_name = _("Page")

@@ -82,6 +82,7 @@ def detail(request, slug, template="product/detail.html", extra_context=None):
 
     context = get_product_context(product, ancestors)
     extra_context.update(context)
+    context["category"] = category
     return TemplateResponse(request, template, extra_context)
 
 def style_detail(request, slug, template="product/style_detail.html", extra_context=None):

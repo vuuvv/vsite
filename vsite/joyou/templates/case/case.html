@@ -11,28 +11,31 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="/static/js/libs/gallery/jquery.ad-gallery.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/libs/galleryview/css/jquery.galleryview-3.0-dev.css" />
 <style type="text/css">
-#gallery {
-	width: 600px;
-	margin: 0 auto;
-}
+	.gallery {
+		margin-top: 15px;
+	}
 </style>
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="/static/js/libs/gallery/jquery.ad-gallery.js"></script>
+<script type="text/javascript" src="/static/js/libs/galleryview/js/jquery.timers-1.2.js"></script>
+<script type="text/javascript" src="/static/js/libs/galleryview/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="/static/js/libs/galleryview/js/jquery.galleryview-3.0-dev.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#gallery").adGallery();
+			$("#gallery").galleryView({
+				frame_width: 180,
+				frame_height: 90,
+				show_captions: true,
+				show_filmstrip_nav: false,
+				enable_overlays: true,
+				panel_width: 750,
+				panel_height: 350
+			});
 	});
 </script>
-{% endblock %}
-
-{% block banner %}
-<div class="banner">
-	<img src="{% static "img/banner_1.jpg" %}" alt="" />
-</div>
 {% endblock %}
 
 {% block column_1 %}
@@ -46,17 +49,13 @@
 	</div>
 </div>
 <div class="content">
-	<div id="gallery" class="ad-gallery">
-		<div class="ad-image-wrapper"></div>
-		<div class="ad-controls"></div>
-		<div class="ad-nav">
-			<div class="ad-thumbs">
-				{% for item in category.cases.all %}
-				<li>
-				<a href="{{ MEDIA_URL }}{{ item.image }}"> <img src="{{ MEDIA_URL }}{{ item.image }}" title="{{ item.name }}" alt="{{ item.description }}" height="60"/> </a> 
-				</li>
-				{% endfor %}
-			</div>
+	<div class="gallery">
+		<div id="gallery">
+			{% for item in category.cases.all %}
+			<li>
+				<img src="{{ MEDIA_URL }}{{ item.image }}" data-frame="{{ MEDIA_URL }}{{ item.image }}" title="{{ item.name }}" data-description="{{ item.description }}" />
+			</li>
+			{% endfor %}
 		</div>
 	</div>
 </div>

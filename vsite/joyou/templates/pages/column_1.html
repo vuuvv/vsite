@@ -17,9 +17,11 @@
 {% endblock %}
 
 {% block banner %}
-<div class="banner">
-	<img src="{% static "img/banner_1.jpg" %}" alt="" />
-</div>
+	{% if page.banner %}
+	<div class="banner">
+		<img src="{% static "img/banner_1.jpg" %}" alt="" />
+	</div>
+	{% endif %}
 {% endblock %}
 
 {% block column_2 %}

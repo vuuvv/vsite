@@ -3,32 +3,41 @@
 
 {% block content %}
 
-<div class="product-show clearfix">
-	<div class="img-box">
-		<img src="{{ MEDIA_URL }}{{ item.image }}" alt="" />
+<div class="product-show hlist">
+	<div class="hbox">
+		<div class="img-box">
+			<img src="{{ MEDIA_URL }}{{ item.image }}" alt="{{ item.name }}" />
+		</div>
+		<div class="tech-box">
+			{% for tech in item.technologies.all %}
+			<img src="{{ MEDIA_URL }}{{ tech.image }}" alt="{{ tech.name }}" title="{{ tech.name }}" />
+			{% endfor %}
+		</div>
 	</div>
-	<div class="info-box">
-		<div class="detail">
-			<h5>{{ item.sku }}</h5>
-			<div class="spu">
-				<ul class="spu-info">
-					<table>
-						<tr>
-							<td>商品名称：</td>
-							<td>{{ item.name }}</td>
-						</tr>
-						<tr>
-							<td>型&#12288;&#12288;号：</td>
-							<td>{{ item.sku }}</td>
-						</tr>
-						{% for property in item.properties.all %}
-						<tr>
-							<td>{{ property.key }}：</td>
-							<td>{{ property.value }}</td>
-						</tr>
-						{% endfor %}
-					</table>
-				</ul>
+	<div class="hbox">
+		<div class="info-box">
+			<div class="detail">
+				<h5>{{ item.sku }}</h5>
+				<div class="spu">
+					<ul class="spu-info">
+						<table>
+							<tr>
+								<td>商品名称：</td>
+								<td>{{ item.name }}</td>
+							</tr>
+							<tr>
+								<td>型&#12288;&#12288;号：</td>
+								<td>{{ item.sku }}</td>
+							</tr>
+							{% for property in item.properties.all %}
+							<tr>
+								<td>{{ property.key }}：</td>
+								<td>{{ property.value }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -39,9 +48,6 @@
 		<ul class="clearfix">
 			<li class="tab-first selected">
 				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">产品特点</a>
-			</li>
-			<li>
-				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">中宇技术</a>
 			</li>
 			<li>
 				<a class="tab-anchor no-outline" rel="summary" href="javascript:;">装配图</a>
