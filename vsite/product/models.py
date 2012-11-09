@@ -19,6 +19,7 @@ PRODUCT_ROOT = settings.UPLOAD_ROOT + 'product/'
 PRODUCT_THUMB_ROOT = PRODUCT_ROOT + 'thumb/'
 PRODUCT_CATEGORY_ROOT = PRODUCT_ROOT + 'category/'
 PRODUCT_TECHNOLOGY_ROOT = PRODUCT_ROOT + 'technology/'
+CATEGORY_BANNER_ROOT = PRODUCT_CATEGORY_ROOT + 'banner/'
 STYLE_ROOT = PRODUCT_ROOT + 'style/'
 STYLE_THUMB_ROOT = STYLE_ROOT + 'thumb/'
 
@@ -55,6 +56,19 @@ class Category(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def banner(self):
+        banner = {
+            "images": [],
+            "desc": self.description,
+            "name": self.name,
+        }
+        images = self.banner_images.all()
+        if not images and not self.is_root_node():
+            return self.parent.banner
+        banner["images"] = images
+        return banner
 
     @commit_on_success
     def save(self, *args, **kwargs):
@@ -243,4 +257,11 @@ class StyleImage(models.Model):
             img.save(filename=path)
             self.thumbnail = STYLE_THUMB_ROOT + basename
             super(StyleImage, self).save(*args, **kwargs)
+
+class BannerImage(models.Model):
+    image = models.ImageField(_("Image"), upload_to=CATEGORY_BANNER_ROOT, blank=True)
+    category = models.ForeignKey(Category, verbose_name=_("Category"), related_name="banner_images")
+
+    def __unicode__(self):
+        return self.image.url
 

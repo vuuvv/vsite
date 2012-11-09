@@ -71,6 +71,7 @@ def category(request, slug, page=1, template="product/category.html", extra_cont
             template = 'product/category_top.html'
 
     context["items"] = items
+    context["category"] = category
     extra_context.update(context)
     return TemplateResponse(request, template, extra_context)
 
