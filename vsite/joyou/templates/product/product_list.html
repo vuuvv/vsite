@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<ul class="products">
+<ul class="products clearfix">
 	{% for item in items %}
 	<li {% if forloop.counter|divisibleby:"4" %}class="last"{% endif %}>
 		<a href="{{ item.get_absolute_url }}">
@@ -15,4 +15,27 @@
 	</li>
 	{% endfor %}
 </ul>
+<div class="pagination clearfix"><!--Page -->
+	{% if items.paginator.min_page != items.paginator.max_page %}
+		{% if items.paginator.min_page > 1 %}
+	<a href="{{ curl }}p/1" class="pager pager-first">首页</a>
+		{% endif %}
+		{% if items.number > 1 %}
+	<a href="{{ curl }}p/{{ items.number|add:"-1" }}" class="pager">上一页</a>
+		{% endif %}
+		{% for p in items.paginator.all_pages %}
+			{% if p == items.number %}
+	<a class="pager pager-active">{{ p }}</a>
+			{% else %}
+	<a href="{{ curl }}p/{{ p }}" class="pager">{{ p }}</a>
+			{% endif %}
+		{% endfor %}
+		{% if items.number < items.paginator.num_pages %}
+	<a href="{{ curl }}p/{{ items.number|add:"1" }}" class="pager">下一页</a>
+		{% endif %}
+		{% if items.paginator.max_page < items.paginator.num_pages %}
+	<a href="{{ curl }}p/{{ items.paginator.num_pages }}" class="pager">末页</a>
+		{% endif %}
+	{% endif %}
+</div>
 {% endblock %}

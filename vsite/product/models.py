@@ -132,7 +132,7 @@ class Product(MetaData):
     summary = RichTextField(_("Summary"))
     assembly = RichTextField(_("Assembly"), blank=True)
     manual = RichTextField(_("Manual"), blank=True)
-    technologies = models.ManyToManyField(Technology, verbose_name=_("Technology"), related_name="products")
+    technologies = models.ManyToManyField(Technology, verbose_name=_("Technology"), related_name="products", blank=True)
 
     ordering = models.IntegerField(_("Ordering"), default=1000)
 
