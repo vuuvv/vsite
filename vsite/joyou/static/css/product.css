@@ -25,8 +25,9 @@
 
 .slide-desc p {
 	padding-top: 5px;
-	font-size: 13px;
+	font-size: 12px;
 	line-height: 20px;
+	color: #999;
 }
 
 .serials, .products {
@@ -122,8 +123,9 @@
 }
 
 .products h5 {
-	padding: 0 10px 5px;
-	text-align: left;
+	border-top: 1px solid #d8d8d8;
+	margin: 5px 10px 5px;
+	text-align: right;
 	height: 24px;
 	line-height: 24px;
 }
@@ -133,6 +135,10 @@
 	color: #9D9D9D;
 	text-align: left;
 	padding: 0 10px 5px;
+}
+
+.products p {
+	text-align: right;
 }
 
 .serial-view {
