@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% block meta_title %}{{ page.title }}{% endblock %}
+
 {% block extra_css %}
 <link media="all" rel="stylesheet" href="{% static "css/index.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
@@ -25,7 +27,7 @@ $(function() {
 
 {% block page %}
 <div class="slides">
-	<div id="slides" class="drop-shadow round">
+	<div id="slides" class="">
 		<div class="slides_container">
 			<div class="slide">
 				<a href="{% url product_home %}" title="" target="_blank">

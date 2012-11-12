@@ -1,6 +1,8 @@
 {% extends "product/bannerlist.html" %}
 {% load static %}
 
+{% block meta_title %}{{ category.name }}{% endblock %}
+
 {% block content %}
 <ul class="products clearfix">
 	{% for item in items %}

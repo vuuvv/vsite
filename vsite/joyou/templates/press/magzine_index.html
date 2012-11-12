@@ -1,5 +1,7 @@
 {% extends "press/layout.html" %}
 
+{% block meta_title %}{{ page.title }}{% endblock %}
+
 {% block content %}
 <div class="bookshelf">
 	{% for magzines in chunks %}
