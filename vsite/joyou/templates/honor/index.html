@@ -11,27 +11,16 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static "js/libs/masonry/jquery.masonry.js" %}" type="text/javascript"></script>
-<script src="{% static "js/jquery.prettyPhoto.js" %}" type="text/javascript"></script>
+<script src="{% static "js/imageflow.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
-	$(function() {
-		$('#honor-list').masonry({
-			itemSelector: '.waterfall-box'
-		});
-		$("a[rel^='prettyPhoto']").prettyPhoto({
-			theme:'facebook',
-			slideshow: 8000,
-			autoplay_slideshow: true
-		});
-	});
+	imf.create("imageFlow", 0.15, 0.6, 10);
 </script>
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static "css/prettyPhoto.css" %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 <link media="all" rel="stylesheet" href="{% static "css/news.css"%}" type="text/css" />
 <link media="all" rel="stylesheet" href="{% static "css/article.css"%}" type="text/css" />
-<link media="all" rel="stylesheet" href="{% static "css/shadows.css"%}" type="text/css" />
+<link media="all" rel="stylesheet" href="{% static "css/imageflow.css"%}" type="text/css" />
 {% endblock %}
 
 {% block banner %}
@@ -51,20 +40,18 @@
 	</div>
 </div>
 <div class="content">
-	<div class="hlist honor-list">
-		{% for year in years %}
-		<div class="hbox honor {% if forloop.counter|divisibleby:"3" %}last{% endif %}">
-			<div class="honor-bg"></div>
-			<div class="img-box">
-				<a href="">
-					<img src="{{ MEDIA_URL }}{{ year.image }}" alt="" />
-				</a>
+	<div style="width: 758px; border: 1px solid #ccc; height: 800px; overflow: hidden; position: relative;">
+		<div id="imageFlow">
+			<div class="bank">
+				{% for honor in honors %}
+				<a href="#" title="{{ honor.name }}" rel="{{ MEDIA_URL }}{{ honor.image }}"></a>
+				{% endfor %}
 			</div>
-			<div class="honor-info">
-				{{ year.name }}
+			<div class="text">
+				<div class="title">Loading</div>
+				<div class="legend">Please wait...</div>
 			</div>
 		</div>
-		{% endfor %}
 	</div>
 </div>
 {% endblock %}

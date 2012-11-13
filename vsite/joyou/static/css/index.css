@@ -1,6 +1,8 @@
 .slides {
+	/*
 	background: url(img/slides_bg.png) no-repeat left bottom \0;
 	*background: url(img/slides_bg.png) no-repeat left bottom;
+	*/
 	width: 980px;
 	height: 445px;
 	margin: 0 auto;

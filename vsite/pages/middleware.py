@@ -100,7 +100,7 @@ def get_page_context(url):
     if url != "/":
         ancestors = page.get_ancestors(include_self=True)[1:]
         current = ancestors[0]
-        descendants = cache_tree_children(current.get_descendants())
+        descendants = cache_tree_children(current.get_descendants().filter(active=True, in_navigation=True))
         if len(ancestors) > 1:
             left_current = ancestors[1]
 

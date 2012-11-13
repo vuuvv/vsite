@@ -117,7 +117,7 @@
 .bookshelf {
   background: url(img/bookshelf_wood.jpg);
   padding-top: 59px;
-  margin: 30px 0 50px;
+  margin: 30px auto 50px;
   width: 732px;
   height: 532px;
 }
