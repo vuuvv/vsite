@@ -13,7 +13,6 @@ var imf = function () {
 		else if (window.attachEvent) r = o.attachEvent('on' + e, f);
 	}
 	function createReflexion (cont, img) {
-		alert("hi");
 		var flx = false;
 		if (document.createElement("canvas").getContext) {
 			flx = document.createElement("canvas");
@@ -83,40 +82,43 @@ var imf = function () {
 		if (window.addEventListener)
 			this.oc.addEventListener('DOMMouseScroll', function(e) {
 				this.parent.scroll(-e.detail);
+				e.preventDefault();
+				e.stopPropagation();
 			}, false);
 		else this.oc.onmousewheel = function () {
 			this.parent.scroll(event.wheelDelta);
-		}
-		/* ==== scrollbar drag N drop ==== */
-		this.bar.onmousedown = function (e) {
-			if (!e) e = window.event;
-			var scl = e.screenX - this.offsetLeft;
-			var self = this.parent;
-			/* ---- move bar ---- */
-			this.parent.oc.onmousemove = function (e) {
-				if (!e) e = window.event;
-				self.bar.style.left = Math.round(Math.min((self.ws - self.arw - self.bw), Math.max(self.alw, e.screenX - scl))) + 'px';
-				self.view = Math.round(((e.screenX - scl) ) / (self.ws - self.alw - self.arw - self.bw) * self.NF);
-				if (self.view != self.back) self.calc();
-				return false;
-			}
-			/* ---- release scrollbar ---- */
-			this.parent.oc.onmouseup = function (e) {
-				self.oc.onmousemove = null;
-				return false;
-			}
 			return false;
 		}
-		/* ==== right arrow ==== */
-		this.arR.onclick = this.arR.ondblclick = function () {
-			if (this.parent.view < this.parent.NF - 1)
-				this.parent.calc(1);
-		}
-		/* ==== Left arrow ==== */
-		this.arL.onclick = this.arL.ondblclick = function () {
-			if (this.parent.view > 0)
-				this.parent.calc(-1);
-		}
+		///* ==== scrollbar drag N drop ==== */
+		//this.bar.onmousedown = function (e) {
+		//	if (!e) e = window.event;
+		//	var scl = e.screenX - this.offsetLeft;
+		//	var self = this.parent;
+		//	/* ---- move bar ---- */
+		//	this.parent.oc.onmousemove = function (e) {
+		//		if (!e) e = window.event;
+		//		self.bar.style.left = Math.round(Math.min((self.ws - self.arw - self.bw), Math.max(self.alw, e.screenX - scl))) + 'px';
+		//		self.view = Math.round(((e.screenX - scl) ) / (self.ws - self.alw - self.arw - self.bw) * self.NF);
+		//		if (self.view != self.back) self.calc();
+		//		return false;
+		//	}
+		//	/* ---- release scrollbar ---- */
+		//	this.parent.oc.onmouseup = function (e) {
+		//		self.oc.onmousemove = null;
+		//		return false;
+		//	}
+		//	return false;
+		//}
+		///* ==== right arrow ==== */
+		//this.arR.onclick = this.arR.ondblclick = function () {
+		//	if (this.parent.view < this.parent.NF - 1)
+		//		this.parent.calc(1);
+		//}
+		///* ==== Left arrow ==== */
+		//this.arL.onclick = this.arL.ondblclick = function () {
+		//	if (this.parent.view > 0)
+		//		this.parent.calc(-1);
+		//}
 	}
 	/* //////////// ==== ImageFlow prototype ==== //////////// */
 	ImageFlow.prototype = {
@@ -167,10 +169,10 @@ var imf = function () {
 					}
 				}
 				/* ---- move scrollbar ---- */
-				if (!this.scr && tw) {
-					var r = (this.ws - this.alw - this.arw - this.bw) / tw;
-					this.bar.style.left = Math.round(this.alw + lw * r) + 'px';
-				}
+				//if (!this.scr && tw) {
+				//	var r = (this.ws - this.alw - this.arw - this.bw) / tw;
+				//	this.bar.style.left = Math.round(this.alw + lw * r) + 'px';
+				//}
 				/* ---- save preview view ---- */
 				this.back = this.view;
 			}
