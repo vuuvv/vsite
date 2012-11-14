@@ -772,3 +772,36 @@ a.main_menu_item_link {
 	cursor: default;
 }
 
+.preview-box,
+.preview-panel {
+	background-color: rgba(0, 0, 0, 0.8);
+	background-image: url(img/transparent.gif);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC000000', endColorstr='#CC000000');
+}
+
+.preview-panel {
+	background-color:rgba(0,0,0,0.5);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#80000000');
+}
+
+html:root .preview-box,
+html:root .preview-panel { filter:none; }
+
+.preview-box {
+	position: fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:1001;
+}
+
+.preview-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+

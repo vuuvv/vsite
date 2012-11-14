@@ -10,12 +10,20 @@
 	position: relative;
 }
 
+.pbanner #slides {
+	position: absolute;
+	width: 658px;
+	height: 240px;
+}
+
 .pbanner .slide-desc {
+	background: #e5e4e2;
 	position: absolute;
 	top: 0;
-	left: 680px;
-	width: 300px;
+	left: 658px;
+	width: 320px;
 	height: 240px;
+	padding-left: 10px;
 }
 
 .slide-desc h3 {
