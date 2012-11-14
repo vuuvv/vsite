@@ -43,11 +43,11 @@ def index(request, template="product/index.html", extra_context=None):
     extra_context["latest"] = latest
     return TemplateResponse(request, template, extra_context)
 
-def category(request, slug, page=1, template="product/category.html", extra_context=None):
+def category(request, slug=None, page=1, template="product/category.html", extra_context=None):
     if slug:
         slug = "/%s/" % slug.strip("/").lower()
     else:
-        slug = "/"
+        slug = "/joyou/"
     category = Category.objects.get(cached_url=slug)
     ancestors = category.get_ancestors()
     context = get_product_context(category, ancestors)
@@ -93,8 +93,9 @@ def style_detail(request, slug, template="product/style_detail.html", extra_cont
     context = get_page_context("/product/style/")
     ancestors = context["ancestors"][:]
     context["left_current"] = ancestors[-1]
-    ancestors.append(category)
+    #ancestors.append(category)
     ancestors.append(style)
+    context["ancestors"] = ancestors
     context["item"] = style
     extra_context.update(context)
     return TemplateResponse(request, template, extra_context)

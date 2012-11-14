@@ -40,16 +40,33 @@
 	</div>
 </div>
 <div class="content">
-	<div style="width: 758px; border: 1px solid #ccc; height: 800px; overflow: hidden; position: relative;">
+	<ul class="guide-tab">
+		<li>
+			<a href="">权威颁布</a>
+		</li>
+		<li>
+			<a href="">行业认证</a>
+		</li>
+		<li>
+			<a href="">工程项目</a>
+		</li>
+		<li>
+			<a class="active" href="">媒体评选</a>
+		</li>
+		<li>
+			<a href="">设计奖项</a>
+		</li>
+	</ul>
+	<div style="width: 758px; border: 1px solid #ccc; height: 700px; overflow: hidden; position: relative;">
 		<div id="imageFlow">
 			<div class="bank">
 				{% for honor in honors %}
-				<a href="#" title="{{ honor.name }}" rel="{{ MEDIA_URL }}{{ honor.image }}"></a>
+				<a href="#" title="{{ honor.name }}" rel="{{ MEDIA_URL }}{{ honor.image }}">　</a>
 				{% endfor %}
 			</div>
 			<div class="text">
-				<div class="title">Loading</div>
-				<div class="legend">Please wait...</div>
+				<div class="title">正在加载图像</div>
+				<div class="legend">请稍候...</div>
 			</div>
 		</div>
 	</div>

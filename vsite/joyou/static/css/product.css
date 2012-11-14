@@ -96,6 +96,11 @@
 	margin: 10px 10px 0 0;
 }
 
+.products-top img {
+	width: 320px;
+	height: 120px;
+}
+
 .products li {
 	float: left;
 	text-align: center;
