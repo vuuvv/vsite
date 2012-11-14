@@ -11,7 +11,7 @@ def honor_list(request, slug=None, template="honor/index.html", extra_context=No
     categories = Category.objects.all()
     context = get_page_context("/about/honor/")
     context["categories"] = categories
-    context["current"] = Category.objects.get(slug=slug) if slug else categories[0]
+    context["category"] = Category.objects.get(slug=slug) if slug else categories[0]
     extra_context.update(context)
     return TemplateResponse(request, template, extra_context)
 

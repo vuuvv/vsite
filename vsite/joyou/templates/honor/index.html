@@ -43,20 +43,20 @@
 	<ul class="guide-tab">
 		{% for c in categories %}
 		<li>
-			<a {% if c == current %}class="active"{% endif %} href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+			<a {% if c == category %}class="active"{% endif %} href="{{ c.get_absolute_url }}">{{ c.name }}</a>
 		</li>
 		{% endfor %}
 	</ul>
 	<div style="width: 758px; border: 1px solid #ccc; height: 420px; overflow: hidden; position: relative;">
 		<div id="imageFlow">
 			<div class="bank">
-				{% for honor in current.honors.all %}
+				{% for honor in category.honors.all %}
 				<a href="#" title="{{ honor.name }}" rel="{{ MEDIA_URL }}{{ honor.image }}">　</a>
 				{% endfor %}
 			</div>
 			<div class="text">
-				<div class="title">正在加载图像</div>
-				<div class="legend">请稍候...</div>
+				<div class="title">正在加载图像，请稍候...</div>
+				<div class="legend">　</div>
 			</div>
 		</div>
 	</div>
