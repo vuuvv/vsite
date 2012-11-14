@@ -8,10 +8,10 @@ from vsite.pages.middleware import get_page_context
 from vsite.utils import chunks
 
 def honor_list(request, slug=None, template="honor/index.html", extra_context=None):
-    #category = Category.objects.all()
+    categories = Category.objects.all()
     context = get_page_context("/about/honor/")
-    #context["years"] = category
-    context["honors"] = Honor.objects.all()
+    context["categories"] = categories
+    context["current"] = Category.objects.get(slug=slug) if slug else categories[0]
     extra_context.update(context)
     return TemplateResponse(request, template, extra_context)
 

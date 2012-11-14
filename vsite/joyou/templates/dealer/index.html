@@ -29,7 +29,18 @@
 		//map.create_markers();
 		//map.create_boundaries();
 		$("#dealer-province").change(function() {
-			alert($(this).val());
+			var $this = $(this);
+			$.getJSON("/sales/dealer/cities/" + $this.val() + "/", function(data) {
+				var sel = $("#dealer-city");
+				var first = sel.find("option")[0];
+				var cities = data.cities;
+				sel.html("");
+				sel.append(first);
+				for (var i = 0, len = cities.length; i < len; i++) {
+					var city = cities[i];
+					sel.append('<option value="' + city.id + '">' + city.name + '</option>');
+				}
+			});
 		});
 	});
 </script>
@@ -64,11 +75,14 @@
 					<td width="20%">
 						<select id="dealer-province" name="province">
 							<option value="">-请选择-</option>
+							{% for p in provinces %}
+							<option value="{{ p.id }}">{{ p.name }}</option>
+							{% endfor %}
 						</select>
 					</td>
 					<td width="7%" >城 市：</td>
 					<td width="20%">
-						<select name="city" id="city" >
+						<select name="city" id="dealer-city" >
 							<option value="-1">-请选择-</option>
 						</select>
 					</td>

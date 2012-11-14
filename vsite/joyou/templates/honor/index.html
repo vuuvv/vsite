@@ -41,26 +41,16 @@
 </div>
 <div class="content">
 	<ul class="guide-tab">
+		{% for c in categories %}
 		<li>
-			<a href="">权威颁布</a>
+			<a {% if c == current %}class="active"{% endif %} href="{{ c.get_absolute_url }}">{{ c.name }}</a>
 		</li>
-		<li>
-			<a href="">行业认证</a>
-		</li>
-		<li>
-			<a href="">工程项目</a>
-		</li>
-		<li>
-			<a class="active" href="">媒体评选</a>
-		</li>
-		<li>
-			<a href="">设计奖项</a>
-		</li>
+		{% endfor %}
 	</ul>
-	<div style="width: 758px; border: 1px solid #ccc; height: 700px; overflow: hidden; position: relative;">
+	<div style="width: 758px; border: 1px solid #ccc; height: 600px; overflow: hidden; position: relative;">
 		<div id="imageFlow">
 			<div class="bank">
-				{% for honor in honors %}
+				{% for honor in current.honors.all %}
 				<a href="#" title="{{ honor.name }}" rel="{{ MEDIA_URL }}{{ honor.image }}">　</a>
 				{% endfor %}
 			</div>
