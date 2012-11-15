@@ -21,7 +21,7 @@
 	position: absolute;
 	top: 0;
 	left: 658px;
-	width: 320px;
+	width: 310px;
 	height: 240px;
 	padding-left: 10px;
 }
@@ -36,6 +36,12 @@
 	font-size: 12px;
 	line-height: 20px;
 	color: #999;
+}
+
+.pbanner .guide-btn {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
 }
 
 .serials, .products {

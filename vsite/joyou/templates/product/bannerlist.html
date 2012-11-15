@@ -16,6 +16,12 @@ $(function() {
 		pagination: false,
 		effect: 'fade'
 	});
+	var preview = new PreviewBox();
+	$("#preview-tech").click(function() {
+		var $this = $(this);
+		preview.show_img($this.attr("href"));
+		return false;
+	});
 });
 </script>
 
@@ -33,8 +39,45 @@ $(function() {
 	<div class="slide-desc">
 		<h3>{{ category.banner.name }}</h3>
 		<p>{{ category.banner.desc }}</p>
+		{% if category.feature_image %}
+		<div class="guide-btn">
+			<a id="preview-tech" href="{{ MEDIA_URL }}{{ category.feature_image }}">产品特点</a>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endautoescape %}
+{% endblock %}
+
+{% block overlay %}
+<div style="z-index: 110;" class="preview-box">
+	<div class="preview-container">
+		<a style="position:absolute; top:-99999px;" data-btn="focus" href="javascript:;">Focus</a>
+		<div data_title="ESC关闭" btn="close" class="preview-close"><b>关闭</b></div>
+		<div class="preview-panel">
+			<ul style="" rel="img_ctl" class="contents-control">
+				<li size="100" style=""><i class="sz-01"></i><b>小图</b></li>
+				<li size="480" style=""><i class="sz-02"></i><b>中图</b></li>
+				<li size="800" style="" class="focus"><i class="sz-03"></i><b>大图</b></li>
+				<li size="1440" style=""><i class="sz-04"></i><b>特大图</b></li>
+				<li btn="fullscreen"><i class="sz-04"></i><b>原始图</b></li>
+			</ul>
+			<ul rel="img_ctl" class="contents-panel" style="">
+				<li btn="rotate"><i class="pr-rotate"></i><b>旋转</b></li>
+			</ul>
+		</div>
+		<div rel="con" class="preview-contents">
+			<div class="pr-btn-switch">
+				<b data_title="按键盘“←”键上一个" btn="prev" class="pr-btn-prev">上一个</b>
+    			<b data_title="按键盘“→”键下一个" btn="next" class="pr-btn-next">下一个</b>
+			</div>
+			<div rel="loading" class="previewer-loading">载入中...</div>
+			<div style="overflow: visible;" class="previewer-photo">
+				<img style="cursor: move; left: 220px; top: 0px;" src="" ws_property="1">
+				<i></i>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}
 

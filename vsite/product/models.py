@@ -20,6 +20,7 @@ PRODUCT_THUMB_ROOT = PRODUCT_ROOT + 'thumb/'
 PRODUCT_CATEGORY_ROOT = PRODUCT_ROOT + 'category/'
 PRODUCT_TECHNOLOGY_ROOT = PRODUCT_ROOT + 'technology/'
 CATEGORY_BANNER_ROOT = PRODUCT_CATEGORY_ROOT + 'banner/'
+CATEGORY_FEATURE_ROOT = PRODUCT_CATEGORY_ROOT + 'feature/'
 STYLE_ROOT = PRODUCT_ROOT + 'style/'
 STYLE_THUMB_ROOT = STYLE_ROOT + 'thumb/'
 
@@ -37,6 +38,7 @@ class Category(MPTTModel):
     slug = models.CharField(_("Slug"), max_length=100, blank=True, null=True)
     description = models.TextField(_("Description"), blank=True)
     image = models.ImageField(_("Image"), blank=True, upload_to=PRODUCT_CATEGORY_ROOT)
+    feature_image = models.ImageField(_("Feature Image"), blank=True, upload_to=CATEGORY_FEATURE_ROOT)
     parent = TreeForeignKey('self', null=True, blank=True, verbose_name=_('Parent'))
     meta_keywords = models.TextField(_("Meta keywords"), blank=True)
     meta_description = models.TextField(_("Meta description"), blank=True)

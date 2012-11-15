@@ -15,7 +15,7 @@ class CategoryAdmin(MPTTModelAdmin):
     list_display = ('name', 'active', 'site')
     list_filter = ['active', 'site']
     search_fields = ['name', 'slug']
-    fields = ['site', 'parent', 'name', 'slug', 'description', 'image']
+    fields = ['site', 'parent', 'name', 'slug', 'description', 'feature_image', 'image']
     inlines = (BannerImageAdmin,)
 
 admin.site.register(Category, CategoryAdmin)

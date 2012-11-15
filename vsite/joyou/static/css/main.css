@@ -35,8 +35,8 @@ body {
 	background: #fff;
 	position: relative;
 	width: 1000px;
-	margin: -222px auto -120px;
 	z-index: 1;
+	margin: 0 auto;
 }
 
 .container {
@@ -734,9 +734,9 @@ a.main_menu_item_link {
 	display: block;
 }
 
-.guide-tab li {
+.guide-tab li, .guide-btn {
 	width: 86px;
-	height: 100%;
+	height: 32;
 	line-height: 32px;
 	margin: 0;
 	padding: 0;
@@ -747,7 +747,7 @@ a.main_menu_item_link {
 	float: left;
 }
 
-.guide-tab li a {
+.guide-tab li a, .guide-btn a {
 	display: block;
 	width: 80px;
 	height: 100%;
@@ -794,6 +794,8 @@ html:root .preview-panel { filter:none; }
 	bottom:0;
 	left:0;
 	z-index:1001;
+	display: none;
+	_top: expression(eval(document.documentElement.scrollTop));
 }
 
 .preview-container {
@@ -805,3 +807,124 @@ html:root .preview-panel { filter:none; }
 	overflow: hidden;
 }
 
+.preview-panel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 101;
+	width: 100%;
+	height: 40px;
+	text-align: right;
+	overflow: hidden;
+}
+
+.previewer-loading {
+	position:absolute;
+	top:200px;
+	left:50%;
+	z-index:11;
+	margin:-40px 0 0 -40px;
+	width:80px;
+	height:80px;
+	line-height:50;
+	overflow:hidden;
+	border-radius:3px;
+	background:url(img/loading.gif) no-repeat 0 0;
+}
+
+.preview-contents {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.contents-control, .contents-panel {
+	display: none;
+}
+
+.pr-btn-switch {
+	display: none;
+}
+
+.preview-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.previewer-photo {
+	position: absolute;
+	top: 40px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	_height: 100%;
+}
+
+.previewer-photo img {
+	position: absolute;
+	border: 3px solid #fff;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	-webkit-transition:-webkit-transform 0.3s ease-in-out;
+	-moz-transition:-moz-transform 0.3s ease-in-out;
+	-o-transition:-o-transform 0.3s ease-in-out;
+}
+
+.preview-close b {
+	background-image: url(img/op_spr.png);
+	background-repeat: no-repeat;
+	_background-image: url(img/op_spr.gif);
+}
+
+.preview-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 102;
+}
+
+.preview-close b {
+	float: right;
+	width: 48px;
+	height: 48px;
+	line-height: 20;
+	overflow: hidden;
+	background-position: 0 0;
+	cursor: pointer;
+}
+
+.preview-close b:hover {
+	background-position: 0 -50px;
+}
+
+.preview-info {
+	display: none;
+}
+
+/* for IE 6 */
+*html .preview-box {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+*html .preview-container {
+	width: 100%;
+	height: 100%;
+}
+
+*html .preview-box-min {
+	width: 640px;
+	height: 480px;
+}
