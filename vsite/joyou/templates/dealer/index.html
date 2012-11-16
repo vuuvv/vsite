@@ -15,6 +15,11 @@
 <script src="{% static "js/map.js"%}" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
+		var url = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=218.85.241.46&?callback=?";
+		$.getJSON(url, null, function(data) {
+			console.log(data);
+		});
+
 		var map = new Map({
 			element: '#dealer_map'
 		});
