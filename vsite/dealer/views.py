@@ -22,8 +22,10 @@ def cities(request, pid, extra_context=None):
         "cities": models_to_json(cities)
     })
 
-def dealers(request, extra_context=None):
-    dealers = Dealer.objects.select_related('area').all()
+def dealers(request, aid, extra_context=None):
+    area = Area.objects.get(pk=aid)
+    areas = area.get_leafnodes(include_self=True)
+    dealers = Dealer.objects.select_related('area').filter(area__in=areas)
     return render_to_json({
         "dealers": models_to_json(dealers)
     })

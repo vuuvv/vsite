@@ -34,6 +34,12 @@ $(function() {
 		"香港特别行政区": "#C8C1E3",
 		"澳门特别行政区": "#C8C1E3"
 	};
+
+	var COUNTRY = 5;
+	var PROVINCE = 8;
+	var PROVINCE = 8;
+	var STREET = 10;
+
 	var Map = function(options) {
 		this.initialize(options);
 	};
@@ -57,19 +63,25 @@ $(function() {
 			this.map.setCenter(latlng);
 		},
 
+		ip2city: function(address, callback) {
+			var map = this.map;
+			var city = new BMap.LocalCity();
+			city.get(function(result) {
+				map.setCenter(result.name);
+				map.setZoom(8);
+				alert(result.name);
+			});
+		},
+
 		address: function(address, callback) {
 			var self = this;
-			this.geocoder.geocode({address: address}, function(results, status) {
-				if (status == gmap.GeocoderStatus.OK) {
-					var res = results[0];
-					self.map.setCenter(res.geometry.location);
-					self.map.setZoom(8);
-					//var marker = new google.maps.Marker({
-					//	map: self.map,
-					//	position: res.geometry.location
-					//});
-				} else {
-					alert("对不起，搜索失败:" + status);
+			var map = this.map;
+			var geo = new BMap.Geocoder();
+			geo.getPoint(address, function(point) {
+				console.log(point);
+				if (point) {
+					map.centerAndZoom(point, 16);
+					map.addOverlay(new BMap.Marker(point));
 				}
 			});
 		},
@@ -123,6 +135,17 @@ $(function() {
 			$.getJSON("/sales/dealer/boundary/", on_response);
 		},
 
+		create_marker: function(point, info) {
+			var marker = new BMap.Marker(point);
+			this.map.addOverlay(marker);
+			if (info) {
+				var info_window = new BMap.InfoWindow(info);
+				marker.addEventListener("click", function() {
+					this.openInfoWindow(info_window);
+				});
+			}
+		},
+
 		create_markers: function() {
 			var self = this;
 			var dealer_info = function(dealer) {
@@ -154,5 +177,104 @@ $(function() {
 		}
 	};
 
+	var dealer_tmpl = '<li><div class="dealer-info"><a href="" class="dealer-name"></a></div><div class="dealer-address"><a href="#" class="dealer-detail">查看</a><span></span></div></li>'
+
+	var DealerMap = function() {
+		this.initialize();
+	};
+
+	DealerMap.prototype = {
+		initialize: function() {
+			this.$province = $("#dealer-province");
+			this.$city = $("#dealer-city");
+			this.$list = $("#dealer-list");
+			this.$search = $("#dealer-search");
+			this.map = new Map({element: '#dealer_map'});
+
+			this.bind_event();
+
+			// init the selector
+			var province = this.$province.val();
+			if (province != "-1")
+				this.get_cities(province);
+		},
+
+		bind_event: function() {
+			var self = this;
+			var $province = this.$province;
+			var $city = this.$city;
+			var $search = this.$search;
+			$province.change(function() {
+				self.get_cities($province.val());
+			});
+			$city.change(function() {
+				var val = $city.val();
+				if (val != "-1")
+					self.get_dealers(val);
+			});
+			$search.click(function() {
+				var area = self.get_select_area();
+				if (area !== null)
+					self.get_dealers(area)
+				else
+					alert("请选择省或市!");
+				return false;
+			});
+		},
+
+		get_select_area: function() {
+			var city = this.$city.val();
+			var province = this.$province.val();
+			if (city != "-1")
+				return city;
+			if (province != "-1")
+				return province;
+			return null;
+		},
+
+		get_cities: function(province) {
+			var self = this;
+			$.getJSON("/sales/dealer/cities/" + province + "/", function(data) {
+				self.set_cities(data.cities);
+			})
+		},
+
+		set_cities: function(cities) {
+			var $city = this.$city;
+			var first = $($city.find("option")[0]);
+			first.remove();
+			$city.html("");
+			$city.append(first);
+			for (var i = 0, len = cities.length; i < len; i++) {
+				var city = cities[i];
+				$city.append('<option value="' + city.id + '">' + city.name + '</option>');
+			}
+		},
+
+		get_dealers: function(area) {
+			var self = this;
+			$.getJSON("/sales/dealer/area/" + area + "/", function(data) {
+				self.set_dealers(data.dealers);
+			});
+		},
+
+		set_dealers: function(dealers) {
+			var $list = this.$list;
+			$list.html("");
+			for (var i = 0, len=dealers.length; i < len; i++) {
+				var dealer = dealers[i];
+				var node = $(dealer_tmpl);
+				node.find(".dealer-name").text(dealer.name);
+				node.find(".dealer-address span").text(dealer.address);
+				$list.append(node);
+
+				// add to map
+				var pt = new BMap.Point(dealer.longitude, dealer.latitude);
+				this.map.create_marker(pt, "hi");
+			}
+		}
+	};
+
 	window.Map = Map;
+	window.DealerMap = DealerMap;
 });

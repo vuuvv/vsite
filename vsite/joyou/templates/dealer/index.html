@@ -15,11 +15,6 @@
 <script src="{% static "js/map.js"%}" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
-		var url = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=218.85.241.46&?callback=?";
-		$.getJSON(url, null, function(data) {
-			console.log(data);
-		});
-
 		var map = new Map({
 			element: '#dealer_map'
 		});
@@ -33,20 +28,8 @@
 		});
 		//map.create_markers();
 		//map.create_boundaries();
-		$("#dealer-province").change(function() {
-			var $this = $(this);
-			$.getJSON("/sales/dealer/cities/" + $this.val() + "/", function(data) {
-				var sel = $("#dealer-city");
-				var first = sel.find("option")[0];
-				var cities = data.cities;
-				sel.html("");
-				sel.append(first);
-				for (var i = 0, len = cities.length; i < len; i++) {
-					var city = cities[i];
-					sel.append('<option value="' + city.id + '">' + city.name + '</option>');
-				}
-			});
-		});
+
+		new DealerMap();
 	});
 </script>
 {% endblock %}
@@ -79,7 +62,7 @@
 					<td width="7%">省 份：</td>
 					<td width="20%">
 						<select id="dealer-province" name="province">
-							<option value="">-请选择-</option>
+							<option value="-1">-请选择-</option>
 							{% for p in provinces %}
 							<option value="{{ p.id }}">{{ p.name }}</option>
 							{% endfor %}
@@ -93,7 +76,7 @@
 					</td>
 					<td width="37%"></td>
 					<td width="9%">
-						<a href="#" id="select_search">
+						<a href="#" id="dealer-search">
 							<img src="{% static "img/btnsearch.jpg" %}" alt="" />
 						</a>
 					</td>
@@ -101,61 +84,7 @@
 			</table>
 		</div>
 		<div class="dealer-list">
-			<ul>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">上泉州</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						泉州市坪山路云谷精品建材市场中宇卫浴
-					</div>
-				</li>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">上海市</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						上海市莘庄工业区银都西路申北一路61号
-					</div>
-				</li>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">广东省东莞市</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						广东省东莞市东城区东平街233号--美新家居中心A22、A35
-					</div>
-				</li>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">北京市</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						北京丰台区张仪村南路305号5号库房
-					</div>
-				</li>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">乌鲁木齐</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						新疆乌鲁木齐阿勒泰路326号木材厂信中建材市场A区43-44号
-					</div>
-				</li>
-				<li>
-					<div class="dealer-info">
-						<a href="" class="dealer-name">南安</a>
-					</div>
-					<div class="dealer-address">
-						<a href="#" class="dealer-detail">查看</a>
-						南安河滨公园中宇专卖店
-					</div>
-				</li>
+			<ul id="dealer-list">
 			</ul>
 		</div>
 		<div class="dealer-location">
