@@ -36,9 +36,9 @@ $(function() {
 	};
 
 	var COUNTRY = 5;
-	var PROVINCE = 8;
-	var PROVINCE = 8;
-	var STREET = 10;
+	var PROVINCE = 6;
+	var CITY = 12;
+	var STREET = 14;
 
 	var Map = function(options) {
 		this.initialize(options);
@@ -144,6 +144,11 @@ $(function() {
 					this.openInfoWindow(info_window);
 				});
 			}
+			return marker;
+		},
+
+		remove_marker: function(marker) {
+			this.map.removeOverlay(marker);
 		},
 
 		create_markers: function() {
@@ -189,6 +194,7 @@ $(function() {
 			this.$city = $("#dealer-city");
 			this.$list = $("#dealer-list");
 			this.$search = $("#dealer-search");
+			this.markers = [];
 			this.map = new Map({element: '#dealer_map'});
 
 			this.bind_event();
@@ -210,12 +216,12 @@ $(function() {
 			$city.change(function() {
 				var val = $city.val();
 				if (val != "-1")
-					self.get_dealers(val);
+					self.get_dealers(val, CITY);
 			});
 			$search.click(function() {
 				var area = self.get_select_area();
 				if (area !== null)
-					self.get_dealers(area)
+					self.get_dealers(area.id, area.zoom)
 				else
 					alert("请选择省或市!");
 				return false;
@@ -226,9 +232,9 @@ $(function() {
 			var city = this.$city.val();
 			var province = this.$province.val();
 			if (city != "-1")
-				return city;
+				return {id: city, zoom: CITY};
 			if (province != "-1")
-				return province;
+				return {id: province, zoom: PROVINCE};
 			return null;
 		},
 
@@ -251,16 +257,28 @@ $(function() {
 			}
 		},
 
-		get_dealers: function(area) {
+		get_dealers: function(area, zoom) {
 			var self = this;
 			$.getJSON("/sales/dealer/area/" + area + "/", function(data) {
-				self.set_dealers(data.dealers);
+				self.set_dealers(data.dealers, zoom);
 			});
 		},
 
-		set_dealers: function(dealers) {
+		set_dealers: function(dealers, zoom) {
+			var self = this;
 			var $list = this.$list;
+			zoom = zoom || COUNTRY;
 			$list.html("");
+			$.each(this.markers, function(i, marker) {
+				self.map.remove_marker(marker);
+			});
+			if (dealers[0]) {
+				var d = dealers[0];
+				this.map.map.centerAndZoom(
+				   new BMap.Point(d.longitude, d.latitude),
+				   zoom
+				);
+			}
 			for (var i = 0, len=dealers.length; i < len; i++) {
 				var dealer = dealers[i];
 				var node = $(dealer_tmpl);
@@ -270,8 +288,15 @@ $(function() {
 
 				// add to map
 				var pt = new BMap.Point(dealer.longitude, dealer.latitude);
-				this.map.create_marker(pt, "hi");
+				var marker = this.map.create_marker(pt, "hi");
+				this.markers.push(marker);
 			}
+		},
+
+		show_province: function(province) {
+		},
+
+		show_city: function(city) {
 		}
 	};
 
