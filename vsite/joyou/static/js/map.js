@@ -211,7 +211,12 @@ $(function() {
 			var $city = this.$city;
 			var $search = this.$search;
 			$province.change(function() {
-				self.get_cities($province.val());
+				var val = $province.val();
+				if (val != "-1")
+					self.get_cities(val);
+				else
+					self._empty_citi_select();
+
 			});
 			$city.change(function() {
 				var val = $city.val();
@@ -238,6 +243,14 @@ $(function() {
 			return null;
 		},
 
+		_empty_citi_select: function() {
+			var $city = this.$city;
+			var first = $($city.find("option")[0]);
+			first.remove();
+			$city.html("");
+			$city.append(first);
+		},
+
 		get_cities: function(province) {
 			var self = this;
 			$.getJSON("/sales/dealer/cities/" + province + "/", function(data) {
@@ -247,14 +260,10 @@ $(function() {
 
 		set_cities: function(cities) {
 			var $city = this.$city;
-			var first = $($city.find("option")[0]);
-			first.remove();
-			$city.html("");
-			$city.append(first);
-			for (var i = 0, len = cities.length; i < len; i++) {
-				var city = cities[i];
+			this._empty_citi_select();
+			$.each(cities, function(i, city) {
 				$city.append('<option value="' + city.id + '">' + city.name + '</option>');
-			}
+			});
 		},
 
 		get_dealers: function(area, zoom) {
@@ -288,9 +297,26 @@ $(function() {
 
 				// add to map
 				var pt = new BMap.Point(dealer.longitude, dealer.latitude);
-				var marker = this.map.create_marker(pt, "hi");
+				var marker = this.map.create_marker(pt, this.generate_info(dealer));
 				this.markers.push(marker);
 			}
+		},
+
+		generate_info: function(dealer) {
+			var ret = '<p>区域：' + dealer.name  + '</p>';
+			if (dealer.contact)
+				ret += '<p>联系人：' + dealer.contact  + '</p>';
+			if (dealer.mobile)
+				ret += '<p>手机：' + dealer.mobile  + '</p>';
+			if (dealer.tel)
+				ret += '<p>联系电话：' + dealer.tel  + '</p>';
+			if (dealer.fax)
+				ret += '<p>传真：' + dealer.fax  + '</p>';
+			if (dealer.address)
+				ret += '<p>地址：' + dealer.address  + '</p>';
+			if (dealer.website)
+				ret += '<p>地址：<a href="' + dealer.website +'" target="_blank">' + dealer.website  + '</a></p>';
+			return ret;
 		},
 
 		show_province: function(province) {
