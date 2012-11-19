@@ -13,7 +13,9 @@ class Area(MPTTModel):
         return self.name
 
     def get_dealers(self):
-        pass
+        areas = self.get_leafnodes(include_self=True)
+        dealers = Dealer.objects.select_related('area').filter(area__in=areas)
+        return dealers
 
 class Dealer(models.Model):
     area = TreeForeignKey(Area, related_name="dealears")

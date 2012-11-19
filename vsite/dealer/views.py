@@ -16,18 +16,23 @@ def index(request, slug=None, template="dealer/index.html", extra_context=None):
     return TemplateResponse(request, template, extra_context)
 
 def cities(request, pid, extra_context=None):
-    provinces = Area.objects.get(pk=pid)
-    cities = provinces.get_children()
+    province = Area.objects.get(pk=pid)
     return render_to_json({
-        "cities": models_to_json(cities)
+        "cities": models_to_json(province.get_children())
     })
 
 def dealers(request, aid, extra_context=None):
     area = Area.objects.get(pk=aid)
-    areas = area.get_leafnodes(include_self=True)
-    dealers = Dealer.objects.select_related('area').filter(area__in=areas)
     return render_to_json({
-        "dealers": models_to_json(dealers)
+        "dealers": models_to_json(area.get_dealers())
+    })
+
+def province(request, name, extra_context=None):
+    province = Area.objects.get(name=name)
+    return render_to_json({
+        "id": province.id,
+        "cities": models_to_json(province.get_children()),
+        "dealers": models_to_json(province.get_dealers())
     })
 
 def boundary(request, extra_context=None):

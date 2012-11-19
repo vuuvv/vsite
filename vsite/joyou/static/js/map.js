@@ -36,7 +36,7 @@ $(function() {
 	};
 
 	var COUNTRY = 5;
-	var PROVINCE = 6;
+	var PROVINCE = 8;
 	var CITY = 12;
 	var STREET = 14;
 
@@ -56,6 +56,8 @@ $(function() {
 			map.centerAndZoom(opts.center, opts.zoom);
 			map.addControl(new BMap.NavigationControl());
 			map.addControl(new BMap.MapTypeControl());
+			map.enableScrollWheelZoom();
+			map.enableContinuousZoom();
 		},
 
 		coord: function(lat, lng) {
@@ -78,11 +80,21 @@ $(function() {
 			var map = this.map;
 			var geo = new BMap.Geocoder();
 			geo.getPoint(address, function(point) {
-				console.log(point);
 				if (point) {
 					map.centerAndZoom(point, 16);
 					map.addOverlay(new BMap.Marker(point));
 				}
+			});
+		},
+
+		local_area: function(callback) {
+			var city = new BMap.LocalCity();
+			city.get(function(result) {
+				var center = result.center;
+				var gc = new BMap.Geocoder();
+				gc.getLocation(center, function(result) {
+					callback(result);
+				});
 			});
 		},
 
@@ -140,6 +152,7 @@ $(function() {
 			this.map.addOverlay(marker);
 			if (info) {
 				var info_window = new BMap.InfoWindow(info);
+				marker._info_window = info_window;
 				marker.addEventListener("click", function() {
 					this.openInfoWindow(info_window);
 				});
@@ -199,10 +212,14 @@ $(function() {
 
 			this.bind_event();
 
+			var self = this;
+			this.map.local_area(function(result) {
+				self.show_province(result.addressComponents.province);
+			});
 			// init the selector
-			var province = this.$province.val();
-			if (province != "-1")
-				this.get_cities(province);
+			//var province = this.$province.val();
+			//if (province != "-1")
+			//	this.get_cities(province);
 		},
 
 		bind_event: function() {
@@ -243,12 +260,14 @@ $(function() {
 			return null;
 		},
 
-		_empty_citi_select: function() {
-			var $city = this.$city;
-			var first = $($city.find("option")[0]);
+		_select_remain_first: function(dom) {
+			var first = $(dom.find("option")[0]);
 			first.remove();
-			$city.html("");
-			$city.append(first);
+			dom.html("");
+			dom.append(first);
+		},
+
+		set_province: function(provinces) {
 		},
 
 		get_cities: function(province) {
@@ -260,7 +279,7 @@ $(function() {
 
 		set_cities: function(cities) {
 			var $city = this.$city;
-			this._empty_citi_select();
+			this._select_remain_first($city);
 			$.each(cities, function(i, city) {
 				$city.append('<option value="' + city.id + '">' + city.name + '</option>');
 			});
@@ -299,7 +318,18 @@ $(function() {
 				var pt = new BMap.Point(dealer.longitude, dealer.latitude);
 				var marker = this.map.create_marker(pt, this.generate_info(dealer));
 				this.markers.push(marker);
+				node.data("marker", marker);
+				node.data("dealer", dealer);
 			}
+			$(".dealer-info a, .dealer-address a").click(function() {
+				var node = $(this).parents("li");
+				var dealer = node.data("dealer");
+				var marker = node.data("marker");
+				var pt = new BMap.Point(dealer.longitude, dealer.latitude);
+				self.map.map.centerAndZoom(pt, STREET);
+				marker.openInfoWindow(marker._info_window);
+				return false;
+			});
 		},
 
 		generate_info: function(dealer) {
@@ -319,7 +349,18 @@ $(function() {
 			return ret;
 		},
 
+		_get_province_index: function(pid) {
+			return $('#dealer-province option[value=' + pid + ']').index();
+		},
+
 		show_province: function(province) {
+			var self = this;
+			province = encodeURIComponent(province);
+			$.getJSON("/sales/dealer/province/" + province + "/", function(data) {
+				self.$province.val(self._get_province_index(data.id) + 1);
+				self.set_cities(data.cities);
+				self.set_dealers(data.dealers, PROVINCE);
+			});
 		},
 
 		show_city: function(city) {
