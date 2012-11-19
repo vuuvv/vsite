@@ -37,7 +37,7 @@ $(function() {
 
 	var COUNTRY = 5;
 	var PROVINCE = 8;
-	var CITY = 12;
+	var CITY = 11;
 	var STREET = 14;
 
 	var Map = function(options) {
