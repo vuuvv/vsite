@@ -87,6 +87,20 @@ $(function() {
 			});
 		},
 
+		province_of_address: function(address, callback) {
+			var self = this;
+			var map = this.map;
+
+			var local = new BMap.LocalSearch("全国", {
+				onSearchComplete: function(rs) {
+					var p= rs.getPoi(0);
+					var province = p.province || rs.province;
+					callback(province, p.point);
+				}
+			});
+			local.search(address);
+		},
+
 		local_area: function(callback) {
 			var city = new BMap.LocalCity();
 			city.get(function(result) {
@@ -207,6 +221,7 @@ $(function() {
 			this.$city = $("#dealer-city");
 			this.$list = $("#dealer-list");
 			this.$search = $("#dealer-search");
+			this.$map_search = $("#address-search");
 			this.markers = [];
 			this.map = new Map({element: '#dealer_map'});
 
@@ -227,6 +242,7 @@ $(function() {
 			var $province = this.$province;
 			var $city = this.$city;
 			var $search = this.$search;
+			var $map_search = this.$map_search;
 			$province.change(function() {
 				var val = $province.val();
 				if (val != "-1")
@@ -246,6 +262,27 @@ $(function() {
 					self.get_dealers(area.id, area.zoom)
 				else
 					alert("请选择省或市!");
+				return false;
+			});
+
+			function search_address() {
+				var val = $("#address-input").val();
+				self.map.province_of_address(val, function(province, center) {
+					self.show_province(province, CITY, center);
+				});
+			}
+			$map_search.submit(function() {
+				search_address();
+				return false;
+			});
+			$("#address_btn").click(function() {
+				var val = $("#address-input").val();
+				var local = new BMap.LocalSearch("全国", {
+					onSearchComplete: function() {
+						console.log(arguments);
+					}
+				});
+				local.search(val);
 				return false;
 			});
 		},
@@ -292,7 +329,7 @@ $(function() {
 			});
 		},
 
-		set_dealers: function(dealers, zoom) {
+		set_dealers: function(dealers, zoom, center) {
 			var self = this;
 			var $list = this.$list;
 			zoom = zoom || COUNTRY;
@@ -300,13 +337,9 @@ $(function() {
 			$.each(this.markers, function(i, marker) {
 				self.map.remove_marker(marker);
 			});
-			if (dealers[0]) {
-				var d = dealers[0];
-				this.map.map.centerAndZoom(
-				   new BMap.Point(d.longitude, d.latitude),
-				   zoom
-				);
-			}
+			if (!center && dealers[0])
+				center = new BMap.Point(dealers[0].longitude, dealers[0].latitude);
+			this.map.map.centerAndZoom(center, zoom);
 			for (var i = 0, len=dealers.length; i < len; i++) {
 				var dealer = dealers[i];
 				var node = $(dealer_tmpl);
@@ -353,13 +386,14 @@ $(function() {
 			return $('#dealer-province option[value=' + pid + ']').index();
 		},
 
-		show_province: function(province) {
+		show_province: function(province, zoom, center) {
 			var self = this;
+			zoom = zoom || PROVINCE;
 			province = encodeURIComponent(province);
 			$.getJSON("/sales/dealer/province/" + province + "/", function(data) {
 				self.$province.val(self._get_province_index(data.id) + 1);
 				self.set_cities(data.cities);
-				self.set_dealers(data.dealers, PROVINCE);
+				self.set_dealers(data.dealers, zoom, center);
 			});
 		},
 
