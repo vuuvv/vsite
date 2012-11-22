@@ -1,0 +1,63 @@
+h1, h2, h3, h4 {
+	font-family: "Microsoft Yahei";
+	font-weight: normal;
+	padding: 0;
+	margin: 0;
+}
+
+#slide {
+	background: url(img/loading.gif) no-repeat scroll 50% 50% #fff;
+	width: 980px;
+	margin: 0 auto;
+	height: 390px;
+	position: relative;
+}
+
+.slide .board {
+	background: url(img/loading.gif) no-repeat scroll 50% 50% #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	padding: 10px 9px 8px;
+	position: absolute;
+	
+	/* test properties */
+	width: 240px;
+	z-index: 108;
+}
+
+.slide .slide-data {
+	display: none;
+}
+
+.slide .board-img {
+	display: block;
+	overflow: hidden;
+	width: 100%;
+}
+
+.slide .board-img img {
+	border: 0;
+	display: block;
+	overflow: hidden;
+	width: 100%;
+}
+
+.slide .board-title {
+	display: none;
+	font-size: 18px;
+	padding: 8px 0;
+	white-space: nowrap;
+}
+
+.slide .board-desc {
+	display: none;
+	color: #808080;
+	font-size: 12px;
+	line-height: 14px;
+	width: 100%;
+	overflow: hidden;
+	padding: 0 0 3px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-wrap: normal;
+}
