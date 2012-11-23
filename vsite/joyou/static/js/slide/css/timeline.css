@@ -1,0 +1,76 @@
+.timeline {
+	width: 980px;
+	margin: 0 auto;
+}
+
+#timeline {
+	display: none;
+}
+
+.timeline-store {
+	display: none;
+}
+
+.timeline-view {
+	height: 376px;
+	position: relative;
+}
+
+.timeline-navbar {
+	height: 40px;
+	width: 960px;
+	overflow: hidden;
+	position: relative;
+	padding: 0 10px;
+	border-bottom: 1px solid #666;
+}
+
+.timeline-nav {
+	height: 40px;
+	left: 0;
+	position: relative;
+}
+
+.timeline-nav .current {
+	color: #333;
+}
+
+.timeline-nav-prev {
+	background: #fff;
+	height: 40px;
+	line-height: 40px;
+	width: 10px;
+	top: 0;
+	left: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.timeline-nav-next {
+	background: #fff;
+	height: 40px;
+	line-height: 40px;
+	width: 10px;
+	right: 0;
+	top: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.timeline-nav-item {
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	width: 60px;
+	position: absolute;
+	cursor: pointer;
+	color: #999;
+}
+
+.timeline-loading {
+	background: url(img/loading.gif) no-repeat 50% 50%;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 100;
+}
