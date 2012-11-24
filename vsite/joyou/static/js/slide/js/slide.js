@@ -1,20 +1,4 @@
 (function() {
-	var Board = function(data) {
-		this.thumb = data.thumb;
-		this.img = data.img;
-		this.info = data.info;
-		this.loaded = false;
-		this.initialize();
-	};
-
-	Board.prototype = {
-		initialize: function() {
-		},
-
-		on_load: function() {
-		}
-	};
-
 	var Slide = function(options) {
 		this.initialize(options);
 	};
@@ -22,35 +6,27 @@
 	Slide.prototype = {
 		defaults: {
 			container: "#slide",
-			width: 100,
 			padding: 10,
 			item_padding: 9,
 			scale: 0.75,
 			count: 5,
 			left: 10,
 			duration: 400,
+			container_width: 980,
 			width: 240,
-			height: 180,
-			styles: [
-				{width: 80, top: 63, left: 0, display: "none", "z-index": 100},
-				{width: 180, top: 38, left: 10, "font-size": "12px", "z-index": 101},
-				{width: 200, top: 25, left: 155, "font-size": "14px", "z-index": 102},
-				{width: 240, top: 0, left: 345, "font-size": "16px", "z-index": 103},
-				{width: 200, top: 25, left: 575, "font-size": "14px", "z-index": 102},
-				{width: 180, top: 38, left: 740, "font-size": "12px", "z-index": 101},
-				{width: 100, top: 63, left: 800, display: "none", "z-index": 100}
-			]
+			height: 180
 		},
 
 		initialize: function(options) {
 			var opts = this.options = $.extend({}, this.defaults, options);
 			this.container = $(opts.container);
 			opts.styles = this.calc_styles();
+			this.index = 0;
 			this.items = this.get_data();
 			this.generate_boards();
 			this.set_css();
 			this.bind_events();
-			this.container.css("background-image", "none");
+			this.container.removeClass("loading");
 		},
 
 		get_data: function() {
@@ -59,7 +35,7 @@
 				var item = {};
 				var $elem = $(elem);
 				item.thumb = $elem.attr("data-thumb");
-				item.img = $elem.attr("data-img");
+				item.img = $elem.attr("data-img") || "#";
 				item.info = $elem.text();
 				item.loaded = false;
 				items.push(item);
@@ -99,33 +75,68 @@
 				style["z-index"] = zindex - offset;
 				styles.push(style);
 			}
+			// get the total visible length
+			this.total_length = style.left + width * (1 - 2 * scale);
+			var delta = width * scale + (this.total_length - opts.container_width) / 2;
+			$.each(styles, function(i, item) {
+				item.left -= delta;
+			});
+			// set first and last board invisible
+			style.display = "none";
 			styles[0].display = "none";
-			styles[count - 1].display = "none";
 			return styles;
 		},
 
-		set_board: function(index) {
-		},
-
 		generate_boards: function() {
+			var boards = this.boards = $('<div class="boards"></div>').css({
+					width: this.total_length,
+					height: this.options.height + 2 * this.options.padding
+			});
 			var items = this.items;
+			var items_length = items.length;
 			for(var i = 0, len = this.options.count + 2; i < len; i++) {
-				var board = this.generate_board(items[i]);
-				this.container.append(board);
+				var board = this.generate_board(items[i % items_length]);
+				boards.append(board);
 			}
+			this.container.append(boards);
 		},
 
 		generate_board: function(data) {
-			var board = $('<div class="board"><div class="board-img"><a href="' + data.img + '"></a></div></div>');
+			var board = $('<div class="board loading"><div class="board-img"><a href="' + data.img + '"><img/></a></div></div>');
+			if (data.loaded) {
+				board.find("img").attr("src", data.thumb);
+			} else {
+				this.load_img(board, data);
+			}
+			return board;
+		},
+
+		load_img: function(board, data) {
+			var img = board.find("img");
+			var link = board.find(".board-img a");
+			img.remove();
+			if (!board.hasClass("loading"))
+				board.addClass("loading");
 			var image = new Image();
 			image.onload = function() {
-				var img = $("<img>");
 				img.attr("src", data.thumb);
-				board.css("background-image", "none")
-				board.find(".board-img a").append(img);
+				board.removeClass("loading");
+				link.append(img);
+				data.loaded = true;
 			}
 			image.src = data.thumb;
-			return board;
+		},
+
+		set_board_data: function(board, data) {
+			var link = board.find(".board-img a");
+			link.attr("href", data.img);
+
+			if (data.loaded) {
+				var img = board.find("img");
+				img.attr("src", data.thumb).appendTo(link);
+			} else {
+				this.load_img(board, data);
+			}
 		},
 
 		set_css: function() {
@@ -153,7 +164,7 @@
 			var center = Math.floor(boards.length / 2);
 			if (index == center)
 				return;
-			this.move(center - index);
+			this.move(index - center);
 			return false;
 		},
 
@@ -161,6 +172,7 @@
 			board.off("click").css(this.options.styles[i]).click(this.on_board_click);
 		},
 
+		// actual move one step a function
 		move: function(step) {
 			if (step == 0)
 				return;
@@ -173,27 +185,40 @@
 			var first = boards.eq(0);
 			var last = boards.eq(length - 1);
 			var direction = step > 0 ? 1 : -1;
+			var count = opts.count + 2;
+			var items = this.items;
 
 			step -= direction;
 
-			if (direction > 0) {
+			var index = this.index;
+			index = this.index = (index + direction) % boards.length;
+
+			if (direction < 0) {
 				last.remove();
+				if (count < items.length) {
+					var i = (index - 1) % items.length;
+					this.set_board_data(last, items[i]);
+				}
 				last.insertBefore(first);
 				this.reset_board(last, 0);
 				first.show();
 			} else {
 				first.remove();
+				if (count < items.length) {
+					var i = (index + boards.length) % items.length;
+					this.set_board_data(first, items[i]);
+				}
 				first.insertAfter(last);
 				this.reset_board(last, length - 1);
 				last.show();
 			}
 
 			boards.stop().each(function(i, elem) {
-				if ((direction > 0 && i == length - 1) || (direction < 0 && i == 0))
+				if ((direction < 0 && i == length - 1) || (direction > 0 && i == 0))
 					return;
 				var $this = $(this);
 				var w, t, l, style;
-				style = styles[i + direction];
+				style = styles[i - direction];
 				w = style["width"];
 				h = style["height"];
 				t = style["top"];

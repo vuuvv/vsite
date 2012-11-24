@@ -1,4 +1,4 @@
-{% extends "normal.html" %}
+{% extends "column_1.html" %}
 
 {% load static %}
 
@@ -23,22 +23,7 @@
 <link media="all" rel="stylesheet" href="{% static "css/imageflow.css"%}" type="text/css" />
 {% endblock %}
 
-{% block banner %}
-<div class="banner">
-	<img src="{% static "img/banner_1.jpg" %}" alt="" />
-</div>
-{% endblock %}
-
-{% block column_1 %}
-{% include "pages/includes/left_nav.html" %}
-{% endblock %}
-
 {% block column_2 %}
-<div class="toolbox">
-	<div class="breadcrumb">
-		{% include "pages/includes/breadcrumb.html" %}
-	</div>
-</div>
 <div class="content">
 	<ul class="guide-tab">
 		{% for c in categories %}
@@ -47,7 +32,7 @@
 		</li>
 		{% endfor %}
 	</ul>
-	<div style="width: 758px; border: 1px solid #ccc; height: 420px; overflow: hidden; position: relative;">
+	<div style="border: 1px solid #ccc; height: 420px; overflow: hidden; position: relative;">
 		<div id="imageFlow">
 			<div class="bank">
 				{% for honor in category.honors.all %}
