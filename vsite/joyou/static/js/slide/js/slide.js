@@ -1,4 +1,10 @@
 (function() {
+	
+	var mod = function(a, b) {
+		var m = a % b;
+		return m < 0 ? b + m : m;
+	}
+
 	var Slide = function(options) {
 		this.initialize(options);
 	};
@@ -191,12 +197,11 @@
 			step -= direction;
 
 			var index = this.index;
-			index = this.index = (index + direction) % boards.length;
 
 			if (direction < 0) {
 				last.remove();
 				if (count < items.length) {
-					var i = (index - 1) % items.length;
+					var i = mod((index - 1), items.length);
 					this.set_board_data(last, items[i]);
 				}
 				last.insertBefore(first);
@@ -205,13 +210,14 @@
 			} else {
 				first.remove();
 				if (count < items.length) {
-					var i = (index + boards.length) % items.length;
+					var i = mod((index + boards.length), items.length);
 					this.set_board_data(first, items[i]);
 				}
 				first.insertAfter(last);
 				this.reset_board(last, length - 1);
 				last.show();
 			}
+			index = this.index = mod((index + direction), boards.length);
 
 			boards.stop().each(function(i, elem) {
 				if ((direction < 0 && i == length - 1) || (direction > 0 && i == 0))
