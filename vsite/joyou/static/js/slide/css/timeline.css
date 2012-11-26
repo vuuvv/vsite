@@ -7,6 +7,25 @@
 	display: none;
 }
 
+.barrow {
+	display: none;
+	position: absolute;
+	height: 0;
+	width: 0;
+	bottom: 0;
+	overflow: hidden;
+	left: 40%;
+	font-size: 0;
+	border-width: 0 5px 5px 5px;
+	border-color: white white #666;
+	border-style: dashed dashed solid;
+	content: "&nbsp;";
+}
+
+.current .barrow {
+	display: block;
+}
+
 .timeline-store {
 	display: none;
 }

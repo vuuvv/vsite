@@ -49,7 +49,7 @@
 		},
 
 		build_nav_item: function(info) {
-			return $("<div>").addClass("timeline-nav-item").text(info);
+			return $("<div>").addClass("timeline-nav-item").text(info).append('<div class="barrow"></div>');
 		},
 
 		build_doms: function() {
@@ -67,7 +67,8 @@
 			this.nav_prev = create_elem(".timeline-nav-prev").appendTo(this.nav_bar).text("<");
 			this.nav_next = create_elem(".timeline-nav-next").appendTo(this.nav_bar).text(">");
 			this.total_length = this.items.length * opts.nav_width;
-			this.nav_length = this.nav_bar.width();
+			this.nav_bar_length = this.nav_bar.width();
+			this.nav_length = nav_width * this.items.length;
 
 			$.each(this.items, function(i, item) {
 				self.image_store.append(self.build_img(item.src));
@@ -80,24 +81,58 @@
 			this.container.replaceWith(this.wrap);
 		},
 
+		nav_move_left: function(i) {
+			i = i || 1;
+			var step = i * this.options.nav_width;
+			var offset = parseInt(this.nav.css("left"));
+			if (offset < 0)
+				offset += step;
+			if (offset > 0)
+				offset = 0;
+			this.nav.css("left", offset);
+		},
+
+		nav_move_right: function(i) {
+			i = i || 1;
+			var step = i * this.options.nav_width;
+			var offset = parseInt(this.nav.css("left"));
+			var leftest = this.nav_bar_length - this.nav_length;
+			if (offset > leftest)
+				offset -= step;
+			if (offset < leftest)
+				offset = leftest;
+			this.nav.css("left", offset);
+		},
+
 		bind_events: function() {
 			var self = this;
-			var step = 2 * this.options.nav_width;
+			var nav_width = this.options.nav_width;
+			var step = 2 * nav_width;
+			var timer;
+			this.nav_next.hover(function() {
+				timer = setInterval(function() {
+					var left = parseInt(this.nav.css());
+				}, 500);
+			}, function() {
+				clearInterval(timer);
+			});
+			this.nav_prev.hover(function() {
+			}, function() {
+			});
 			this.nav_next.click(function() {
-				var offset = parseInt(self.nav.css("left"));
-				var left = offset - step;
-				if (-offset >= step)
-					left = this.nav_length - this.total_length;
-				self.nav.css("left", left);
+				self.nav_move_right();
 			});
 			this.nav_prev.click(function() {
-				var offset = parseInt(self.nav.css("left"));
-				if (offset >= -step)
-					offset = -step;
-				self.nav.css("left", offset + step);
+				self.nav_move_left();
 			});
 			this.nav_items.each(function(i, elem) {
 				$(elem).click(function() {
+					var left = parseInt(self.nav.css("left"));
+					var soffset = i * nav_width + left;
+					if (soffset < step)
+						self.nav_move_left();
+					else if (soffset >= self.nav_bar_length - step)
+						self.nav_move_right();
 					self.show_img(i);
 				});
 			});
@@ -125,7 +160,7 @@
 					self.fade_img(self.img, img.src);
 				};
 				img.src = data.src;
-			} 
+			}
 		}
 	};
 
