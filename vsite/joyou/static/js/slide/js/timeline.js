@@ -67,7 +67,6 @@
 			this.nav_prev = create_elem(".timeline-nav-prev").appendTo(this.nav_bar).text("<");
 			this.nav_next = create_elem(".timeline-nav-next").appendTo(this.nav_bar).text(">");
 			this.total_length = this.items.length * opts.nav_width;
-			this.nav_bar_length = this.nav_bar.width();
 			this.nav_length = nav_width * this.items.length;
 
 			$.each(this.items, function(i, item) {
@@ -79,6 +78,7 @@
 			});
 			this.nav_items = this.nav.find(".timeline-nav-item");
 			this.container.replaceWith(this.wrap);
+			this.nav_bar_length = this.nav_bar.width();
 		},
 
 		nav_move_left: function(i) {
@@ -108,6 +108,7 @@
 			var self = this;
 			var nav_width = this.options.nav_width;
 			var step = 2 * nav_width;
+			/*
 			var timer;
 			this.nav_next.hover(function() {
 				timer = setInterval(function() {
@@ -119,6 +120,7 @@
 			this.nav_prev.hover(function() {
 			}, function() {
 			});
+			*/
 			this.nav_next.click(function() {
 				self.nav_move_right();
 			});
