@@ -108,7 +108,7 @@
 		},
 
 		generate_board: function(data) {
-			var board = $('<div class="board loading"><div class="board-img"><a href="' + data.img + '"><img/></a></div></div>');
+			var board = $('<div class="board loading"><div class="board-img"><div class="link" href="' + data.img + '"><img/></div></div></div>');
 			if (data.loaded) {
 				board.find("img").attr("src", data.thumb);
 			} else {
@@ -119,7 +119,7 @@
 
 		load_img: function(board, data) {
 			var img = board.find("img");
-			var link = board.find(".board-img a");
+			var link = board.find(".board-img .link");
 			img.remove();
 			if (!board.hasClass("loading"))
 				board.addClass("loading");
@@ -134,7 +134,7 @@
 		},
 
 		set_board_data: function(board, data) {
-			var link = board.find(".board-img a");
+			var link = board.find(".board-img .link");
 			link.attr("href", data.img);
 
 			if (data.loaded) {
