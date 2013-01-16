@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from vsite.rte.kindeditor.widgets import KindEditor
 
 class Editor(KindEditor):
-	pass
+    pass
 
 class Image(TextInput):
-	pass
+    pass

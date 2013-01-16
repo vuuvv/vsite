@@ -118,6 +118,17 @@ MIDDLEWARE_CLASSES = (
     'vsite.pages.middleware.PageMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "vsite.core.context_processors.applist",
+)
+
 ROOT_URLCONF = 'site_demo.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -130,6 +141,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'vsite.joyou',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -144,7 +156,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     #'debug_toolbar',
-    'vsite.joyou',
     'mptt',
     'vsite.core',
     'vsite.users',
